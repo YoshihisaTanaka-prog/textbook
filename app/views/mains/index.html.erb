@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Mains</h1>
+
+<div id="mains">
+  <% @mains.each do |main| %>
+    <%= render main %>
+    <p>
+      <%= link_to "Show this main", main %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New main", new_main_path %>
