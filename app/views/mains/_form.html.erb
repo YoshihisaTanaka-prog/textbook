@@ -12,8 +12,9 @@
   <% end %>
 
   <div>
-    <%= form.label :subject_id, style: "display: block" %>
-    <%= form.collection_select :subject_id, Subject.all, :id, :name, include_blank: true %>
+    <%= form.label :subject_id, style: "display: block" unless defined? subject %>
+    <%= form.collection_select :subject_id, Subject.all, :id, :name, include_blank: true unless defined? subject %>
+    <%= form.hidden_field :subject_id, value: subject if defined? subject %>
   </div>
 
   <div>
@@ -22,19 +23,19 @@
   </div>
 
   <% selection_id = 0 %>
-  <% selection_id = session[:selection_id] if session[:selection_id] %>
+  <% selection_id = session[:selection_id] unless session[:selection_id].blank? %>
   <%= form.hidden_field :selection_id, value: selection_id %>
 
-  <h3>Selection</h3><hr>
-  <% i = 0 %>
-  <%= form.fields_for :selections do | selection | %>
-    <%= selection.label :text, style: "display: block" %>
-    <%= selection.text_field :text %>
-    <%= selection.hidden_field :kana %>
-    <hr>
-    <% i = i + 1 %>
+  <% unless main.selections.length == 0 %>
+    <h3>Selection</h3><hr>
+    <%= form.fields_for :selections do | selection | %>
+        <%= selection.label :text, style: "display: block" %>
+        <%= selection.text_field :text %>
+        <%= selection.hidden_field :kana %>
+        <hr>
+    <% end %>
   <% end %>
-  <input type='hidden' id="selection-length" value="<%= i %>">
+  <input type='hidden' id="selection-length" value="<%= main.selections.length %>">
 
   <div>
     <%= form.submit %>
@@ -219,7 +220,7 @@
   function onLoad() {
     let length = Number( $("#selection-length").val() );
     console.log(length);
-    for (let index = 0; index < length; index++) {
+    for (let index = 0; index <= length; index++) {
       $(function() {
         $.fn.autoKana('#main_selections_attributes_' + index + '_text', '#main_selections_attributes_' + index + '_kana');
         console.log(index);

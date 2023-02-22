@@ -4,7 +4,15 @@
 
 <div>
   <%= link_to "Edit this selection", edit_selection_path(@selection) %> |
-  <%= link_to "Back to selections", selections_path %>
+  <%= link_to "Back to question", mains_path + "/" + @selection.main_id.to_s %>
+  <br><br>
+  <%= button_to "Destroy this selection", @selection, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
+</div>
 
-  <%= button_to "Destroy this selection", @selection, method: :delete %>
+<div>
+  <% if @selection.next %>
+    <p><%= link_to @selection.next.question, @selection.next %></p>
+  <% else %>
+    <%= render "mains/form", main: @main, subject: @selection.main.subject_id %>
+  <% end %>
 </div>

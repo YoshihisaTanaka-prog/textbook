@@ -4,6 +4,7 @@ class MainsController < ApplicationController
   # GET /mains or /mains.json
   def index
     @mains = Main.all
+    session[:selection_id] = ""
   end
 
   # GET /mains/1 or /mains/1.json

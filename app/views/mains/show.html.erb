@@ -4,9 +4,13 @@
 
 <div>
   <%= link_to "Edit this main", edit_main_path(@main) %> |
-  <%= link_to "Back to mains", mains_path %>
+  <% if @main.selection_id == 0 %>
+    <%= link_to "Back to mains", mains_path %>
+  <% else %>
+    <%= link_to "Back to parent", selections_path + "/" + @main.selection_id.to_s %>
+  <% end %>
 
-  <%= button_to "Destroy this main", @main, method: :delete %>
+  <%= button_to "Destroy this main", @main, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
 </div>
 
 <hr>

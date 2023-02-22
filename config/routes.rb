@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :solutions
   resources :subjects
   resources :selections
   resources :mains

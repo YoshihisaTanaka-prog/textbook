@@ -8,15 +8,18 @@ class SelectionsController < ApplicationController
 
   # GET /selections/1 or /selections/1.json
   def show
+    @main = Main.new
   end
 
   # GET /selections/new
   def new
     @selection = Selection.new
+    @selection.solutions.new
   end
 
   # GET /selections/1/edit
   def edit
+    @selection.solutions.new
   end
 
   # POST /selections or /selections.json
@@ -50,7 +53,7 @@ class SelectionsController < ApplicationController
   # DELETE /selections/1 or /selections/1.json
   def destroy
     @selection.destroy
-
+    session[:selection_id] = ""
     respond_to do |format|
       format.html { redirect_to selections_url, notice: "Selection was successfully destroyed." }
       format.json { head :no_content }
@@ -61,10 +64,11 @@ class SelectionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_selection
       @selection = Selection.find(params[:id])
+      session[:selection_id] = @selection.id
     end
 
     # Only allow a list of trusted parameters through.
     def selection_params
-      params.require(:selection).permit(:text, :main_id)
+      params.require(:selection).permit(:text, :main_id, solutions_attributes: [ :id,:title, :content, :pdf])
     end
 end
