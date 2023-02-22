@@ -21,9 +21,11 @@
     <%= form.text_area :question %>
   </div>
 
-  <% selection_id = 0 %>
-  <% selection_id = session[:selection_id] unless session[:selection_id].blank? %>
-  <%= form.hidden_field :selection_id, value: selection_id %>
+  <% if action_name == "new" %>
+    <% selection_id = 0 %>
+    <% selection_id = session[:selection_id] unless session[:selection_id].blank? %>
+    <%= form.hidden_field :selection_id, value: selection_id %>
+  <% end %>
 
   <% unless main.selections.length == 0 %>
     <h3>Selection</h3><hr>
