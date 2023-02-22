@@ -4,7 +4,7 @@
 
 <div>
   <%= link_to "Edit this main", edit_main_path(@main) %> |
-  <% if @main.selection_id == 0 %>
+  <% if @main.selection_id <= 0 %>
     <%= link_to "Back to mains", mains_path %>
   <% else %>
     <%= link_to "Back to parent", selections_path + "/" + @main.selection_id.to_s %>

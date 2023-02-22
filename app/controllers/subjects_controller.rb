@@ -25,7 +25,7 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.save
-        format.html { redirect_to subject_url(@subject), notice: "Subject was successfully created." }
+        format.html { redirect_to subjects_url, notice: "Subject was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class SubjectsController < ApplicationController
   def update
     respond_to do |format|
       if @subject.update(subject_params)
-        format.html { redirect_to subject_url(@subject), notice: "Subject was successfully updated." }
+        format.html { redirect_to subjects_url, notice: "Subject was successfully updated." }
         format.json { render :show, status: :ok, location: @subject }
       else
         format.html { render :edit, status: :unprocessable_entity }

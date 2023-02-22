@@ -43,14 +43,13 @@
 
 <% if session[:selection_id].blank? %>
   <script type="text/javascript">
-    function changeSelection(){
-        $("#main_subject_id").on("change", function(){
-            console.log("test");
-            let value = Number( $("#main_subject_id").val() );
-            $("#main_selection_id").val( - value )
-        });
-    }
-    window.addEventListener('load', changeSelection);
+  function changeSelection(){
+    $("#main_subject_id").on("change", function(){
+      let value = Number( $("#main_subject_id").val() );
+      $("#main_selection_id").val( - value )
+    });
+  }
+  changeSelection();
   </script>
 <% end %>
 
@@ -231,11 +230,12 @@
   })(jQuery);
   function onLoad() {
     let length = Number( $("#selection-length").val() );
-    for (let index = 0; index <= length; index++) {
+    for (let index = 0; index < length; index++) {
       $(function() {
         $.fn.autoKana('#main_selections_attributes_' + index + '_text', '#main_selections_attributes_' + index + '_kana');
+        console.log(index);
       });
     }
   }
-  window.addEventListener('load', onLoad);
+  onLoad();
 </script>
