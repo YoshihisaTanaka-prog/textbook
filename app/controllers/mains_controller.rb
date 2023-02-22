@@ -3,7 +3,11 @@ class MainsController < ApplicationController
 
   # GET /mains or /mains.json
   def index
-    @mains = Main.all
+    mains = Main.all
+    @mains = []
+    mains.each do |m|
+      @mains.push(m) if m.selection_id <= 0
+    end
     session[:selection_id] = ""
   end
 

@@ -2,7 +2,6 @@
   <% if main.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(main.errors.count, "error") %> prohibited this main from being saved:</h2>
-
       <ul>
         <% main.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -29,10 +28,10 @@
   <% unless main.selections.length == 0 %>
     <h3>Selection</h3><hr>
     <%= form.fields_for :selections do | selection | %>
-        <%= selection.label :text, style: "display: block" %>
-        <%= selection.text_field :text %>
-        <%= selection.hidden_field :kana %>
-        <hr>
+      <%= selection.label :text, style: "display: block" %>
+      <%= selection.text_field :text %>
+      <%= selection.hidden_field :kana %>
+      <hr>
     <% end %>
   <% end %>
   <input type='hidden' id="selection-length" value="<%= main.selections.length %>">
@@ -42,7 +41,20 @@
   </div>
 <% end %>
 
-<script>
+<% if session[:selection_id].blank? %>
+  <script type="text/javascript">
+    function changeSelection(){
+        $("#main_subject_id").on("change", function(){
+            console.log("test");
+            let value = Number( $("#main_subject_id").val() );
+            $("#main_selection_id").val( - value )
+        });
+    }
+    window.addEventListener('load', changeSelection);
+  </script>
+<% end %>
+
+<script type="text/javascript">
   (function ($) {
     $.fn.autoKana = function (element1, element2, passedOptions) {
 
@@ -219,11 +231,9 @@
   })(jQuery);
   function onLoad() {
     let length = Number( $("#selection-length").val() );
-    console.log(length);
     for (let index = 0; index <= length; index++) {
       $(function() {
         $.fn.autoKana('#main_selections_attributes_' + index + '_text', '#main_selections_attributes_' + index + '_kana');
-        console.log(index);
       });
     }
   }

@@ -2,12 +2,15 @@
 
 <h1>Mains</h1>
 
+<%= link_to "New main", new_main_path %>
 <div id="mains">
+  <hr>
   <% @mains.each do |main| %>
     <%= render main %>
     <p>
       <%= link_to "Show this main", main %>
     </p>
+    <hr>
   <% end %>
 </div>
 
