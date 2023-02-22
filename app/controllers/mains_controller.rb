@@ -13,10 +13,12 @@ class MainsController < ApplicationController
   # GET /mains/new
   def new
     @main = Main.new
+    @main.selections.new
   end
 
   # GET /mains/1/edit
   def edit
+    @main.selections.new
   end
 
   # POST /mains or /mains.json
@@ -65,6 +67,6 @@ class MainsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def main_params
-      params.require(:main).permit(:subject_id, :question, :selection_id)
+      params.require(:main).permit(:subject_id, :question, :selection_id, selections_attributes: [:text, :kana, :id])
     end
 end

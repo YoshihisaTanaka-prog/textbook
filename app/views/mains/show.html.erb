@@ -8,3 +8,11 @@
 
   <%= button_to "Destroy this main", @main, method: :delete %>
 </div>
+
+<hr>
+
+<% @main.selections.each do |selection| %>
+  <p>
+    <%= link_to selection.text, selection %>
+  </p>
+<% end %>
