@@ -1,5 +1,6 @@
 class SelectionsController < ApplicationController
   before_action :set_selection, only: %i[ show edit update destroy ]
+  before_action :confirm_teacher
 
   # GET /selections or /selections.json
   def index

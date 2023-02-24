@@ -1,5 +1,6 @@
 class MainsController < ApplicationController
   before_action :set_main, only: %i[ show edit update destroy ]
+  before_action :confirm_teacher
 
   # GET /mains or /mains.json
   def index

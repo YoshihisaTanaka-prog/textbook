@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'tops/top'
+  get 'tops/non_auth'
+  devise_for :teachers
   resources :solutions
   resources :subjects
   resources :selections
