@@ -2,12 +2,10 @@
 
 one:
   title: MyString
-  content: MyText
-  pdf: MyString
-  selection_id: 1
+  kana: MyString
+  content: MyString
 
 two:
   title: MyString
-  content: MyText
-  pdf: MyString
-  selection_id: 1
+  kana: MyString
+  content: MyString

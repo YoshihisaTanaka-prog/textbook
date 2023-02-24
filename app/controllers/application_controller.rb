@@ -1,11 +1,18 @@
 class ApplicationController < ActionController::Base
+    before_action :configure_permitted_parameters, if: :devise_controller?
+
+    protected
+    def configure_permitted_parameters
+        devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :affiliation, :introducer])
+    end
 
     def confirm_teacher
         if current_teacher.nil?
             redirect_to new_teacher_session_path
         elsif !current_teacher.teacher
             logger.error current_teacher.to_json
-            redirect_to new_teacher_session_path
+            session[:auth] = "teacher"
+            redirect_to non_auth_path
         end        
     end
 
@@ -13,7 +20,8 @@ class ApplicationController < ActionController::Base
         if current_teacher.nil?
             redirect_to new_teacher_session_path
         elsif !current_teacher.admin
-            redirect_to new_teacher_session_path
+            session[:auth] = "admin"
+            redirect_to non_auth_path
         end        
     end
 

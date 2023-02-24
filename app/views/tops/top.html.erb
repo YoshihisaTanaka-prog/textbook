@@ -1,2 +1,11 @@
-<h1>Tops#top</h1>
-<p>Find me in app/views/tops/top.html.erb</p>
+<p style="color: green"><%= notice %></p>
+
+<% if current_teacher %>
+  <ul>
+    <li><%= link_to "Main", mains_path %></li>
+    <li><%= link_to "Subject", subjects_path %></li>
+    <li><%= link_to "Solution", solutions_path %></li>
+  </ul>
+<% else %>
+  <%= link_to "Sign in", new_teacher_session_path %>
+<% end %>

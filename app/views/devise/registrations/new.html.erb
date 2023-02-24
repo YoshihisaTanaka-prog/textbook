@@ -1,0 +1,64 @@
+<p style="color: green"><%= notice %></p>
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :氏名 %><br />
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :所属 %><br />
+    <%= f.text_field :affiliation, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :紹介者 %><br />
+    <input type="text" onkeyup="searchIntroducer()" id="search" placeholder='検索用'><br />
+    <select id="teacher_introducer" name="teacher[introducer]" autofocus="autofocus"></select>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+<script type="text/javascript">
+  function searchIntroducer(){
+    let value = $("#search").val();
+    $.post("/api/teacher", {search: value}, function(data){
+      if (data.length == 0) {
+        $("#teacher_introducer").html("<option value=''>該当する人がいません。</option>");
+      } else {
+        $("#teacher_introducer").html("<option value=''>選択してください。</option>");
+      }
+      for (const teacher of data) {
+        let option = "<option value='" + teacher.id + "'>" + teacher.name + "（" + teacher.affiliation + "）</option>";
+        $("#teacher_introducer").append(option);
+      }
+    });
+  }
+  searchIntroducer();
+</script>

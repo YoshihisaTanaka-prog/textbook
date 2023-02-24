@@ -1,0 +1,2 @@
+class SolutionSelection < ApplicationRecord
+end

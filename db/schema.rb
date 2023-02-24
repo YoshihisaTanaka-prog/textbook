@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_23_043747) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_24_064639) do
   create_table "mains", force: :cascade do |t|
     t.integer "subject_id"
     t.text "question"
@@ -25,6 +25,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_043747) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "kana"
+  end
+
+  create_table "solution_selections", force: :cascade do |t|
+    t.integer "solution_id"
+    t.integer "selection_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "solutions", force: :cascade do |t|
+    t.string "title"
+    t.string "kana"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -42,6 +57,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_043747) do
     t.boolean "admin", default: false, null: false
     t.string "name"
     t.string "affiliation"
+    t.integer "introducer", null: false
+    t.datetime "auth_email_sent_at"
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -15,6 +15,8 @@ class DeviseCreateTeachers < ActiveRecord::Migration[7.0]
 
       t.string :name
       t.string :affiliation
+      t.integer :introducer, null: false
+      t.datetime :auth_email_sent_at
 
       ## Rememberable
       t.datetime :remember_created_at

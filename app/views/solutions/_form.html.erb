@@ -1,50 +1,35 @@
-<p style="color: green"><%= notice %></p>
+<%= form_with(model: solution) do |form| %>
+  <% if solution.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(solution.errors.count, "error") %> prohibited this solution from being saved:</h2>
 
-<%= render @selection %>
-
-<div>
-  <%= link_to "Edit this selection", edit_selection_path(@selection) %> |
-  <%= link_to "Back to question", mains_path + "/" + @selection.main_id.to_s %>
-  <br><br>
-  <%= button_to "Destroy this selection", @selection, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
-</div>
-<p><hr></p>
-<div>
-  <% if @selection.next %>
-    <p><%= link_to @selection.next.question, @selection.next %></p>
-  <% else %>
-    質問文を生成
-    <div id="create-main">
-      <%= render "mains/form", main: @main, subject: @selection.main.subject_id %>
+      <ul>
+        <% solution.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
     </div>
-    <hr>
   <% end %>
-  <div>
-    <% @selection.solutions.each do |solution| %>
-      <p><%= link_to solution.title, solution %></p>
-    <% end %>
-      解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
-    <div id='add-solution'>
-      <div>
-        <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
-        <input type="hidden" id="search-kana">
-      </div>
-      <%= form_with(model: @ss) do |form| %>
-        <div>
-          <%= form.hidden_field :selection_id, value: @selection.id %>
-          <%= form.select :solution_id, [] %>
-        </div>
-        <div>
-          <%= form.submit %>
-        </div>
-      <% end %>
-    </div>
-    <div id="create-solution" style="display: none;">
-      <%= render "solutions/form", solution: @solution, selection: @selection.id %>
-    </div>
-  </div>
-</div>
 
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+    <%= form.hidden_field :kana %>
+  </div>
+
+  <div>
+    <%= form.label :content, style: "display: block" %>
+    <%= form.text_area :content %>
+  </div>
+
+  <% if defined? selection %>
+    <input type='hidden' name='selection' value='<%=selection %>' >
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 <script type="text/javascript">
   (function ($) {
     $.fn.autoKana = function (element1, element2, passedOptions) {
@@ -222,36 +207,9 @@
   })(jQuery);
   function onLoad() {
     $(function() {
-      $.fn.autoKana('#search-text', '#search-kana');
+      $.fn.autoKana('#solution_title', '#solution_kana');
       console.log(index);
     });
   }
   onLoad();
-  function searchSolution() {
-    let text = $("#search-text").val();
-    let kana = $("#search-kana").val();
-    $.post("/api/solution", {text: text, kana: kana}, function(data) {
-      if (data.length == 0) {
-        $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
-      } else {
-        $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
-      }
-      for (const solution of data) {
-        let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
-        $("#solution_selection_solution_id").append(option);
-      }
-    });
-  }
-  searchSolution();
-
-  function changeStatus(){
-    if ($("#status").val() == "0") {
-      $("#add-solution").attr("style", "");
-      $("#create-solution").attr("style", "display: none;");
-      
-    } else {  
-      $("#add-solution").attr("style", "display: none;");
-      $("#create-solution").attr("style", "");
-    }
-  }
 </script>

@@ -10,17 +10,17 @@ class SelectionsController < ApplicationController
   # GET /selections/1 or /selections/1.json
   def show
     @main = Main.new
+    @ss = SolutionSelection.new
+    @solution = Solution.new
   end
 
   # GET /selections/new
   def new
     @selection = Selection.new
-    @selection.solutions.new
   end
 
   # GET /selections/1/edit
   def edit
-    @selection.solutions.new
   end
 
   # POST /selections or /selections.json

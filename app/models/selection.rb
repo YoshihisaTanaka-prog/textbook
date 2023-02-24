@@ -17,4 +17,13 @@ class Selection < ApplicationRecord
             return []
         end
     end
+
+    def solutions
+        ret = []
+        SolutionSelection.where(selection_id: self.id).each do |ss|
+            solution = Solution.find_by(id: ss.solution_id)
+            ret << solution if solution
+        end
+        return ret
+    end
 end

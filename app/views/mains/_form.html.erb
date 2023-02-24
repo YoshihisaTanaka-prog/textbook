@@ -21,7 +21,7 @@
     <%= form.text_area :question %>
   </div>
 
-  <% if action_name == "new" %>
+  <% if action_name != "edit" %>
     <% selection_id = 0 %>
     <% selection_id = session[:selection_id] unless session[:selection_id].blank? %>
     <%= form.hidden_field :selection_id, value: selection_id %>

@@ -15,8 +15,7 @@ class SolutionsTest < ApplicationSystemTestCase
     click_on "New solution"
 
     fill_in "Content", with: @solution.content
-    fill_in "Pdf", with: @solution.pdf
-    fill_in "Selection", with: @solution.selection_id
+    fill_in "Kana", with: @solution.kana
     fill_in "Title", with: @solution.title
     click_on "Create Solution"
 
@@ -29,8 +28,7 @@ class SolutionsTest < ApplicationSystemTestCase
     click_on "Edit this solution", match: :first
 
     fill_in "Content", with: @solution.content
-    fill_in "Pdf", with: @solution.pdf
-    fill_in "Selection", with: @solution.selection_id
+    fill_in "Kana", with: @solution.kana
     fill_in "Title", with: @solution.title
     click_on "Update Solution"
 
