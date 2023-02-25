@@ -31,7 +31,7 @@ class HomeworksController < ApplicationController
 
   def factorization
     @array = []
-    for i in 0..4 do
+    for i in 0..9 do
       @array.push(factorization_unit) 
     end
   end
