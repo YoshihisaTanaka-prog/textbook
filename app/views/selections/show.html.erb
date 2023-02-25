@@ -19,8 +19,10 @@
     </div>
     <hr>
   <% end %>
+  <hr>
   <div>
-    <% @selection.solutions.each do |solution| %>
+    <h3>解決策</h3>
+    <% @selection.all_solutions.each do |solution| %>
       <p><%= link_to solution.title, solution %></p>
     <% end %>
       解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
@@ -28,6 +30,7 @@
       <div>
         <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
         <input type="hidden" id="search-kana">
+        <input type="hidden" id="search-selection" value="<%= @selection.id %>">
       </div>
       <%= form_with(model: @ss) do |form| %>
         <div>
@@ -230,7 +233,8 @@
   function searchSolution() {
     let text = $("#search-text").val();
     let kana = $("#search-kana").val();
-    $.post("/api/solution", {text: text, kana: kana}, function(data) {
+    let selection = $("#search-selection").val();
+    $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
       if (data.length == 0) {
         $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
       } else {

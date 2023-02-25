@@ -15,12 +15,23 @@ class ApisController < ApplicationController
     end
 
     def solution
+
+        selection = Selection.find_by(id: params[:selection])
+
         if params[:text].blank?
-            @solutions = Solution.all.order(:kana)
+            solutions = Solution.all.order(:kana)
         elsif !params[:kana].blank?
-            @solutions = Solution.where("title LIKE ? OR kana LIKE ? ","%#{params[:text]}%","%#{params[:kana]}%").order(:kana)
+            solutions = Solution.where("title LIKE ? OR kana LIKE ? ","%#{params[:text]}%","%#{params[:kana]}%").order(:kana)
         else
-            @solutions = []
+            solutions = []
+        end
+        @solutions = []
+        if selection
+            solutions.each do |solution|
+                if !selection.all_solutions_id.include?(solution.id)
+                    @solutions << solution
+                end
+            end
         end
         render json: @solutions.to_json
     end
