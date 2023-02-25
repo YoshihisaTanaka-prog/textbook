@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'admins/teacher', to: 'admins#teacher'
+  get 'admins/teacher/:id', to: 'admins#teacher'
+  post 'admins/teacher/:id', to: 'admins#allow_teacher'
+  post 'admins/admin/:id', to: 'admins#allow_admin', as: "admins_admin"
+  get 'admins/database', to: 'admins#database'
+  get 'admins', to: 'admins#top'
   devise_for :teachers
   resources :solutions
   resources :subjects

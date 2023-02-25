@@ -1,0 +1,44 @@
+
+<button onclick="onclickDownload()">DBのseedファイルをダウンロード</button>
+
+<input type="hidden" id="Main" value="<%= @mains %>">
+<input type="hidden" id="Selsction" value="<%= @selections %>">
+<input type="hidden" id="SolutionSelection" value="<%= @ss %>">
+<input type="hidden" id="Solution" value="<%= @solutions %>">
+<input type="hidden" id="Subject" value="<%= @subjects %>">
+
+<script type="text/javascript">
+    function onclickDownload() {
+        var outputText = "";
+        for (const tableName of ["Main","Selsction","SolutionSelection","Solution","Subject"]) {
+            let id = "#" + tableName;
+            let data = JSON.parse( $(id).val() );
+            for (const unit of data) {
+                var outputTextLine = tableName + ".create(";
+                for (const key in unit){
+                    if(["created_at", "updated_at"].includes(key)){
+                    } else if(typeof unit[key] == "number" || typeof unit[key] == "boolean"){
+                        outputTextLine += (key + ": " + unit[key] + ", ");
+                    } else if(unit[key] == null) {
+                        outputTextLine += (key + ": " + unit[key] + ", ");
+                    } else {
+                        outputTextLine += (key + ": '" + unit[key] + "', ");
+                    }
+                }
+                outputTextLine = outputTextLine.slice(0,-2);
+                outputText += (outputTextLine + ")\n");
+            }
+        }
+        downloadText("seeds.rb", outputText);  
+    }
+
+    function downloadText(fileName, text) {
+        const blob = new Blob([text], { type: 'text/plain' });
+        const aTag = document.createElement('a');
+        aTag.href = URL.createObjectURL(blob);
+        aTag.target = '_blank';
+        aTag.download = fileName;
+        aTag.click();
+        URL.revokeObjectURL(aTag.href);
+    }
+</script>

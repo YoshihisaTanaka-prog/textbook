@@ -1,0 +1,22 @@
+<h1>Teachers</h1>
+
+<table>
+    <% @teachers.each do |teacher| %>
+        <tr>
+            <td><%= teacher.name %></td>
+            <td><%= teacher.affiliation %></td>
+            <td>
+                <% if !teacher.teacher %>
+                    <%= button_to "権限を付与", admins_teacher_path + "/" + teacher.id.to_s %>
+                <% end %>
+            <td>
+            <% if current_teacher.admin %>
+                <td>
+                    <% if !teacher.admin %>
+                        <%= button_to "権限を付与", admins_admin_path(teacher.id.to_s) %>
+                    <% end %>
+                </td>
+            <% end %>
+        </tr>
+    <% end %>
+</table>
