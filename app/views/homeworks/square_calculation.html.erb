@@ -1,0 +1,96 @@
+<p><%= link_to "宿題トップ", homeworks_path %></p>
+<h2>100マス計算</h2>
+レベル<input type="range" min="1" max="4" value="1" id='level-input' onclick="levelChanged()"><span id="level-output">1</span>　　　　分　　秒
+
+<div id="level-1">
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            <th style="width: 9vw; height: 9vw;">x</th>
+            <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
+                <th style="width: 9vw;"><%= i %></th>
+            <% end %>
+        </tr>
+
+        <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
+            <tr>
+                <th style="height: 9vw;"><%= i %></th>
+                <% [1,2,3,4,5,6,7,8,9,10].each do |j| %>
+                    <td></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </table>
+</div>
+
+<div id="level-2" style="display: none;">
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            <th style="width: 9vw; height: 9vw;">x</th>
+            <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
+                <th style="width: 9vw;"><%= i %></th>
+            <% end %>
+        </tr>
+
+        <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
+            <tr>
+                <th style="height: 9vw;"><%= i %></th>
+                <% [1,2,3,4,5,6,7,8,9,10].each do |j| %>
+                    <td></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </table>
+</div>
+
+<div id="level-3" style="display: none;">
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            <th style="width: 9vw; height: 9vw;">x</th>
+            <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
+                <th style="width: 9vw;"><%= i %></th>
+            <% end %>
+        </tr>
+
+        <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
+            <tr>
+                <th style="height: 9vw;"><%= i %></th>
+                <% [1,2,3,4,5,6,7,8,9,10].each do |j| %>
+                    <td></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </table>
+</div>
+
+<div id="level-4" style="display: none;">
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            <th style="width: 9vw; height: 9vw;">x</th>
+            <% @array1.each do |i| %>
+                <th style="width: 9vw;"><%= i %></th>
+            <% end %>
+        </tr>
+
+        <% @array2.each do |i| %>
+            <tr>
+                <th style="height: 9vw;"><%= i %></th>
+                <% [1,2,3,4,5,6,7,8,9,10].each do |j| %>
+                    <td></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </table>
+</div>
+
+<script type="text/javascript">
+  function levelChanged(){
+    let level = Number( $("#level-input").val() );
+    $("#level-output").html(level);
+    for (let index = 1; index < 5; index++) {
+        let id = "#level-" + index;
+        $(id).attr("style","display:none;");
+    }
+    let id = "#level-" + level;
+    $(id).attr("style","");
+  }
+</script>

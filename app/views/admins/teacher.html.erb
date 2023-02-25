@@ -7,13 +7,13 @@
             <td><%= teacher.affiliation %></td>
             <td>
                 <% if !teacher.teacher %>
-                    <%= button_to "権限を付与", admins_teacher_path + "/" + teacher.id.to_s %>
+                    <%= button_to "教師権限を付与", admins_teacher_path + "/" + teacher.id.to_s %>
                 <% end %>
             <td>
             <% if current_teacher.admin %>
                 <td>
                     <% if !teacher.admin %>
-                        <%= button_to "権限を付与", admins_admin_path(teacher.id.to_s) %>
+                        <%= button_to "管理者権限を付与", admins_admin_path(teacher.id.to_s) %>
                     <% end %>
                 </td>
             <% end %>

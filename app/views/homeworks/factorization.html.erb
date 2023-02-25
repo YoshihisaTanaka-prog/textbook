@@ -1,0 +1,31 @@
+<p><%= link_to "宿題トップ", homeworks_path %></p>
+<h2>因数分解・平方完成</h2>
+以下の二次式を因数分解して平方完成せよ。
+
+<% @array.each do |single| %>
+  <div style="height: 25vw;">
+    <% if single[0] * single[2] == 1%>
+      x^2
+    <% else %>
+      <%= single[0] * single[2] %> x^2
+    <% end %>
+
+    <% if single[0] * single[3] + single[1] * single[2] == 0 %>
+    <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
+      +x
+    <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
+      -x
+    <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
+      <%= single[0] * single[3] + single[1] * single[2] %>x
+    <% else %>
+      +<%= single[0] * single[3] + single[1] * single[2] %>x
+    <% end %>
+
+    <% if single[1] * single[3] == 0 %>
+    <% elsif single[1] * single[3] < 0 %>
+      <%= single[1] * single[3] %>
+    <% else %>
+      +<%= single[1] * single[3] %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'homeworks/square_calculation', to: "homeworks#square_calculation"
+  get 'homeworks/factorization', to: "homeworks#factorization"
+  get 'homeworks', to: "homeworks#top"
   get 'admins/teacher', to: 'admins#teacher'
   get 'admins/teacher/:id', to: 'admins#teacher'
   post 'admins/teacher/:id', to: 'admins#allow_teacher'
