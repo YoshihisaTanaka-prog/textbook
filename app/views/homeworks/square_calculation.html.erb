@@ -1,12 +1,13 @@
 <p><%= link_to "宿題トップ", homeworks_path %></p>
 <h2>100マス計算</h2>
 宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答<br>
-レベル<input type="range" min="1" max="4" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span><br>　　名前　　　　　　　　　　　　　　分　　秒
+足し算<input type='range' id='operator' value='0' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>
+レベル<input type="range" min="1" max="5" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span><br>　　名前　　　　　　　　　　　　　　分　　秒
 <div id="homework">
     <div class="level-1">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -23,10 +24,30 @@
         </table>
     </div>
 
-    <div class="level-2" style="display: none;">
+     <div class="level-2" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
+                <% @array3.each do |i| %>
+                    <th style="width: 9vw;"><%= i %></th>
+                <% end %>
+            </tr>
+
+            <% @array4.each do |i| %>
+                <tr>
+                    <th style="height: 9vw;"><%= i %></th>
+                    <% @array3.each do |j| %>
+                        <td></td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </table>
+    </div>   
+
+    <div class="level-3" style="display: none;">
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -43,10 +64,10 @@
         </table>
     </div>
 
-    <div class="level-3" style="display: none;">
+    <div class="level-4" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -63,10 +84,10 @@
         </table>
     </div>
 
-    <div class="level-4" style="display: none;">
+    <div class="level-5" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% @array1.each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -88,7 +109,7 @@
     <div class="level-1">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -98,17 +119,51 @@
                 <tr>
                     <th style="height: 9vw;"><%= i %></th>
                     <% [1,2,3,4,5,6,7,8,9,10].each do |j| %>
-                        <td><%= i*j %></td>
+                        <td>
+                        <div class="plus">
+                            <%= i + j %>
+                        </div>
+                        <div class="multiply" style="display: none;">
+                            <%= i * j %>
+                        </div>
+                        </td>
                     <% end %>
                 </tr>
             <% end %>
         </table>
     </div>
 
-    <div class="level-2" style="display: none;">
+     <div class="level-2" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
+                <% @array3.each do |i| %>
+                    <th style="width: 9vw;"><%= i %></th>
+                <% end %>
+            </tr>
+
+            <% @array4.each do |i| %>
+                <tr>
+                    <th style="height: 9vw;"><%= i %></th>
+                    <% @array3.each do |j| %>
+                        <td>
+                        <div class="plus">
+                            <%= i + j %>
+                        </div>
+                        <div class="multiply" style="display: none;">
+                            <%= i * j %>
+                        </div>
+                        </td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </table>
+    </div> 
+
+    <div class="level-3" style="display: none;">
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -118,27 +173,14 @@
                 <tr>
                     <th style="height: 9vw;"><%= i %></th>
                     <% [1,2,3,4,5,6,7,8,9,10].each do |j| %>
-                        <td><%= i*j %></td>
-                    <% end %>
-                </tr>
-            <% end %>
-        </table>
-    </div>
-
-    <div class="level-3" style="display: none;">
-        <table border="1" style="border-collapse: collapse">
-            <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
-                <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
-                    <th style="width: 9vw;"><%= i %></th>
-                <% end %>
-            </tr>
-
-            <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
-                <tr>
-                    <th style="height: 9vw;"><%= i %></th>
-                    <% [11,12,13,14,15,16,17,18,19,20].each do |j| %>
-                        <td><%= i*j %></td>
+                        <td>
+                        <div class="plus">
+                            <%= i + j %>
+                        </div>
+                        <div class="multiply" style="display: none;">
+                            <%= i * j %>
+                        </div>
+                        </td>
                     <% end %>
                 </tr>
             <% end %>
@@ -148,7 +190,34 @@
     <div class="level-4" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th style="width: 9vw; height: 9vw;">x</th>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
+                <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
+                    <th style="width: 9vw;"><%= i %></th>
+                <% end %>
+            </tr>
+
+            <% [11,12,13,14,15,16,17,18,19,20].each do |i| %>
+                <tr>
+                    <th style="height: 9vw;"><%= i %></th>
+                    <% [11,12,13,14,15,16,17,18,19,20].each do |j| %>
+                        <td>
+                        <div class="plus">
+                            <%= i + j %>
+                        </div>
+                        <div class="multiply" style="display: none;">
+                            <%= i * j %>
+                        </div>
+                        </td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+
+    <div class="level-5" style="display: none;">
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% @array1.each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -158,7 +227,14 @@
                 <tr>
                     <th style="height: 9vw;"><%= i %></th>
                     <% @array1.each do |j| %>
-                        <td><%= i*j %></td>
+                        <td>
+                        <div class="plus">
+                            <%= i + j %>
+                        </div>
+                        <div class="multiply" style="display: none;">
+                            <%= i * j %>
+                        </div>
+                        </td>
                     <% end %>
                 </tr>
             <% end %>
@@ -170,7 +246,7 @@
   function levelChanged(){
     let level = Number( $("#level-input").val() );
     $("#level-output").html(level);
-    for (let index = 1; index < 5; index++) {
+    for (let index = 1; index < 6; index++) {
         let id = ".level-" + index;
         $(id).attr("style","display:none;");
     }
@@ -185,6 +261,16 @@
     } else{
       $("#homework").attr("style", "display: none;");
       $("#answer").attr("style", "");
+    }
+  }
+
+  function changeOperator(){
+    if ( $("#operator").val() == "0" ) {
+      $(".plus").attr("style", "");
+      $(".multiply").attr("style", "display: none;");
+    } else{
+      $(".plus").attr("style", "display: none;");
+      $(".multiply").attr("style", "");
     }
   }
 </script>

@@ -1,8 +1,8 @@
 class HomeworksController < ApplicationController
   def square_calculation
     array = []
-    for i in 1..19
-      array.push(i) unless [1,10].include?(i)
+    for i in 2..19
+      array.push(i) unless i == 10
     end
     for i in 0..16
       r = rand(17)
@@ -26,6 +26,35 @@ class HomeworksController < ApplicationController
     @array2 = []
     for i in 0..9 do
       @array2.push( array[i] )
+    end
+
+    array = []
+    for i in 1..10 do
+      array.push(i)
+    end
+
+    for i in 0..9
+      r = rand(9)
+      k = array[i]
+      array[i] = array[r]
+      array[r] = k
+    end
+
+    @array3 = []
+    for i in 0..9 do
+      @array3.push( array[i] )
+    end
+
+    for i in 0..9
+      r = rand(9)
+      k = array[i]
+      array[i] = array[r]
+      array[r] = k
+    end
+
+    @array4 = []
+    for i in 0..9 do
+      @array4.push( array[i] )
     end
   end
 

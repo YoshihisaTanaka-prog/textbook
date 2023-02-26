@@ -15,6 +15,11 @@
     <%= form.label :text, style: "display: block" %>
     <%= form.text_field :text %>
   </div>
+
+  <div>
+    <%= form.label :main, style: "display: block" %>
+    <%= form.select :main_id, Main.where(subject_id: selection.main.subject_id).map {|x| [x.question, x.id]}, include_blank: true %>
+  </div>
   
   <div>
     <%= form.submit %>
