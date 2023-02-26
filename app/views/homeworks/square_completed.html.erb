@@ -1,0 +1,92 @@
+<p><%= link_to "宿題トップ", homeworks_path %></p>
+<h2>平方完成</h2>
+宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答
+<div id="homework">
+  以下の二次式を平方完成してね　　名前　　　　　　　　　　　　　　分　　秒
+  <% @array.each do |single| %>
+    <div style="height: 25vw;">
+      <% if single[0] == 1 %>
+        x^2
+      <% elsif single[0] == -1%>
+        -x^2
+      <% else %>
+        <%= single[0] %> x^2
+      <% end %>
+
+      <% if single[1] * single[0] < 0 %>
+        <%= single[1] * single[0] * 2 %>x
+      <% else %>
+        +<%= single[1] * single[0] * 2 %>x
+      <% end %>
+
+      <% if single[0] * single[1] * single[1] + single[2] < 0 %>
+        <%= single[0] * single[1] * single[1] + single[2] %>
+      <% else %>
+        +<%= single[0] * single[1] * single[1] + single[2] %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div id="answer" style="display: none">
+  以下の二次式を平方完成してね　　名前　　　　　　　　　　　　
+  <% @array.each do |single| %>
+    <div style="height: 25vw;">
+      <% if single[0] == 1 %>
+        x^2
+      <% elsif single[0] == -1%>
+        -x^2
+      <% else %>
+        <%= single[0] %> x^2
+      <% end %>
+
+      <% if single[1] * single[0] < 0 %>
+        <%= single[1] * single[0] * 2 %>x
+      <% else %>
+        +<%= single[1] * single[0] * 2 %>x
+      <% end %>
+
+      <% if single[0] * single[1] * single[1] + single[2] < 0 %>
+        <%= single[0] * single[1] * single[1] + single[2] %>
+      <% else %>
+        +<%= single[0] * single[1] * single[1] + single[2]%>
+      <% end %><br>
+      
+      =
+
+      <% if single[0] == 1 %>
+      <% elsif single[0] == -1%>
+        -
+      <% else %>
+        <%= single[0] %>
+      <% end %>
+
+      (x
+      <% if single[1] < 0 %>
+        <%= single[1] %>
+      <% else %>
+        +<%= single[1] %>
+      <% end %>
+      )^2
+
+      <% if single[2] < 0 %>
+        <%= single[2] %>
+      <% else %>
+        +<%= single[2] %>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $("#homework").attr("style", "");
+      $("#answer").attr("style", "display: none;");
+    } else{
+      $("#homework").attr("style", "display: none;");
+      $("#answer").attr("style", "");
+    }
+  }
+</script>

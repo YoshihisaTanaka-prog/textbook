@@ -1,11 +1,11 @@
 class HomeworksController < ApplicationController
   def square_calculation
     array = []
-    for i in 1..20
-      array.push(i)
+    for i in 1..19
+      array.push(i) unless [1,10].include?(i)
     end
-    for i in 0..19
-      r = rand(20)
+    for i in 0..16
+      r = rand(17)
       k = array[i]
       array[i] = array[r]
       array[r] = k
@@ -16,8 +16,8 @@ class HomeworksController < ApplicationController
       @array1.push( array[i] )
     end
 
-    for i in 0..19
-      r = rand(20)
+    for i in 0..16
+      r = rand(17)
       k = array[i]
       array[i] = array[r]
       array[r] = k
@@ -36,6 +36,13 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def square_completed
+    @array = []
+    for i in 0..9 do
+      @array.push(square_completed_unit) 
+    end
+  end
+
   private
     def factorization_unit
       ret = []
@@ -47,7 +54,26 @@ class HomeworksController < ApplicationController
       ret.push(r)
       r = rand(19) - 9
       ret.push(r)
-      return ret
+      if ret[1] == 0 && ret[3] == 0
+        return factorization_unit
+      else
+        return ret
+      end
+    end
+
+    def square_completed_unit
+      ret = []
+      r = rand(11) - 5
+      ret.push(r)
+      r = rand(19) - 9
+      ret.push(r)
+      r = rand(19) - 9
+      ret.push(r)
+      if ret[0] == 0 || ret[1] == 0 || ret[2] == 0
+        return square_completed_unit
+      else
+        return ret
+      end
     end
 
 end

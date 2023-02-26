@@ -1,31 +1,140 @@
+<% 
+  def gcd x,y
+    if y == 0
+      return 1
+    elsif x % y == 0
+      if y < 0
+        return -y
+      else
+        return y
+      end
+    else
+      return gcd y, x % y
+    end
+  end
+%>
+
 <p><%= link_to "宿題トップ", homeworks_path %></p>
-<h2>因数分解・平方完成</h2>
-以下の二次式を因数分解して平方完成せよ。
+<h2>因数分解</h2>
+宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答
+<div id='homework'>
+  以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　　　分　　秒
+  <% @array.each do |single| %>
+    <div style="height: 25vw;">
+      <% if single[0] * single[2] == 1%>
+        x^2
+      <% else %>
+        <%= single[0] * single[2] %> x^2
+      <% end %>
 
-<% @array.each do |single| %>
-  <div style="height: 25vw;">
-    <% if single[0] * single[2] == 1%>
-      x^2
-    <% else %>
-      <%= single[0] * single[2] %> x^2
-    <% end %>
+      <% if single[0] * single[3] + single[1] * single[2] == 0 %>
+      <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
+        +x
+      <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
+        -x
+      <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
+        <%= single[0] * single[3] + single[1] * single[2] %>x
+      <% else %>
+        +<%= single[0] * single[3] + single[1] * single[2] %>x
+      <% end %>
 
-    <% if single[0] * single[3] + single[1] * single[2] == 0 %>
-    <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
-      +x
-    <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
-      -x
-    <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
-      <%= single[0] * single[3] + single[1] * single[2] %>x
-    <% else %>
-      +<%= single[0] * single[3] + single[1] * single[2] %>x
-    <% end %>
+      <% if single[1] * single[3] == 0 %>
+      <% elsif single[1] * single[3] < 0 %>
+        <%= single[1] * single[3] %>
+      <% else %>
+        +<%= single[1] * single[3] %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
-    <% if single[1] * single[3] == 0 %>
-    <% elsif single[1] * single[3] < 0 %>
-      <%= single[1] * single[3] %>
-    <% else %>
-      +<%= single[1] * single[3] %>
-    <% end %>
-  </div>
-<% end %>
+<div id="answer" style="display: none;">
+  以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+  <% @array.each do |single| %>
+    <div style="height: 25vw;">
+      <% if single[0] * single[2] == 1%>
+        x^2
+      <% else %>
+        <%= single[0] * single[2] %> x^2
+      <% end %>
+
+      <% if single[0] * single[3] + single[1] * single[2] == 0 %>
+      <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
+        +x
+      <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
+        -x
+      <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
+        <%= single[0] * single[3] + single[1] * single[2] %>x
+      <% else %>
+        +<%= single[0] * single[3] + single[1] * single[2] %>x
+      <% end %>
+
+      <% if single[1] * single[3] == 0 %>
+      <% elsif single[1] * single[3] < 0 %>
+        <%= single[1] * single[3] %>
+      <% else %>
+        +<%= single[1] * single[3] %>
+      <% end %><br>
+      
+      =
+
+      <%
+        gcd_1 = gcd single[0], single[1]
+        gcd_2 = gcd single[2], single[3]
+        single_gcd = gcd_1 * gcd_2
+        single_2 = []
+        single_2.push(single[0] / gcd_1)
+        single_2.push(single[1] / gcd_1)
+        single_2.push(single[2] / gcd_2)
+        single_2.push(single[3] / gcd_2)
+      %>
+
+      <% unless single_gcd == 1 %>
+        <%= single_gcd %>
+      <% end%>
+      
+      (
+      <% if single_2[0] == 1 %>
+        x
+      <% else %>
+        <%= single_2[0] %>x
+      <% end %>
+
+      
+      <% if single_2[1] < 0 %>
+        <%= single_2[1] %>
+      <% else %>
+        +<%= single_2[1] %>
+      <% end %>
+      )
+      
+      (
+      <% if single_2[2] == 1 %>
+        x
+      <% else %>
+        <%= single_2[2] %>x
+      <% end %>
+
+      
+      <% if single_2[3] < 0 %>
+        <%= single_2[3] %>
+      <% else %>
+        +<%= single_2[3] %>
+      <% end %>
+      )
+
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $("#homework").attr("style", "");
+      $("#answer").attr("style", "display: none;");
+    } else{
+      $("#homework").attr("style", "display: none;");
+      $("#answer").attr("style", "");
+    }
+  }
+</script>
