@@ -1,8 +1,7 @@
 <p><%= link_to "宿題トップ", homeworks_path %></p>
 <h2>100マス計算</h2>
 宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答<br>
-レベル<input type="range" min="1" max="4" value="1" id='level-input' onclick="levelChanged()"><span id="level-output">1</span><br>　　名前　　　　　　　　　　　　　　分　　秒
-
+レベル<input type="range" min="1" max="4" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span><br>　　名前　　　　　　　　　　　　　　分　　秒
 <div id="homework">
     <div class="level-1">
         <table border="1" style="border-collapse: collapse">
