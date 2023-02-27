@@ -9,6 +9,13 @@ class SolutionSelectionController < ApplicationController
         end
     end
 
+    def delete
+        ss = SolutionSelection.find(params[:id])
+        selection = Selection.find(ss.selection_id)
+        ss.delete
+        redirect_to selection
+    end
+
     private
     # Only allow a list of trusted parameters through.
     def ss_params

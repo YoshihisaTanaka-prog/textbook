@@ -23,7 +23,13 @@
   <div>
     <h3>解決策</h3>
     <% @selection.all_solutions.each do |solution| %>
-      <p><%= link_to solution.title, solution %></p>
+      <p>
+        <%= link_to solution.title, solution %>
+        <% ss = SolutionSelection.find_by(solution_id: solution.id, selection_id: @selection.id) %>
+        <% if ss %>
+          <%= button_to "関連を削除", ss, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
+        <% end %>
+      </p>
     <% end %>
       解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
     <div id='add-solution'>

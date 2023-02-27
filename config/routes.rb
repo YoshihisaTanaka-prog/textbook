@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post "api/teacher", to: "apis#teacher"
   post "api/solution", to: "apis#solution"
   post "solution_selections", to:"solution_selection#change_status"
+  delete "solution_selection/:id", to:"solution_selection#delete", as: "solution_selection"
   # Defines the root path route ("/")
   root "tops#top"
 end
