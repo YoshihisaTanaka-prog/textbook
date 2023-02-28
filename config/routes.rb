@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'homeworks/square_calculation', to: "homeworks#square_calculation"
+  get 'homeworks/junior_factorization', to: "homeworks#junior_factorization"
   get 'homeworks/factorization', to: "homeworks#factorization"
   get 'homeworks/square_completed', to: "homeworks#square_completed"
   get 'homeworks', to: "homeworks#top"

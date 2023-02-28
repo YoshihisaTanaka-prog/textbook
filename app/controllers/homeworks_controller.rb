@@ -58,6 +58,13 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def junior_factorization
+    @array = []
+    for i in 0..9 do
+      @array.push(junior_factorization_unit) 
+    end
+  end
+
   def factorization
     @array = []
     for i in 0..9 do
@@ -85,6 +92,19 @@ class HomeworksController < ApplicationController
       ret.push(r)
       if ret[1] == 0 && ret[3] == 0
         return factorization_unit
+      else
+        return ret
+      end
+    end
+
+    def junior_factorization_unit
+      ret = []
+      r = rand(19) - 9
+      ret.push(r)
+      r = rand(19) - 9
+      ret.push(r)
+      if ret[1] == 0 && ret[0] == 0
+        return junior_factorization_unit
       else
         return ret
       end

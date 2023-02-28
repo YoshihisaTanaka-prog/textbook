@@ -1,0 +1,73 @@
+
+<p><%= link_to "宿題トップ", homeworks_path %></p>
+<h2>因数分解</h2>
+宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答
+<div id='homework'>
+  以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　　　分　　秒
+  <% @array.each do |unit| %>
+    <div style="height: 25vw">
+    x^2
+    <% if unit[0] + unit[1] < 0 %>
+        <% if unit[0] + unit[1] == -1 %>
+            -x
+        <% else %>
+            <%= unit[0] + unit[1] %>x
+        <% end %>
+    <% elsif unit[0] + unit[1] > 0 %>
+        <% if unit[0] + unit[1] == 1 %>
+            +x
+        <% else %>
+            +<%= unit[0] + unit[1] %>x
+        <% end %>
+    <% end %>
+    <% if unit[0] * unit[1] < 0 %>
+        <%= unit[0] * unit[1] %>
+    <% elsif unit[0] * unit[1] > 0 %>
+        +<%= unit[0] * unit[1] %>
+    <% end %>
+    </div>
+  <% end %>
+</div>
+<div id='answer' style="display: none;">
+  以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+  <% @array.each do |unit| %>
+    <div style="height: 25vw">
+    x^2
+    <% if unit[0] + unit[1] < 0 %>
+        <%= unit[0] + unit[1] %>x
+    <% elsif unit[0] + unit[1] > 0 %>
+        +<%= unit[0] + unit[1] %>x
+    <% end %>
+    <% if unit[0] * unit[1] < 0 %>
+        <%= unit[0] * unit[1] %>
+    <% elsif unit[0] * unit[1] > 0 %>
+        +<%= unit[0] * unit[1] %>
+    <% end %><br>
+    =(x
+    <% if unit[0] < 0 %>
+    <%= unit[0] %>
+    <% elsif unit[0] > 0%>
+    +<%= unit[0] %>
+    <% end %>
+    )(x
+    <% if unit[1] < 0 %>
+    <%= unit[1] %>
+    <% elsif unit[1] > 0%>
+    +<%= unit[1] %>
+    <% end %>
+    )
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $("#homework").attr("style", "");
+      $("#answer").attr("style", "display: none;");
+    } else{
+      $("#homework").attr("style", "display: none;");
+      $("#answer").attr("style", "");
+    }
+  }
+</script>
