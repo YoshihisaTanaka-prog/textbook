@@ -1,7 +1,7 @@
 <% 
   def gcd x,y
     if y == 0
-      return 1
+      return x
     elsif x % y == 0
       if y < 0
         return -y
@@ -93,35 +93,54 @@
         <%= single_gcd %>
       <% end%>
       
-      (
-      <% if single_2[0] == 1 %>
-        x
-      <% else %>
-        <%= single_2[0] %>x
-      <% end %>
+      <% if single_2[0] == single_2[2] && single_2[1] == single_2[3] %>
+        (
+        <% if single_2[0] == 1 %>
+          x
+        <% else %>
+          <%= single_2[0] %>x
+        <% end %>
 
-      
-      <% if single_2[1] < 0 %>
-        <%= single_2[1] %>
+        
+        <% if single_2[1] < 0 %>
+          <%= single_2[1] %>
+        <% elsif single_2[1] > 0 %>
+          +<%= single_2[1] %>
+        <% end %>
+        )^2
       <% else %>
-        +<%= single_2[1] %>
-      <% end %>
-      )
-      
-      (
-      <% if single_2[2] == 1 %>
-        x
-      <% else %>
-        <%= single_2[2] %>x
-      <% end %>
+        (
+        <% if single_2[0] == 1 %>
+          x
+        <% else %>
+          <%= single_2[0] %>x
+        <% end %>
 
-      
-      <% if single_2[3] < 0 %>
-        <%= single_2[3] %>
-      <% else %>
-        +<%= single_2[3] %>
+        
+        <% if single_2[1] < 0 %>
+          <%= single_2[1] %>
+        <% elsif single_2[1] > 0 %>
+          +<%= single_2[1] %>
+        <% end %>
+        )
+        
+        (
+        <% if single_2[2] == 1 %>
+          x
+        <% else %>
+          <%= single_2[2] %>x
+        <% end %>
+
+        
+        <% if single_2[3] < 0 %>
+          <%= single_2[3] %>
+        <% elsif single_2[3] > 0 %>
+          +<%= single_2[3] %>
+        <% end %>
+        )
       <% end %>
-      )
+        
+        
 
     </div>
   <% end %>
