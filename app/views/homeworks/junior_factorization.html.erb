@@ -43,19 +43,30 @@
     <% elsif unit[0] * unit[1] > 0 %>
         +<%= unit[0] * unit[1] %>
     <% end %><br>
-    =(x
-    <% if unit[0] < 0 %>
-    <%= unit[0] %>
-    <% elsif unit[0] > 0%>
-    +<%= unit[0] %>
+    
+    <% if unit[0] == unit[1] %>
+        =(x
+        <% if unit[0] < 0 %>
+        <%= unit[0] %>
+        <% elsif unit[0] > 0%>
+        +<%= unit[0] %>
+        <% end %>
+        )^2
+    <% else %>
+        =(x
+        <% if unit[0] < 0 %>
+        <%= unit[0] %>
+        <% elsif unit[0] > 0%>
+        +<%= unit[0] %>
+        <% end %>
+        )(x
+        <% if unit[1] < 0 %>
+        <%= unit[1] %>
+        <% elsif unit[1] > 0%>
+        +<%= unit[1] %>
+        <% end %>
+        )
     <% end %>
-    )(x
-    <% if unit[1] < 0 %>
-    <%= unit[1] %>
-    <% elsif unit[1] > 0%>
-    +<%= unit[1] %>
-    <% end %>
-    )
     </div>
   <% end %>
 </div>
