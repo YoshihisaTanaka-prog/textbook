@@ -16,7 +16,7 @@
 
 <p><%= link_to "計算トレーニングトップ", homeworks_path %></p>
 <h2>因数分解</h2>
-宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答
+解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ
 <div id='homework'>
   以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　　　分　　秒
   <% @array.each do |single| %>
@@ -48,10 +48,13 @@
   <% end %>
 </div>
 
-<div id="answer" style="display: none;">
+<div style="break-after: page;"></div>
+
+<div id="answer">
   以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
   <% @array.each do |single| %>
-    <div style="height: 25vw;">
+    <div style="margin-top: 1em;">
+      　
       <% if single[0] * single[2] == 1%>
         x^2
       <% else %>
@@ -141,11 +144,9 @@
 <script type="text/javascript">
   function changeStatus(){
     if ( $("#status").val() == "0" ) {
-      $("#homework").attr("style", "");
-      $("#answer").attr("style", "display: none;");
-    } else{
-      $("#homework").attr("style", "display: none;");
       $("#answer").attr("style", "");
+    } else{
+      $("#answer").attr("style", "display: none;");
     }
   }
 </script>

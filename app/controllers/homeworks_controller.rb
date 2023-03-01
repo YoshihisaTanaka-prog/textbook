@@ -56,6 +56,20 @@ class HomeworksController < ApplicationController
     for i in 0..9 do
       @array4.push( array[i] )
     end
+
+    @pm_array = [[],[]]
+    for i in 0..9 do
+      r = rand(2)
+      if r == 0
+        r = -1        
+      end
+      @pm_array[0].push( r )
+      r = rand(2)
+      if r == 0
+        r = -1        
+      end
+      @pm_array[1].push( r )
+    end
   end
 
   def junior_factorization

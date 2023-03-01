@@ -1,8 +1,8 @@
 <p><%= link_to "計算トレーニングトップ", homeworks_path %></p>
 <h2>100マス計算</h2>
-宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答<br>
+解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
 足し算<input type='range' id='operator' value='0' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>
-レベル<input type="range" min="1" max="5" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span><br>　　名前　　　　　　　　　　　　　　分　　秒
+レベル<input type="range" min="1" max="7" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span><br>　　名前　　　　　　　　　　　　　　分　　秒
 <div id="homework">
     <div class="level-1">
         <table border="1" style="border-collapse: collapse">
@@ -24,7 +24,7 @@
         </table>
     </div>
 
-     <div class="level-2" style="display: none;">
+    <div class="level-2" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
@@ -44,7 +44,27 @@
         </table>
     </div>   
 
-    <div class="level-3" style="display: none;">
+     <div class="level-3" style="display: none;">
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
+                <% @array3.each_with_index do |i, index| %>
+                    <th style="width: 9vw;"><%= i * @pm_array[0][index] %></th>
+                <% end %>
+            </tr>
+
+            <% @array4.each_with_index do |i, index_i| %>
+                <tr>
+                    <th style="height: 9vw;"><%= i * @pm_array[1][index_i]%></th>
+                    <% @array3.each do |j| %>
+                        <td></td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </table>
+    </div>   
+
+    <div class="level-4" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
@@ -64,7 +84,7 @@
         </table>
     </div>
 
-    <div class="level-4" style="display: none;">
+    <div class="level-5" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
@@ -84,7 +104,7 @@
         </table>
     </div>
 
-    <div class="level-5" style="display: none;">
+    <div class="level-6" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
@@ -103,9 +123,31 @@
             <% end %>
         </table>
     </div>
+
+    <div class="level-7" style="display: none;">
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
+                <% @array1.each_with_index do |i, index| %>
+                    <th style="width: 9vw;"><%= i * @pm_array[0][index] %></th>
+                <% end %>
+            </tr>
+
+            <% @array2.each_with_index do |i, index_i| %>
+                <tr>
+                    <th style="height: 9vw;"><%= i * @pm_array[1][index_i]%></th>
+                    <% @array1.each do |j| %>
+                        <td></td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </table>
+    </div>  
 </div>
 
-<div id="answer" style="display: none;">
+<div style="break-after: page;"></div>
+
+<div id="answer">
     <div class="level-1">
         <table border="1" style="border-collapse: collapse">
             <tr>
@@ -133,7 +175,7 @@
         </table>
     </div>
 
-     <div class="level-2" style="display: none;">
+    <div class="level-2" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
@@ -164,6 +206,33 @@
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
+                <% @array3.each_with_index do |i, index| %>
+                    <th style="width: 9vw;"><%= i * @pm_array[0][index] %></th>
+                <% end %>
+            </tr>
+
+            <% @array4.each_with_index do |i, index_i| %>
+                <tr>
+                    <th style="height: 9vw;"><%= i * @pm_array[1][index_i]%></th>
+                    <% @array3.each_with_index do |j, index_j| %>
+                        <td>
+                        <div class="plus">
+                            <%= i * @pm_array[1][index_i] + j * @pm_array[0][index_j]  %>
+                        </div>
+                        <div class="multiply" style="display: none;">
+                            <%= i * j * @pm_array[1][index_i] * @pm_array[0][index_j] %>
+                        </div>
+                        </td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </table>
+    </div>   
+
+    <div class="level-4" style="display: none;">
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
                 <% [1,2,3,4,5,6,7,8,9,10].each do |i| %>
                     <th style="width: 9vw;"><%= i %></th>
                 <% end %>
@@ -187,7 +256,7 @@
         </table>
     </div>
 
-    <div class="level-4" style="display: none;">
+    <div class="level-5" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
@@ -214,39 +283,39 @@
         </table>
     </div>
 
-    <div class="level-5" style="display: none;">
+    <div class="level-7" style="display: none;">
         <table border="1" style="border-collapse: collapse">
             <tr>
                 <th style="width: 9vw; height: 9vw;"><div class="plus">+</div><div class="multiply" style="display: none;">X</div></th>
-                <% @array1.each do |i| %>
-                    <th style="width: 9vw;"><%= i %></th>
+                <% @array1.each_with_index do |i, index| %>
+                    <th style="width: 9vw;"><%= i * @pm_array[0][index] %></th>
                 <% end %>
             </tr>
 
-            <% @array2.each do |i| %>
+            <% @array2.each_with_index do |i, index_i| %>
                 <tr>
-                    <th style="height: 9vw;"><%= i %></th>
-                    <% @array1.each do |j| %>
+                    <th style="height: 9vw;"><%= i * @pm_array[1][index_i]%></th>
+                    <% @array1.each_with_index do |j, index_j| %>
                         <td>
                         <div class="plus">
-                            <%= i + j %>
+                            <%= i * @pm_array[1][index_i] + j * @pm_array[0][index_j]  %>
                         </div>
                         <div class="multiply" style="display: none;">
-                            <%= i * j %>
+                            <%= i * j * @pm_array[1][index_i] * @pm_array[0][index_j] %>
                         </div>
                         </td>
                     <% end %>
                 </tr>
             <% end %>
         </table>
-    </div>
+    </div>  
 </div>
 
 <script type="text/javascript">
   function levelChanged(){
     let level = Number( $("#level-input").val() );
     $("#level-output").html(level);
-    for (let index = 1; index < 6; index++) {
+    for (let index = 1; index <= 7; index++) {
         let id = ".level-" + index;
         $(id).attr("style","display:none;");
     }
@@ -256,11 +325,9 @@
 
   function changeStatus(){
     if ( $("#status").val() == "0" ) {
-      $("#homework").attr("style", "");
-      $("#answer").attr("style", "display: none;");
-    } else{
-      $("#homework").attr("style", "display: none;");
       $("#answer").attr("style", "");
+    } else{
+      $("#answer").attr("style", "display: none;");
     }
   }
 
