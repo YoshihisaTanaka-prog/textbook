@@ -14,7 +14,7 @@
   end
 %>
 
-<p><%= link_to "宿題トップ", homeworks_path %></p>
+<p><%= link_to "計算トレーニングトップ", homeworks_path %></p>
 <h2>因数分解</h2>
 宿題<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>解答
 <div id='homework'>
@@ -100,8 +100,6 @@
         <% else %>
           <%= single_2[0] %>x
         <% end %>
-
-        
         <% if single_2[1] < 0 %>
           <%= single_2[1] %>
         <% elsif single_2[1] > 0 %>
@@ -115,23 +113,17 @@
         <% else %>
           <%= single_2[0] %>x
         <% end %>
-
-        
         <% if single_2[1] < 0 %>
           <%= single_2[1] %>
         <% elsif single_2[1] > 0 %>
           +<%= single_2[1] %>
         <% end %>
-        )
-        
-        (
+        )(
         <% if single_2[2] == 1 %>
           x
         <% else %>
           <%= single_2[2] %>x
         <% end %>
-
-        
         <% if single_2[3] < 0 %>
           <%= single_2[3] %>
         <% elsif single_2[3] > 0 %>
