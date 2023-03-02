@@ -11,9 +11,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
     
-    array11 = []
+    @array1 = []
     for i in 0..9 do
-      array11.push( array[i] )
+      @array1.push( array[i] )
     end
 
     for i in 0..16
@@ -23,9 +23,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
 
-    array12 = []
+    @array2 = []
     for i in 0..9 do
-      array12.push( array[i] )
+      @array2.push( array[i] )
     end
 
     array = []
@@ -40,9 +40,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
 
-    array13 = []
+    @array3 = []
     for i in 0..9 do
-      array13.push( array[i] )
+      @array3.push( array[i] )
     end
 
     for i in 0..9
@@ -52,9 +52,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
 
-    array14 = []
+    @array4 = []
     for i in 0..9 do
-      array14.push( array[i] )
+      @array4.push( array[i] )
     end
 
     @pm_array = [[],[]]
@@ -73,23 +73,23 @@ class HomeworksController < ApplicationController
   end
 
   def junior_factorization
-    array1 = []
+    @array = []
     for i in 0..9 do
-      array1.push(junior_factorization_unit) 
+      @array.push(junior_factorization_unit) 
     end
   end
 
   def factorization
-    array1 = []
+    @array = []
     for i in 0..9 do
-      array1.push(factorization_unit) 
+      @array.push(factorization_unit) 
     end
   end
 
   def square_completed
-    array1 = []
+    @array = []
     for i in 0..9 do
-      array1.push(square_completed_unit) 
+      @array.push(square_completed_unit) 
     end
   end
 
