@@ -11,9 +11,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
     
-    @array1 = []
+    array11 = []
     for i in 0..9 do
-      @array1.push( array[i] )
+      array11.push( array[i] )
     end
 
     for i in 0..16
@@ -23,9 +23,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
 
-    @array2 = []
+    array12 = []
     for i in 0..9 do
-      @array2.push( array[i] )
+      array12.push( array[i] )
     end
 
     array = []
@@ -40,9 +40,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
 
-    @array3 = []
+    array13 = []
     for i in 0..9 do
-      @array3.push( array[i] )
+      array13.push( array[i] )
     end
 
     for i in 0..9
@@ -52,9 +52,9 @@ class HomeworksController < ApplicationController
       array[r] = k
     end
 
-    @array4 = []
+    array14 = []
     for i in 0..9 do
-      @array4.push( array[i] )
+      array14.push( array[i] )
     end
 
     @pm_array = [[],[]]
@@ -73,23 +73,61 @@ class HomeworksController < ApplicationController
   end
 
   def junior_factorization
-    @array = []
+    array1 = []
     for i in 0..9 do
-      @array.push(junior_factorization_unit) 
+      array1.push(junior_factorization_unit) 
     end
   end
 
   def factorization
-    @array = []
+    array1 = []
     for i in 0..9 do
-      @array.push(factorization_unit) 
+      array1.push(factorization_unit) 
     end
   end
 
   def square_completed
+    array1 = []
+    for i in 0..9 do
+      array1.push(square_completed_unit) 
+    end
+  end
+
+  def fraction
     @array = []
     for i in 0..9 do
-      @array.push(square_completed_unit) 
+      array1 = []
+      array1 = array1 + fraction_unit
+      r = rand(4) 
+      array1.push(r)
+      array1 = array1 + fraction_unit
+      case r
+      when 0
+        molecule = array1[0] * array1[4] + array1[1] * array1[3]
+        denominator = array1[1] * array1[4]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      when 1
+        molecule = array1[0] * array1[4] - array1[1] * array1[3]
+        denominator = array1[1] * array1[4]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      when 2
+        molecule = array1[0] * array1[3]
+        denominator = array1[1] * array1[4]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      else
+        molecule = array1[0] * array1[4]
+        denominator = array1[1] * array1[3]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      end
+      @array.push([array1[0],array1[2],array1[3],array1[5],array1[1],array1[4],array1[6]])
     end
   end
 
@@ -136,6 +174,33 @@ class HomeworksController < ApplicationController
         return square_completed_unit
       else
         return ret
+      end
+    end
+
+    def fraction_unit
+      ret = []
+      r = rand(19) - 9
+      ret.push(r)
+      r = rand(9) + 1
+      ret.push(r)
+      if gcd(ret[0], ret[1]) == 1
+        return ret
+      else
+        return fraction_unit
+      end
+    end
+
+    def gcd x,y
+      if y == 0
+        return x
+      elsif x % y == 0
+        if y < 0
+          return -y
+        else
+          return y
+        end
+      else
+        return gcd y, x % y
       end
     end
 

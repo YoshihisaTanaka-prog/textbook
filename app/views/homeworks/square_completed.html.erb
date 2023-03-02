@@ -1,32 +1,38 @@
 <p><%= link_to "計算トレーニングトップ", homeworks_path %></p>
 <h2>平方完成</h2>
-解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ
-<div id="homework">
-  以下の二次式を平方完成してね　　名前　　　　　　　　　　　　　　分　　秒
-  <% @array.each do |single| %>
-    <div style="height: 25vw;">
-      <% if single[0] == 1 %>
-        x^2
-      <% elsif single[0] == -1%>
-        -x^2
-      <% else %>
-        <%= single[0] %> x^2
-      <% end %>
+解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+以下の二次式を平方完成してね　　名前　　　　　　　　　　　　　　分　　秒
+<table id="homework">
+  <tr>
+    <% @array.each_with_index do |single, index| %>
+      <td style="height: 22vw; width: 49vw;" valign='top'>
+        <% if single[0] == 1 %>
+          x^2
+        <% elsif single[0] == -1%>
+          -x^2
+        <% else %>
+          <%= single[0] %> x^2
+        <% end %>
 
-      <% if single[1] * single[0] < 0 %>
-        <%= single[1] * single[0] * 2 %>x
-      <% else %>
-        +<%= single[1] * single[0] * 2 %>x
-      <% end %>
+        <% if single[1] * single[0] < 0 %>
+          <%= single[1] * single[0] * 2 %>x
+        <% else %>
+          +<%= single[1] * single[0] * 2 %>x
+        <% end %>
 
-      <% if single[0] * single[1] * single[1] + single[2] < 0 %>
-        <%= single[0] * single[1] * single[1] + single[2] %>
-      <% else %>
-        +<%= single[0] * single[1] * single[1] + single[2] %>
+        <% if single[0] * single[1] * single[1] + single[2] < 0 %>
+          <%= single[0] * single[1] * single[1] + single[2] %>
+        <% else %>
+          +<%= single[0] * single[1] * single[1] + single[2] %>
+        <% end %>
+      </td>
+      
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
       <% end %>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </tr>
+</table>
 
 <div style="break-after: page;"></div>
 

@@ -1,0 +1,188 @@
+<p><%= link_to "計算トレーニングトップ", homeworks_path %></p>
+<h2>分数計算</h2>
+
+解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+以下の計算をしてね。　　名前　　　　　　　　　　　　　　分　　秒
+<table>
+  <tr>
+    <% @array.each_with_index do |single, index| %>
+      <td valign="top" style="height: 22vw; width: 49vw">
+        <table style="border-collapse: collapse">
+          <tr>
+            <td rowspan="2">
+              <% if single[0] < 0 %>
+                (-
+              <% end %>
+            </td>
+            <% if single[4] == 1 %>
+              <td rowspan="2">
+                <%= single[0].abs %>
+              </td>
+            <% else %>
+              <td style="border-bottom: 1px solid #000">
+                <%= single[0].abs %>
+              </td>
+            <% end %>
+            
+            <td rowspan="2">
+              
+              <% if single[0] < 0 %>
+                )
+              <% end %>
+              
+              <% case single[1] %>
+              <% when 0 %>
+                +
+              <% when 1 %>
+                -
+              <% when 2 %>
+                ×
+              <% when 3 %>
+                ÷
+              <% end %>
+              <% if single[2] < 0 %>
+                (-
+              <% end %>
+            </td>
+            
+            <% if single[5] == 1 %>
+              <td rowspan="2">
+                <%= single[2].abs %>
+              </td>
+            <% else %>
+              <td style="border-bottom: 1px solid #000">
+                <%= single[2].abs %>
+              </td>
+            <% end %>
+            
+            <td rowspan="2">
+              <% if single[2] < 0 %>
+                )
+              <% end %>
+              =
+            </td>
+          </tr>
+          <tr>
+            <% if single[4] != 1 %>
+              <td><%= single[4] %></td>
+            <% end %>
+
+            <% if single[5] != 1 %>
+              <td><%= single[5] %></td>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+      <% if index %2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<div style="break-after: page;"></div>
+<div class="answer">以下の計算をしてね。　　名前　　　　　　　　　　　　</div>
+<table clsss="answer">
+  <tr>
+    <% @array.each_with_index do |single, index| %>
+      <td valign="top" style="height: 22vw; width: 49vw">
+        <table style="border-collapse: collapse">
+          <tr>
+            <td rowspan="2">
+              <% if single[0] < 0 %>
+                (-
+              <% end %>
+            </td>
+            <% if single[4] == 1 %>
+              <td rowspan="2">
+                <%= single[0].abs %>
+              </td>
+            <% else %>
+              <td style="border-bottom: 1px solid #000">
+                <%= single[0].abs %>
+              </td>
+            <% end %>
+            
+            <td rowspan="2">
+              
+              <% if single[0] < 0 %>
+                )
+              <% end %>
+              
+              <% case single[1] %>
+              <% when 0 %>
+                +
+              <% when 1 %>
+                -
+              <% when 2 %>
+                ×
+              <% when 3 %>
+                ÷
+              <% end %>
+              <% if single[2] < 0 %>
+                (-
+              <% end %>
+            </td>
+            
+            <% if single[5] == 1 %>
+              <td rowspan="2">
+                <%= single[2].abs %>
+              </td>
+            <% else %>
+              <td style="border-bottom: 1px solid #000">
+                <%= single[2].abs %>
+              </td>
+            <% end %>
+            
+            <td rowspan="2">
+              <% if single[2] < 0 %>
+                )
+              <% end %>
+              = 
+              <% if single[3] * single[6] < 0 %>
+                -
+              <% end %>
+            </td>
+
+            <% if [-1,1].include?(single[6])%>
+              <td rowspan="2">
+                <%= single[3].abs %>
+              </td>
+            <% else %>
+              <td style="border-bottom: 1px solid #000">
+                <%= single[3].abs %>
+              </td>
+            <% end %>
+          </tr>
+          <tr>
+            <% if single[4] != 1 %>
+              <td><%= single[4] %></td>
+            <% end %>
+
+            <% if single[5] != 1 %>
+              <td><%= single[5] %></td>
+            <% end %>
+
+            <% if single[6] != 1 %>
+              <td><%= single[6].abs %></td>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+      <% if index %2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $(".answer").attr("style", "");
+    } else{
+      $(".answer").attr("style", "display: none;");
+    }
+  }
+</script>
