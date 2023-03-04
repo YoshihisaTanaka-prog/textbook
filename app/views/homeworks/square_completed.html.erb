@@ -22,7 +22,7 @@
 
         <% if single[0] * single[1] * single[1] + single[2] < 0 %>
           <%= single[0] * single[1] * single[1] + single[2] %>
-        <% else %>
+        <% elsif single[0] * single[1] * single[1] + single[2] > 0 %>
           +<%= single[0] * single[1] * single[1] + single[2] %>
         <% end %>
       </td>
@@ -57,7 +57,7 @@
 
       <% if single[0] * single[1] * single[1] + single[2] < 0 %>
         <%= single[0] * single[1] * single[1] + single[2] %>
-      <% else %>
+      <% elsif single[0] * single[1] * single[1] + single[2] > 0 %>
         +<%= single[0] * single[1] * single[1] + single[2]%>
       <% end %><br>
       
@@ -80,7 +80,7 @@
 
       <% if single[2] < 0 %>
         <%= single[2] %>
-      <% else %>
+      <% elsif single[2] > 0 %>
         +<%= single[2] %>
       <% end %>
     </div>
