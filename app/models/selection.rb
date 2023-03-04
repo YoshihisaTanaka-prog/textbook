@@ -12,7 +12,11 @@ class Selection < ApplicationRecord
 
     def children_base
         if self.next
-            return self.next.selections
+            ret = []
+            self.next.selections.each do |selection|
+                ret.push(selection)
+            end
+            return ret
         else
             return []
         end
@@ -22,10 +26,9 @@ class Selection < ApplicationRecord
         ret = self.children_base
         self.children_base.each do |child|
             child.all_children.each do |c|
-                ret << c
+                ret.push(c)
             end
         end
-        logger.debug ret
         return ret
     end
 
