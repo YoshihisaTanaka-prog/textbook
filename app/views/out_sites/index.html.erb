@@ -1,12 +1,13 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Out sites</h1>
+<h1>外部サイト</h1>
+
+<%= link_to "New out site", new_out_site_path %>
 
 <div id="out_sites">
   <% @out_sites.each do |out_site| %>
-    <%= render out_site %>
     <p>
-      <%= link_to "Show this out site", out_site %>
+      <%= link_to out_site.title, out_site.url %>&nbsp;<%= link_to "edit", edit_out_site_path(out_site) %>
     </p>
   <% end %>
 </div>
