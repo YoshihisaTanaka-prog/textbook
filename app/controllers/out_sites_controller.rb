@@ -1,5 +1,6 @@
 class OutSitesController < ApplicationController
   before_action :set_out_site, only: %i[ show edit update destroy ]
+  before_action :confirm_teacher, only: %i[ show new edit create update destroy]
 
   # GET /out_sites or /out_sites.json
   def index

@@ -2,14 +2,27 @@
 
 <h1>外部サイト</h1>
 
-<%= link_to "New out site", new_out_site_path %>
+<% if current_teacher %>
+  <% if current_teacher.teacher %>
+    <%= link_to "New out site", new_out_site_path %>
+  <% end %>
+<% end %>
 
 <div id="out_sites">
   <% @out_sites.each do |out_site| %>
     <p>
-      <%= link_to out_site.title, out_site.url %>&nbsp;<%= link_to "edit", edit_out_site_path(out_site) %>
+      <%= link_to out_site.title, out_site.url %>
+      <% if current_teacher %>
+        <% if current_teacher.teacher %>
+          &nbsp;<%= link_to "edit", edit_out_site_path(out_site) %>
+        <% end %>
+      <% end %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New out site", new_out_site_path %>
+<% if current_teacher %>
+  <% if current_teacher.teacher %>
+    <%= link_to "New out site", new_out_site_path %>
+  <% end %>
+<% end %>
