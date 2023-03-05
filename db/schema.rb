@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_24_064639) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_05_050107) do
   create_table "mains", force: :cascade do |t|
     t.integer "subject_id"
     t.text "question"
     t.integer "selection_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "out_sites", force: :cascade do |t|
+    t.string "title"
+    t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,0 +1,2 @@
+class OutSite < ApplicationRecord
+end

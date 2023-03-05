@@ -7,10 +7,12 @@
     <li><%= link_to "Solution", solutions_path %></li>
     <li><%= link_to "Admin Page", admins_path %></li>
     <li><%= link_to "計算トレーニング", homeworks_path %></li>
+    <li><%= link_to "外部サイト", out_sites_path %>
   </ul>
 <% else %>
   <ul>
     <li><%= link_to "計算トレーニング", homeworks_path %></li>
+    <li><%= link_to "外部サイト", out_sites_path %>
     <li><%= link_to "Sign in", new_teacher_session_path %></li>
   </ul>
 <% end %>

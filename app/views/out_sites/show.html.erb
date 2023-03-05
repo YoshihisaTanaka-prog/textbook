@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @out_site %>
+
+<div>
+  <%= link_to "Edit this out site", edit_out_site_path(@out_site) %> |
+  <%= link_to "Back to out sites", out_sites_path %>
+
+  <%= button_to "Destroy this out site", @out_site, method: :delete %>
+</div>

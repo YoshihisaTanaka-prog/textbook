@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :out_sites
   get 'training/square_calculation', to: "homeworks#square_calculation", as: "homeworks_square_calculation"
   get 'training/junior_factorization', to: "homeworks#junior_factorization", as: "homeworks_junior_factorization"
   get 'training/factorization', to: "homeworks#factorization", as: "homeworks_factorization"

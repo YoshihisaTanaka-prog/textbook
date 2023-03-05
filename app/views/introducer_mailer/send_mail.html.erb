@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <% @new_teacher.name %>さんが編集ページにアクセスしました。<br>
+    権限を与える場合はこちらの手続きをお願いします。<br>
+    <%= link_to "権限付与ページ", admins_teacher_url + "/" + @new_teacher.id.to_s %>
+  </body>
+</html>

@@ -27,11 +27,20 @@ class ApplicationController < ActionController::Base
 
     private
     def after_sign_in_path_for(a)
+        if params[:commit] == "Sign up"
+            logger.debug a.to_json
+            IntroducerMailer.send_mail(a).deliver_now
+        end
         root_path
     end
 
     def after_sign_out_path_for(a)
         new_teacher_session_path # ログアウト後に遷移するpathを設定
+    end
+
+    def after_sign_up_path_for(a)
+        loggse.debug a.to_json
+        mains_path # ログアウト後に遷移するpathを設定
     end
 
 end
