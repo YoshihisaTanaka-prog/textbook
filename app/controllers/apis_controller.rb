@@ -15,7 +15,6 @@ class ApisController < ApplicationController
     end
 
     def solution
-
         selection = Selection.find_by(id: params[:selection])
 
         if params[:text].blank?
@@ -34,6 +33,23 @@ class ApisController < ApplicationController
             end
         end
         render json: @solutions.to_json
+    end
+
+    def main
+        main = Main.find_by(id: params[:id])
+        if main
+            return main.hash_format
+        else
+            return {}
+        end
+    end
+
+    def subject
+        subjects = []
+        Subject.all.order(:id).each do |subject|
+            subjects << subject.hash_format
+        end
+        return subjects
     end
 
 end

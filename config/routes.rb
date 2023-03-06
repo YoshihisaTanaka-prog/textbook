@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get "non_auth", to: "tops#non_auth"
   post "api/teacher", to: "apis#teacher"
   post "api/solution", to: "apis#solution"
+  post "api/main", to: "apis#main"
+  post "api/subject", to: "apis#subject"
   post "solution_selections", to:"solution_selection#change_status"
   delete "solution_selection/:id", to:"solution_selection#delete", as: "solution_selection"
   # Defines the root path route ("/")
