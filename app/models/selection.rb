@@ -63,6 +63,10 @@ class Selection < ApplicationRecord
     def hash_format
         next_id = nil
         next_id = self.next.id if self.next
-        return {text: self.text, solutions: self.all_solutions, next_id: next_id}
+        all_solutions = []
+        self.all_solutions.each do |solution|
+            all_solutions << solution.hash_format
+        end
+        return {text: self.text, solutions: all_solutions, next_id: next_id}
     end
 end
