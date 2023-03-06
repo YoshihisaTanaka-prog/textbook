@@ -38,9 +38,9 @@ class ApisController < ApplicationController
     def main
         main = Main.find_by(id: params[:id])
         if main
-            return main.hash_format
+            render json: main.hash_format
         else
-            return {}
+            render json: {}
         end
     end
 
@@ -49,7 +49,7 @@ class ApisController < ApplicationController
         Subject.all.order(:id).each do |subject|
             subjects << subject.hash_format
         end
-        return subjects
+        render json: subjects
     end
 
 end
