@@ -67,6 +67,10 @@ class Selection < ApplicationRecord
         self.all_solutions.each do |solution|
             all_solutions << solution.hash_format
         end
-        return {text: self.text, solutions: all_solutions, next_id: next_id}
+        my_solutions = []
+        self.solutions.each do |solution|
+            my_solutions << solution.hash_format
+        end
+        return {text: self.text, solutions: all_solutions, my_solutions: my_solutions, next_id: next_id}
     end
 end

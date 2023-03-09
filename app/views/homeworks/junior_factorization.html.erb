@@ -1,7 +1,9 @@
 
-<p><%= link_to "計算トレーニングトップ", homeworks_path %></p>
+<p class="no-print"><%= link_to "計算トレーニングトップ", homeworks_path %>　印刷は「ctrl」+「p」です。</p>
 <h2>因数分解</h2>
-解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+<div class="no-print">
+  解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+</div>
 以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　　　分　　秒
 <table id='homework'>
   <tr>
@@ -34,9 +36,10 @@
   </tr>
 </table>
 
-<div style="break-after: page;"></div>
+
 
 <div id="answer">
+  <div style="break-after: page;"></div>
   以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
   <% @array.each do |unit| %>
   <div style="margin-top: 1em;">

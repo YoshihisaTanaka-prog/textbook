@@ -94,7 +94,50 @@ class HomeworksController < ApplicationController
   end
 
   def fraction
-    @array = []
+    @array_primary = []
+    for i in 0..9 do
+      array1 = []
+      array1 = array1 + plus_fraction_unit( 10 )
+      r = rand(4) 
+      array1.push(r)
+      if r == 1
+        if array1[0] == 1 && array1[1] ==9
+          array1[1] = 2
+        end
+        array1 = array1 + plus_fraction_unit( array1[0].to_f / array1[1].to_f )
+      else
+        array1 = array1 + plus_fraction_unit( 10 )
+      end
+      case r
+      when 0
+        molecule = array1[0] * array1[4] + array1[1] * array1[3]
+        denominator = array1[1] * array1[4]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      when 1
+        molecule = array1[0] * array1[4] - array1[1] * array1[3]
+        denominator = array1[1] * array1[4]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      when 2
+        molecule = array1[0] * array1[3]
+        denominator = array1[1] * array1[4]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      else
+        molecule = array1[0] * array1[4]
+        denominator = array1[1] * array1[3]
+        greatest_common_divisor = gcd(molecule, denominator)
+        array1.push(molecule / greatest_common_divisor)
+        array1.push(denominator / greatest_common_divisor)
+      end
+      @array_primary.push([array1[0],array1[2],array1[3],array1[5],array1[1],array1[4],array1[6]])
+    end
+
+    @array_junior = []
     for i in 0..9 do
       array1 = []
       array1 = array1 + fraction_unit
@@ -127,7 +170,7 @@ class HomeworksController < ApplicationController
         array1.push(molecule / greatest_common_divisor)
         array1.push(denominator / greatest_common_divisor)
       end
-      @array.push([array1[0],array1[2],array1[3],array1[5],array1[1],array1[4],array1[6]])
+      @array_junior.push([array1[0],array1[2],array1[3],array1[5],array1[1],array1[4],array1[6]])
     end
   end
 
@@ -190,9 +233,24 @@ class HomeworksController < ApplicationController
       end
     end
 
+    def plus_fraction_unit max
+      ret = []
+      r = rand(9) + 1
+      ret.push(r)
+      r = rand(9) + 1
+      ret.push(r)
+      if gcd(ret[0], ret[1]) == 1 && ret[0].to_f / ret[1].to_f < max
+        return ret
+      else
+        return plus_fraction_unit(max)
+      end
+    end
+
     def gcd x,y
       if y == 0
         return x
+      elsif x == 0
+        return y
       elsif x % y == 0
         if y < 0
           return -y
