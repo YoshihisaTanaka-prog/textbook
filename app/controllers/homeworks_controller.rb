@@ -72,14 +72,11 @@ class HomeworksController < ApplicationController
     end
   end
 
-  def junior_factorization
-    @array = []
-    for i in 0..9 do
-      @array.push(junior_factorization_unit) 
-    end
-  end
-
   def factorization
+    @junior_array = []
+    for i in 0..9 do
+      @junior_array.push(junior_factorization_unit) 
+    end
     @array = []
     for i in 0..9 do
       @array.push(factorization_unit) 
