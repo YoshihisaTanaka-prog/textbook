@@ -1,9 +1,12 @@
 <p class="no-print"><%= link_to "計算トレーニングトップ", homeworks_path %>　印刷は「ctrl」+「p」です。</p>
 <h2>100マス計算</h2>
 <div class="no-print">
-解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
-足し算<input type='range' id='operator' value='0' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>
-レベル<input type="range" min="1" max="7" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span>
+    解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+    足し算<input type='range' id='operator' value='0' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>
+    レベル<input type="range" min="1" max="7" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span>
+    <div class="plus">
+        数直線<input type='range' id='line' value='0' min='0' max='1' style='width:2em;' onchange='changeLine()'>
+    </div>
 </div>
 名前　　　　　　　　　　　　　　分　　秒
 <div id="homework">
@@ -145,7 +148,12 @@
                 </tr>
             <% end %>
         </table>
-    </div>  
+    </div>
+
+    <div class="plus">
+        <svg id="num-line" onload="drawLine()" height=50 style="display: none;"></svg>
+    </div>
+
 </div>
 
 
@@ -371,5 +379,74 @@
       $(".plus").attr("style", "display: none;");
       $(".multiply").attr("style", "");
     }
+  }
+
+  function changeLine() {
+    if ( $("#line").val() == "0" ) {
+      $("#num-line").attr("style", "display: none;");
+    } else{
+      $("#num-line").attr("style", "width: 100vw");
+    }
+  }
+
+  function drawLine() {
+    var svg1           = document.querySelector("#num-line");
+    var init_x         = 20;
+    var init_y         = 50;
+    var position_x     = 20;
+    var position_y     = 50;
+    var width          = document.documentElement.clientWidth;
+    var offset_x       = width / 45;
+    var offset_y       = 0;
+    var small_scale    = 5;
+    var big_scale      = 10;
+    var big_scale_at   = 5;
+    var big_scale_from = 0;
+    var count          = 41;
+    var start_num      = -20;
+    var add_num        = 1;
+
+    /* 初期化 */
+    [].forEach.call(svg1.querySelectorAll("*"),function(x){x.parentNode.removeChild(x);});
+    var p=[];
+    p.push([position_x,position_y]);
+    for(var i=0;i<count;i++){
+      offset_y=(i-big_scale_from)%big_scale_at?small_scale:big_scale;
+      p.push([position_x,position_y]);
+      position_y-=offset_y
+      p.push([position_x,position_y]);
+      position_y+=offset_y
+      p.push([position_x,position_y]);
+      position_x+=offset_x;
+    }
+    var pl= document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    pl.setAttribute("id","numberLine");
+    pl.setAttribute("stroke","black");
+    pl.setAttribute("fill","none");
+    svg1.appendChild(pl);
+
+    var point=svg1.createSVGPoint();
+    p.forEach(function(n){
+      point.x = n[0];
+      point.y = n[1];
+      document.querySelector("#numberLine").points.appendItem(point);
+    });
+    var texts=[];
+    var adjust_num_y = 2;
+    var num=start_num;
+    for(var i=big_scale_from;i<count;i+=big_scale_at){
+      var adjust_num_x = num.toString().length*5;
+      texts.push([num,init_x+offset_x*i-adjust_num_x,init_y-big_scale-adjust_num_y]);
+      num+=big_scale_at*add_num;
+    }
+    texts.forEach(function(x){
+      var t= document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute("id","text");
+      t.textContent=x[0];
+      t.setAttribute("x",x[1]);
+      t.setAttribute("y",x[2]);
+      svg1.appendChild(t);
+    });
+
   }
 </script>
