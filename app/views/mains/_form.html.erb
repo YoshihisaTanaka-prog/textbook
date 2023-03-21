@@ -32,7 +32,7 @@
     <%= form.fields_for :selections do | selection | %>
       <%= selection.label :text, style: "display: block" %>
       <%= selection.text_field :text %>
-      <%= selection.hidden_field :kana %>
+      <%= selection.text_field :kana %>
       <hr>
     <% end %>
   <% end %>

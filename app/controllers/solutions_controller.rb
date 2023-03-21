@@ -4,7 +4,7 @@ class SolutionsController < ApplicationController
 
   # GET /solutions or /solutions.json
   def index
-    @solutions = Solution.all
+    @solutions = Solution.all.order(:kana)
   end
 
   # GET /solutions/1 or /solutions/1.json
