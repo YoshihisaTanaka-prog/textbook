@@ -232,8 +232,8 @@
   function onLoad() {
     $(function() {
       $.fn.autoKana('#search-text', '#search-kana');
-      console.log(index);
     });
+    searchSolution();
   }
   onLoad();
   function searchSolution() {
@@ -243,6 +243,8 @@
     $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
       if (data.length == 0) {
         $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
+        $("#status").val(1);
+        changeStatus();
       } else {
         $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
       }
@@ -252,7 +254,6 @@
       }
     });
   }
-  searchSolution();
 
   function changeStatus(){
     if ($("#status").val() == "0") {
