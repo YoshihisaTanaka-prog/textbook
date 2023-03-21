@@ -238,23 +238,25 @@
   onLoad();
   function searchSolution() {
     let text = $("#search-text").val();
-    let kana = $("#search-kana").val();
-    let selection = $("#search-selection").val();
-    $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
-      if (data.length == 0) {
-        $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
-        $("#status").val(1);
-        changeStatus();
-      } else {
-        $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
-        $("#status").val(1);
-        changeStatus();
-      }
-      for (const solution of data) {
-        let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
-        $("#solution_selection_solution_id").append(option);
-      }
-    });
+    window.setTimeout( function(){
+      let kana = $("#search-kana").val();
+      let selection = $("#search-selection").val();
+      $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
+        if (data.length == 0) {
+          $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
+          $("#status").val(1);
+          changeStatus();
+        } else {
+          $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
+          $("#status").val(1);
+          changeStatus();
+        }
+        for (const solution of data) {
+          let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
+          $("#solution_selection_solution_id").append(option);
+        }
+      });
+    }, 10 );
   }
 
   function changeStatus(){
