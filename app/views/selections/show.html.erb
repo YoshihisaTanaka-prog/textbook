@@ -34,7 +34,7 @@
       解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
     <div id='add-solution'>
       <div>
-        <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
+        <input type="text" id="search-text" onchange="searchSolution()" placeholder="検索用">
         <input type="hidden" id="search-kana">
         <input type="hidden" id="search-selection" value="<%= @selection.id %>">
       </div>
@@ -247,6 +247,8 @@
         changeStatus();
       } else {
         $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
+        $("#status").val(1);
+        changeStatus();
       }
       for (const solution of data) {
         let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
