@@ -34,7 +34,7 @@
       解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
     <div id='add-solution'>
       <div>
-        <input type="text" id="search-text" onchange="searchSolution()" placeholder="検索用">
+        <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
         <input type="hidden" id="search-kana">
         <input type="hidden" id="search-selection" value="<%= @selection.id %>">
       </div>
@@ -240,6 +240,15 @@
     let text = $("#search-text").val();
     window.setTimeout( function(){
       let kana = $("#search-kana").val();
+      var alphabetArray = [];
+      for (let i = 0; i < 26; i++) {
+        alphabetArray.push(String.fromCharCode(65 + i),String.fromCharCode(97 + i))
+      }
+      for (const c of kana) {
+        if(alphabetArray.includes(c)) {
+          return
+        }
+      }
       let selection = $("#search-selection").val();
       $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
         if (data.length == 0) {
