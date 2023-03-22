@@ -40,7 +40,7 @@ class WordsController < ApplicationController
 
     respond_to do |format|
       if @word.save
-        format.html { redirect_to words_path, notice: "Word was successfully created." }
+        format.html { redirect_to new_word_path, notice: "Word was successfully created." }
         format.json { render :show, status: :created, location: @word }
       else
         format.html { render :new, status: :unprocessable_entity }
