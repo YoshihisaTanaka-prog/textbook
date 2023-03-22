@@ -33,20 +33,25 @@
     <% end %>
       解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
     <div id='add-solution'>
-      <div>
-        <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
-        <input type="text" id="search-kana" onchange="searchSolution()" placeholder="ふりがな">
-        <input type="hidden" id="search-selection" value="<%= @selection.id %>">
+      <div style="display: flex;">
+        <div>
+          <div>
+            <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
+            <input type="text" id="search-kana" onchange="searchSolution()" placeholder="ふりがな">
+            <input type="hidden" id="search-selection" value="<%= @selection.id %>">
+          </div>
+          <%= form_with(model: @ss, id: "ss-form") do |form| %>
+            <div>
+              <%= form.hidden_field :selection_id, value: @selection.id %>
+              <%= form.select :solution_id, [] %>
+            </div>
+            <div>
+              <%= form.submit %>
+            </div>
+          <% end %>
+        </div>
+        <iframe id="confirm-solution" style='width: 50vw; height: 50vh;'></iframe>
       </div>
-      <%= form_with(model: @ss) do |form| %>
-        <div>
-          <%= form.hidden_field :selection_id, value: @selection.id %>
-          <%= form.select :solution_id, [] %>
-        </div>
-        <div>
-          <%= form.submit %>
-        </div>
-      <% end %>
     </div>
     <div id="create-solution" style="display: none;">
       <%= render "solutions/form", solution: @solution, selection: @selection.id %>
@@ -233,6 +238,11 @@
     $(function() {
       $.fn.autoKana('#search-text', '#search-kana');
     });
+    $("#solution_selection_solution_id").on("change", function(){
+      let val = $("#solution_selection_solution_id").val();
+      $("#confirm-solution").attr("src","/solutions/" + val);
+    });
+    $("#ss-form").css({"width":"35vw", "padding":0, "margin":0});
     searchSolution();
   }
   onLoad();
