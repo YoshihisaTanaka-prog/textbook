@@ -1,1 +1,162 @@
-<%= link_to "単語トップページへ", words_path %>
+
+<div class="no-print">
+  <%= link_to "単語トップページへ", words_path %>
+  <input type="radio" name="status" onclick="changeStatus('word')" checked>単語を聞く
+  <input type="radio" name="status" onclick="changeStatus('mean')">意味を聞く
+  <input type="radio" name="status" onclick="changeStatus('rand')">ランダムに聞く
+</div>
+
+<div class="ask-word">
+  <table>
+    <tr>
+      <% @words_array.each_with_index do |word, index|%>
+        <% if index == 30 %>
+          <% break %>
+        <% end %>
+        <td align="center" style="width:24vw;">
+          <%= word.mean %>
+        </td>
+        <td style="width:24vw; border-bottom: 1px solid #000">
+        </td>
+        <% if index % 2 == 1 && index != 29 && index != @words_array.length - 1 %>
+          </tr><tr><td>　</td><td></td><td></td><td></td></tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+<div class="ask-mean" style="display: none;">
+  <table>
+    <tr>
+      <% @words_array.each_with_index do |word, index|%>
+        <% if index == 30 %>
+          <% break %>
+        <% end %>
+        <td align="center" style="width:24vw;">
+          <%= word.word %>
+        </td>
+        <td style="width:24vw; border-bottom: 1px solid #000">
+        </td>
+        <% if index % 2 == 1 && index != 29 && index != @words_array.length - 1 %>
+          </tr><tr><td>　</td><td></td><td></td><td></td></tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+<div class="ask-rand" style="display: none;">
+  <table>
+    <tr>
+      <% @words_array.each_with_index do |word, index|%>
+        <% if index == 30 %>
+          <% break %>
+        <% end %>
+        <% if @ask_array[index] == 0 %>
+          <td align="center" style="width:24vw;">
+            <%= word.mean %>
+          </td>
+          <td style="width:24vw; border-bottom: 1px solid #000">
+          </td>          
+        <% else %>
+          <td align="center" style="width:24vw;">
+            <%= word.word %>
+          </td>
+          <td style="width:24vw; border-bottom: 1px solid #000">
+          </td>          
+        <% end %>
+        <% if index % 2 == 1 && index != 29 && index != @words_array.length - 1 %>
+          </tr><tr><td>　</td><td></td><td></td><td></td></tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+<%# 印刷時のページ変更 %>
+<div style="break-after: page;"></div>
+
+<div class="ask-word">
+  <table>
+    <tr>
+      <% @words_array.each_with_index do |word, index|%>
+        <% if index == 30 %>
+          <% break %>
+        <% end %>
+        <td align="center" style="width:24vw;">
+          <%= word.mean %>
+        </td>
+        <td align="center" style="width:24vw; border-bottom: 1px solid #000">
+          <%= word.word %>
+        </td>
+        <% if index % 2 == 1 && index != 29 && index != @words_array.length - 1 %>
+          </tr><tr><td>　</td><td></td><td></td><td></td></tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+<div class="ask-mean" style="display: none;">
+  <table>
+    <tr>
+      <% @words_array.each_with_index do |word, index|%>
+        <% if index == 30 %>
+          <% break %>
+        <% end %>
+        <td align="center" style="width:24vw;">
+          <%= word.word %>
+        </td>
+        <td align="center" style="width:24vw; border-bottom: 1px solid #000">
+          <%= word.mean %>
+        </td>
+        <% if index % 2 == 1 && index != 29 && index != @words_array.length - 1 %>
+          </tr><tr><td>　</td><td></td><td></td><td></td></tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+<div class="ask-rand" style="display: none;">
+  <table>
+    <tr>
+      <% @words_array.each_with_index do |word, index|%>
+        <% if index == 30 %>
+          <% break %>
+        <% end %>
+        <% if @ask_array[index] == 0 %>
+          <td align="center" style="width:24vw;">
+            <%= word.mean %>
+          </td>
+          <td align="center" style="width:24vw; border-bottom: 1px solid #000">
+            <%= word.word %>
+          </td>          
+        <% else %>
+          <td align="center" style="width:24vw;">
+            <%= word.word %>
+          </td>
+          <td align="center" style="width:24vw; border-bottom: 1px solid #000">
+            <%= word.mean %>
+          </td>          
+        <% end %>
+        <% if index % 2 == 1 && index != 29 && index != @words_array.length - 1 %>
+          </tr><tr><td>　</td><td></td><td></td><td></td></tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+  function changeStatus(status) {
+    for (const statusUnit of ["word","mean","rand"]) {
+      if(statusUnit == status){
+        $(".ask-" + statusUnit).attr("style", "");
+      } else{
+        $(".ask-" + statusUnit).attr("style", "display: none;");
+      }
+    }
+  }
+</script>

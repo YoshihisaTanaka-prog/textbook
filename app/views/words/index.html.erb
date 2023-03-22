@@ -1,8 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Words</h1>
+<% if @student.current_time != 0 %>
+  <%= link_to "単語テストをする",  words_test_path %><br><br>
+<% end %>
 
-<%= link_to "単語テストをする",  words_test_path %><br><br>
 
 <%= link_to "New word", new_word_path %>
 <div id="words">

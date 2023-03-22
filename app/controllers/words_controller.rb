@@ -1,6 +1,6 @@
 class WordsController < ApplicationController
   before_action :set_word, only: %i[ show edit update destroy ]
-  before_action :confirm_session, only: %i[ show new create edit update destroy ]
+  before_action :confirm_session, only: %i[ show new create edit update destroy test ]
 
   # GET /words or /words.json
   def index
@@ -10,6 +10,7 @@ class WordsController < ApplicationController
     end
     confirm_session
     @words = Word.where(student_id: session[:student_id]).order(time: :desc)
+    @student = Student.find(session[:student_id])
   end
 
   # GET /words/1 or /words/1.json
@@ -83,6 +84,26 @@ class WordsController < ApplicationController
   end
 
   def test
+    student = Student.find(session[:student_id])
+    @words_array = []
+    for i in 1..student.current_time do
+      words = Word.where(student_id: student.id, time: i)
+      words.each do |w|
+        r = rand( pow_2(student.current_time - i) )
+        if r == 0
+          @words_array << w
+        end
+      end
+    end
+    @ask_array = []
+    for i in 1..@words_array.length do
+      r = rand(@words_array.length)
+      keep = @words_array[i - 1]
+      @words_array[i - 1] = @words_array[r]
+      @words_array[r] = keep
+      r = rand(2)
+      @ask_array.push(r)
+    end
   end
 
   private
@@ -100,5 +121,16 @@ class WordsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def word_params
       params.require(:word).permit(:word, :mean, :time)
+    end
+
+    def pow_2 num
+      if num > 6
+        return 100
+      end
+      ret = 1
+      for i in 1..num do
+        ret = ret * 2
+      end
+      return ret
     end
 end
