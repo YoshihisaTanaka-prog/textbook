@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "/words/no-session", to: "words#no_session"
+  get "/words/test", to: "words#test"
+  resources :words
+  resources :students
   resources :out_sites
   get 'training/square_calculation', to: "homeworks#square_calculation", as: "homeworks_square_calculation"
   get 'training/factorization', to: "homeworks#factorization", as: "homeworks_factorization"

@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Students</h1>
+
+<div id="students">
+  <ul>
+    <% @students.each do |student| %>
+      <li>
+        <%= link_to student.name + "（" + student.affiliation + "-" + student.birthday.to_s + "）", words_path(student_id: student.id) %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<%= link_to "New student", new_student_path %>
