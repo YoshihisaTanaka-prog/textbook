@@ -20,7 +20,7 @@ class ApisController < ApplicationController
         if params[:text].blank?
             solutions = Solution.all.order(:kana)
         elsif params[:kana].blank?
-            solutions = Solution.all.order(:kana)
+            solutions = Solution.where("title LIKE ? ","%#{params[:text]}%").order(:kana)
         else
             solutions = Solution.where("title LIKE ? OR kana LIKE ? ","%#{params[:text]}%","%#{params[:kana]}%").order(:kana)
         end
