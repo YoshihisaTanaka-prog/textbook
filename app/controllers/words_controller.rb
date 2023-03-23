@@ -69,7 +69,7 @@ class WordsController < ApplicationController
 
   # DELETE /words/1 or /words/1.json
   def destroy
-    if session[:student_id] == @word.student_id
+    if session[:student_id] == @word.student_id.to_s
       @word.destroy
 
       respond_to do |format|
