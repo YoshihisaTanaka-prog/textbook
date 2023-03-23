@@ -24,18 +24,20 @@
     <% end %>
   <% end %>
   
-
-  <div>
-    <%= form.label :word, style: "display: block" %>
-    <%= form.text_field :word %>
+  <div style="display: flex;">
+    <div>
+      <%= form.label :word, style: "display: block" %>
+      <%= form.text_field :word %>
+    </div>
+    　
+    <div>
+      <%= form.label :mean, style: "display: block" %>
+      <%= form.text_field :mean %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :mean, style: "display: block" %>
-    <%= form.text_field :mean %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
 <% end %>
+
+<script type="text/javascript">
+  $("#word_word").focus();
+</script>

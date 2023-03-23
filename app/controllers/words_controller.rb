@@ -21,6 +21,7 @@ class WordsController < ApplicationController
   def new
     @word = Word.new
     @student = Student.find(session[:student_id])
+    @current_time_words = Word.where(student_id: @student.id, time: @student.current_time)
   end
 
   # GET /words/1/edit
