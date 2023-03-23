@@ -3,28 +3,42 @@
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　印刷は「ctrl」+「p」です。</p>
 
 <h1>Words</h1>
-<% if @student.current_time != 0 %>
-  <%= link_to "単語テストをする",  words_test_path %><br><br>
-<% end %>
 
-<input type="hidden" id="current-time" value="<%= @student.current_time %>">
-<select onchange="changeTime()" id="time">
-  <% for i in 0..@student.current_time do %>
-      <% if i == 0 %>
-        <option value="0">全部</option>
-      <% else %>
-        <% j = @student.current_time - i + 1 %>
-        <option value="<%= j %>">第<%= j %>回</option>
-      <% end %>
+<div class="no-print">
+  <% if @student.current_time != 0 %>
+    <%= link_to "単語テストをする",  words_test_path %><br><br>
   <% end %>
-</select>
-<br><br>
 
-<%= link_to "New word", new_word_path %>
+  <input type="hidden" id="current-time" value="<%= @student.current_time %>">
+  <select onchange="changeTime()" id="time">
+    <% for i in 0..@student.current_time do %>
+        <% if i == 0 %>
+          <option value="0">全部</option>
+        <% else %>
+          <% j = @student.current_time - i + 1 %>
+          <option value="<%= j %>">第<%= j %>回</option>
+        <% end %>
+    <% end %>
+  </select>
+  <br><br>
+
+  <%= link_to "New word", new_word_path %>
+</div>
+
 <div id="words">
   <hr>
+  <% current_time = 0 %>
   <% @words.each do |word| %>
-    <div class="<%= word.time %>">  
+    <% if current_time != word.time %>
+      <% current_time = word.time %>
+      <hr class="<%= word.time %>">
+      <h3 class="<%= word.time %>">
+        第<%= word.time %>回
+      </h3>
+      <hr class="<%= word.time %>">
+      <hr class="<%= word.time %>">
+    <% end %>
+    <div class="<%= word.time %>">
       <%= render word %>
       <% if current_teacher %>
         <% if current_teacher.teacher %>
@@ -36,9 +50,12 @@
       <hr>
     </div>
   <% end %>
+  <hr>
 </div>
 
-<%= link_to "New word", new_word_path %>
+<div class="no-print">
+  <%= link_to "New word", new_word_path %>
+</div>
 
 <script type="text/javascript">
   function changeTime(){
