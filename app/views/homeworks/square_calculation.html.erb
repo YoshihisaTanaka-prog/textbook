@@ -385,7 +385,8 @@
     if ( $("#line").val() == "0" ) {
       $("#num-line").attr("style", "display: none;");
     } else{
-      $("#num-line").attr("style", "width: 100vw");
+      $("#num-line").attr("style", "width: 100vw").html("");
+      drawLine();
     }
   }
 
@@ -396,7 +397,7 @@
     var position_x     = 20;
     var position_y     = 50;
     var width          = document.documentElement.clientWidth;
-    var offset_x       = width / 45;
+    var offset_x       = width / 80;
     var offset_y       = 0;
     var small_scale    = 5;
     var big_scale      = 10;
