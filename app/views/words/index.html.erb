@@ -1,21 +1,61 @@
 <p style="color: green"><%= notice %></p>
 
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　印刷は「ctrl」+「p」です。</p>
+
 <h1>Words</h1>
 <% if @student.current_time != 0 %>
   <%= link_to "単語テストをする",  words_test_path %><br><br>
 <% end %>
 
+<input type="hidden" id="current-time" value="<%= @student.current_time %>">
+<select onchange="changeTime()" id="time">
+  <% for i in 0..@student.current_time do %>
+      <% if i == 0 %>
+        <option value="0">全部</option>
+      <% else %>
+        <% j = @student.current_time - i + 1 %>
+        <option value="<%= j %>">第<%= j %>回</option>
+      <% end %>
+  <% end %>
+</select>
+<br><br>
 
 <%= link_to "New word", new_word_path %>
 <div id="words">
   <hr>
   <% @words.each do |word| %>
-    <%= render word %>
-    <p>
-      <%= link_to "Show this word", word %>
-    </p>
-    <hr>
+    <div class="<%= word.time %>">  
+      <%= render word %>
+      <% if current_teacher %>
+        <% if current_teacher.teacher %>
+          <p>
+            <%= link_to "Show this word", word %>
+          </p>
+        <% end %>
+      <% end %>
+      <hr>
+    </div>
   <% end %>
 </div>
 
 <%= link_to "New word", new_word_path %>
+
+<script type="text/javascript">
+  function changeTime(){
+    let timeVal = $("#time").val();
+    console.log(timeVal);
+    if (timeVal == "0") {
+      for (let i = 0; i <= Number( $("#current-time").val() ); i++) {
+        $("." + i).attr("style", "");
+      }
+    } else {
+      for (let i = 0; i <= Number( $("#current-time").val() ); i++) {
+        if (i == Number(timeVal) ) {
+          $("." + i).attr("style", "");
+        } else {
+          $("." + i).attr("style", "display: none;");
+        }
+      }
+    }
+  }
+</script>

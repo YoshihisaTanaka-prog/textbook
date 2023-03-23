@@ -1,6 +1,6 @@
 
 <div class="no-print">
-  <%= link_to "単語トップページへ", words_path %>
+  <p><%= link_to "単語トップページへ", words_path %>　印刷は「ctrl」+「p」です。</p>
   <input type="radio" name="status" onclick="changeStatus('word')" checked>単語を聞く
   <input type="radio" name="status" onclick="changeStatus('mean')">意味を聞く
   <input type="radio" name="status" onclick="changeStatus('rand')">ランダムに聞く
@@ -100,7 +100,7 @@
 
 <div class="ask-mean" style="display: none;">
   <table>
-    <tr>
+    <tr><td>　</td></tr><tr>
       <% @words_array.each_with_index do |word, index|%>
         <% if index == 30 %>
           <% break %>
@@ -121,7 +121,7 @@
 
 <div class="ask-rand" style="display: none;">
   <table>
-    <tr>
+    <tr><td>　</td></tr><tr>
       <% @words_array.each_with_index do |word, index|%>
         <% if index == 30 %>
           <% break %>

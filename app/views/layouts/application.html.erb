@@ -16,7 +16,7 @@
       <% unless current_teacher.nil? %>
         <%= button_to "Sign out", destroy_teacher_session_path, {method: :delete, data: {turbo_confirm: "サインアウトしますか？"}} %>
       <% end %>
-      <% if action_name != "top" && controller_name != "homeworks" %>
+      <% if action_name != "top" && controller_name != "homeworks" && controller_name != "words" %>
         <div><%= link_to "Topへ", root_path %></div>
       <% end %>
     </div>

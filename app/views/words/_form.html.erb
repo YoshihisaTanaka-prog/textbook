@@ -12,12 +12,13 @@
   <% end %>
 
   <% if @student %>
+    <input type="hidden" id="current-time" value="<%= @student.current_time %>">
     <% if @student.current_time == 0 %>
-      <select name="word[time]">
+      <select name="word[time]" id="word_time" onchange="changedTimeValue()">
         <option value="1">第1回</option>
       </select>
     <% else %>
-      <select name="word[time]">
+      <select name="word[time]" id="word_time" onchange="changedTimeValue()">
         <option value="<%= @student.current_time %>" selected>第<%= @student.current_time %>回</option>
         <option value="<%= @student.current_time + 1 %>">第<%= @student.current_time + 1 %>回</option>
       </select>
@@ -45,3 +46,17 @@
 <script type="text/javascript">
   $("#word_word").focus();
 </script>
+
+
+<% if @student %>
+  <script type="text/javascript">
+    function changedTimeValue() {
+      let id = "#" + $("#current-time").val();
+      if ( $("#word_time").val() == $("#current-time").val() ) {
+        $(id).attr("style", "margin: 0 auto;");
+      } else {
+        $(id).attr("style", "display: none;");
+      }
+    }
+  </script>
+<% end %>
