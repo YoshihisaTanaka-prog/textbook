@@ -8,7 +8,7 @@
   <% num = 5 %>
   <tr>
     <% @current_time_words.each_with_index do |word, index| %>
-      <td align="center"><%= word.word %></td>
+      <td align="center"><%= link_to word.word, word %></td>
       <td align="center"><%= word.mean %></td>
       <% if index % num == num - 1 && index != @current_time_words.length - 1 %>
         </tr><tr>
