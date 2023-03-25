@@ -10,12 +10,6 @@ class WordsController < ApplicationController
     end
     confirm_session
     @words = Word.where(student_id: session[:student_id]).order(time: :desc).order(:word)
-    @words.each do |word|
-      if word.mistake_num.blank?
-        word.mistake_num = 0
-        word.save
-      end
-    end
     @student = Student.find(session[:student_id])
   end
 
