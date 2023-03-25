@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get "/words/no-session", to: "words#no_session"
+  get "/words/mistake/:id", to: "words#mistake"
   get "/words/test", to: "words#test"
   resources :words
   resources :students

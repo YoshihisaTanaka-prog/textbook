@@ -1,5 +1,5 @@
 class WordsController < ApplicationController
-  before_action :set_word, only: %i[ show edit update destroy ]
+  before_action :set_word, only: %i[ show edit update destroy mistake ]
   before_action :confirm_session, only: %i[ show new create edit update destroy test ]
 
   # GET /words or /words.json
@@ -9,7 +9,13 @@ class WordsController < ApplicationController
       redirect_to words_path
     end
     confirm_session
-    @words = Word.where(student_id: session[:student_id]).order(time: :desc)
+    @words = Word.where(student_id: session[:student_id]).order(time: :desc).order(:word)
+    @words.each do |word|
+      if word.mistake_num.blank?
+        word.mistake_num = 0
+        word.save
+      end
+    end
     @student = Student.find(session[:student_id])
   end
 
@@ -33,6 +39,7 @@ class WordsController < ApplicationController
     @word = Word.new(word_params)
     student = Student.find(session[:student_id])
     @word.student_id = student.id
+    @word.mistake_num = 0
 
     if student.current_time < @word.time
       student.current_time = @word.time
@@ -91,7 +98,7 @@ class WordsController < ApplicationController
       words = Word.where(student_id: student.id, time: i)
       words.each do |w|
         r = rand( pow_2(student.current_time - i) )
-        if r == 0
+        if r <= w.mistake_num
           @words_array << w
         end
       end
@@ -105,6 +112,12 @@ class WordsController < ApplicationController
       r = rand(2)
       @ask_array.push(r)
     end
+  end
+
+  def mistake
+    @word.mistake_num = @word.mistake_num + 1
+    @word.save
+    redirect_to words_path
   end
 
   private

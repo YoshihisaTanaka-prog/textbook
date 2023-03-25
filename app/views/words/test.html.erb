@@ -8,7 +8,7 @@
 
 <div class="ask-word">
   <table>
-    <tr>
+    <tr><td>　</td></tr><tr>
       <% @words_array.each_with_index do |word, index|%>
         <% if index == 30 %>
           <% break %>
@@ -28,7 +28,7 @@
 
 <div class="ask-mean" style="display: none;">
   <table>
-    <tr>
+    <tr><td>　</td></tr><tr>
       <% @words_array.each_with_index do |word, index|%>
         <% if index == 30 %>
           <% break %>
@@ -48,7 +48,7 @@
 
 <div class="ask-rand" style="display: none;">
   <table>
-    <tr>
+    <tr><td>　</td></tr><tr>
       <% @words_array.each_with_index do |word, index|%>
         <% if index == 30 %>
           <% break %>
@@ -79,12 +79,15 @@
 
 <div class="ask-word">
   <table>
-    <tr>
+    <tr><td>　</td></tr><tr>
       <% @words_array.each_with_index do |word, index|%>
         <% if index == 30 %>
           <% break %>
         <% end %>
-        <td align="center" style="width:24vw;">
+        <td align="center" style="width:4vw;">
+          <%= word.time %>
+        </td>
+        <td align="center" style="width:20vw;">
           <%= word.mean %>
         </td>
         <td align="center" style="width:24vw; border-bottom: 1px solid #000">
@@ -105,7 +108,10 @@
         <% if index == 30 %>
           <% break %>
         <% end %>
-        <td align="center" style="width:24vw;">
+        <td align="center" style="width:4vw;">
+          <%= word.time %>
+        </td>
+        <td align="center" style="width:20vw;">
           <%= word.word %>
         </td>
         <td align="center" style="width:24vw; border-bottom: 1px solid #000">
@@ -126,8 +132,11 @@
         <% if index == 30 %>
           <% break %>
         <% end %>
+        <td align="center" style="width:4vw;">
+          <%= word.time %>
+        </td>
         <% if @ask_array[index] == 0 %>
-          <td align="center" style="width:24vw;">
+          <td align="center" style="width:20vw;">
             <%= word.mean %>
           </td>
           <td align="center" style="width:24vw; border-bottom: 1px solid #000">

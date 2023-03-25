@@ -28,6 +28,11 @@
   </div>
 
   <div>
+    <%= form.label "第何回まで", style: "display: block" %>
+    <%= form.number_field :current_time %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

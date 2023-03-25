@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_22_004743) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_092637) do
   create_table "mains", force: :cascade do |t|
     t.integer "subject_id"
     t.text "question"
@@ -90,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_004743) do
     t.integer "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mistake_num"
   end
 
 end
