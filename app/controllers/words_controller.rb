@@ -132,7 +132,7 @@ class WordsController < ApplicationController
     end
 
     def pow_2 num
-      if num > 6
+      if num > 5 && num % 5 == 0
         return 100
       end
       ret = 1
