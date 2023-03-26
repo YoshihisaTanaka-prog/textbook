@@ -14,7 +14,7 @@
   end
 %>
 
-<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　印刷は「ctrl」+「p」です。</p>
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h2>因数分解</h2>
 <div class="no-print">
   中学生用<input type='range' id='grade' value='0' min='0' max='1' style='width:2em;' onchange='changeGrade()'>高校生用<br>

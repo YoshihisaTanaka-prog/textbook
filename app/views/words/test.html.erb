@@ -1,6 +1,6 @@
 
 <div class="no-print">
-  <p><%= link_to "単語トップページへ", words_path %>　印刷は「ctrl」+「p」です。</p>
+  <p><%= link_to "単語トップページへ", words_path %>　<button onclick="window.print();">印刷</button></p>
   <input type="radio" name="status" onclick="changeStatus('word')" checked>単語を聞く
   <input type="radio" name="status" onclick="changeStatus('mean')">意味を聞く
   <input type="radio" name="status" onclick="changeStatus('rand')">ランダムに聞く

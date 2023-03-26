@@ -1,8 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
-<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　印刷は「ctrl」+「p」です。</p>
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 
-<h1>Words　<%= @student.name + "（" + @student.affiliation + "-" + @student.birthday.to_s + "）" %></h1>
+<h1 class="no-print">Words　<%= @student.name + "（" + @student.affiliation + "-" + @student.birthday.to_s + "）" %></h1>
 
 <div class="no-print">
   <% if @student.current_time != 0 %>
