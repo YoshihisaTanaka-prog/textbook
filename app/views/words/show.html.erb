@@ -6,5 +6,5 @@
   <%= link_to "Edit this word", edit_word_path(@word) %> |
   <%= link_to "Back to words", words_path %>
 
-  <%= button_to "Destroy this word", @word, method: :delete %>
+  <%= button_to "Destroy this word", @word, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
 </div>
