@@ -45,7 +45,7 @@
           <p class="no-print">
             <%= link_to "Show this word", word %>
             　
-            <%= link_to "間違った", "words/mistake/" + word.id.to_s %>
+            <button onclick="mistake(<%= word.id %>);">間違えた</button>
           </p>
         <% end %>
       <% end %>
@@ -76,5 +76,12 @@
         }
       }
     }
+  }
+
+  function mistake(id) {
+    $.get("/words/mistake/" + id + ".json", function(data) {
+      console.log(data);
+      $("#mistake-" + id).html(data.mistake_num);
+    });
   }
 </script>

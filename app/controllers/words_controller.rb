@@ -111,7 +111,12 @@ class WordsController < ApplicationController
   def mistake
     @word.mistake_num = @word.mistake_num + 1
     @word.save
-    redirect_to words_path
+    respond_to do |format|
+      format.html {
+        redirect_to words_path
+      }
+      format.json { render json: @word}
+    end
   end
 
   private
