@@ -79,6 +79,8 @@
   }
 
   function mistake(id) {
+    let val = Number($("#mistake-" + id).html());
+    $("#mistake-" + id).html( val + 1 );
     $.get("/words/mistake/" + id + ".json", function(data) {
       console.log(data);
       $("#mistake-" + id).html(data.mistake_num);
