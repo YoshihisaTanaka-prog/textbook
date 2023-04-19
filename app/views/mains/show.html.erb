@@ -16,7 +16,20 @@
 <hr>
 
 <% @main.selections.each do |selection| %>
-  <p>
-    <%= link_to selection.text, selection %>
-  </p>
+  <% if selection.id %>
+    <p>
+      <%= link_to selection.text, selection %>
+    </p>
+  <% else %>
+    <%= form_with(model: @main) do |form| %>
+      <% index = 1 %>
+      <%= form.fields_for :selections do | selection | %>
+        <% if index == @main.selections.length %>
+          <%= selection.text_field :text, placeholder: "選択肢" %>
+          <%= selection.text_field :kana, placeholder: "よみがな" %>
+        <% end %>
+        <% index = index + 1 %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

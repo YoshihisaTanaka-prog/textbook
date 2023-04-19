@@ -14,6 +14,7 @@ class MainsController < ApplicationController
 
   # GET /mains/1 or /mains/1.json
   def show
+    @main.selections.new
   end
 
   # GET /mains/new
