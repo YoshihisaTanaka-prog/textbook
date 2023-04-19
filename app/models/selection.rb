@@ -38,6 +38,7 @@ class Selection < ApplicationRecord
             solution = Solution.find_by(id: ss.solution_id)
             ret << solution if solution
         end
+        ret = ret.sort_by{|x| x.kana }
         return ret
     end
 
