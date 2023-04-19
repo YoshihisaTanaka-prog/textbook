@@ -40,12 +40,12 @@
     <% end %>
     <div class="<%= word.time %>">
       <%= render word %>
+      <button onclick="mistake(<%= word.id %>);">間違えた</button>
       <% if current_teacher %>
         <% if current_teacher.teacher %>
           <p class="no-print">
             <%= link_to "Show this word", word %>
             　
-            <button onclick="mistake(<%= word.id %>);">間違えた</button>
           </p>
         <% end %>
       <% end %>
