@@ -30,6 +30,7 @@
         <% end %>
         <% index = index + 1 %>
       <% end %>
+      <input type='hidden' id="selection-length" value="<%= @main.selections.length %>">
       <%= form.submit %>
     <% end %>
   <% end %>

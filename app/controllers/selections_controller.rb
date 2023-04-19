@@ -70,6 +70,6 @@ class SelectionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def selection_params
-      params.require(:selection).permit(:text, :main_id)
+      params.require(:selection).permit(:text, :main_id, :kana)
     end
 end
