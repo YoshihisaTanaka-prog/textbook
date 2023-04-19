@@ -25,14 +25,14 @@
   <%= link_to "New word", new_word_path %>
 </div>
 
-<div id="words">
+<div class="words no-print">
   <hr>
   <% current_time = 0 %>
   <% @words.each do |word| %>
     <% if current_time != word.time %>
       <% current_time = word.time %>
       <hr class="<%= word.time %>">
-      <h3 class="<%= word.time %>">
+      <h3 class="<%= word.time %>" style="text-align: center;">
         第<%= word.time %>回
       </h3>
       <hr class="<%= word.time %>">
@@ -54,6 +54,28 @@
   <% end %>
   <hr>
 </div>
+
+<table class="words only-print" style="width: 100vw;">
+  <% current_time = 0 %>
+  <% @words.each do |word| %>
+    <% if current_time != word.time %>
+      <% current_time = word.time %>
+      <tr class="<%= word.time %>">
+        <td colspan="2">
+          <h3 style="text-align: center;">
+            第<%= word.time %>回
+          </h3>
+        </td>
+      </tr>
+    <% end %>
+    <tr class="<%= word.time %>">
+      <td align="center" style="width: 30vw;"><%= word.word %></td><td style="width: 70vw; border-bottom: 1px solid #000;"></td>
+    </tr>
+    <tr class="<%= word.time %>">
+      <td align="center"><%= word.mean %></td><td></td>
+    </tr>
+  <% end %>
+</table>
 
 <div class="no-print">
   <%= link_to "New word", new_word_path %>
