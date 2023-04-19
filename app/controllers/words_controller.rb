@@ -45,7 +45,11 @@ class WordsController < ApplicationController
         format.html { redirect_to new_word_path, notice: "Word was successfully created." }
         format.json { render :show, status: :created, location: @word }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { 
+          @student = student
+          @current_time_words = Word.where(student_id: @student.id, time: @student.current_time).order(:word)
+          render :new, status: :unprocessable_entity
+        }
         format.json { render json: @word.errors, status: :unprocessable_entity }
       end
     end
