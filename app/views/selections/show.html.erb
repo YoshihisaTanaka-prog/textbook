@@ -265,7 +265,7 @@
           $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
           $("#status").val(1);
           changeStatus();
-          $("#solution_title").val(text);
+          $("#solution_title").val(text).focus();
           $("#solution_kana").val(kana);
         } else {
           $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
@@ -284,10 +284,11 @@
     if ($("#status").val() == "0") {
       $("#add-solution").attr("style", "");
       $("#create-solution").attr("style", "display: none;");
-      
+      $("#search-text").focus();
     } else {  
       $("#add-solution").attr("style", "display: none;");
       $("#create-solution").attr("style", "");
+      $("#solution_title").focus();
     }
   }
 </script>
