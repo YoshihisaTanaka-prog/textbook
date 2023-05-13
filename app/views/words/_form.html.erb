@@ -28,16 +28,18 @@
   <div style="display: flex;">
     <div>
       <%= form.label :word, style: "display: block" %>
-      <%= form.text_field :word %>
+      <%= form.text_field :word, style: "font-size: 2em;" %><br>
+      <button type="button" onclick="toPrototype()">原型にする</button>
+      <button type="button" onclick="translateToJp()">翻訳する</button>
     </div>
     　
     <div>
       <%= form.label :mean, style: "display: block" %>
-      <%= form.text_field :mean %>
+      <%= form.text_field :mean, style: "font-size: 2em;" %>
     </div>
   </div>
 
-  <div>
+  <div style="margin-top: 10px;">
     <%= form.submit %>
   </div>
 
@@ -48,15 +50,40 @@
 </script>
 
 
-<% if @student %>
-  <script type="text/javascript">
-    function changedTimeValue() {
-      let id = "#" + $("#current-time").val();
-      if ( $("#word_time").val() == $("#current-time").val() ) {
-        $(id).attr("style", "margin: 0 auto;");
-      } else {
-        $(id).attr("style", "display: none;");
-      }
+<script type="text/javascript">
+  function changedTimeValue() {
+    let id = "#" + $("#current-time").val();
+    if ( $("#word_time").val() == $("#current-time").val() ) {
+      $(id).attr("style", "margin: 0 auto;");
+    } else {
+      $(id).attr("style", "display: none;");
     }
-  </script>
-<% end %>
+  }
+
+  function toPrototype(){
+    let word = $("#word_word").val();
+    set_csrftoken();
+    $.post("/prototype", {word: word}, function(data){
+      $("#word_word").val(data);
+    });
+  }
+
+  function translateToJp(){
+    let word = $("#word_word").val();
+    set_csrftoken();
+    $.post("/translate", {word: word}, function(data){
+      $("#word_mean").val(data);
+    });
+  }
+  
+  function set_csrftoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>

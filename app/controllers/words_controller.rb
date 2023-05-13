@@ -2,6 +2,9 @@ class WordsController < ApplicationController
   before_action :set_word, only: %i[ show edit update destroy mistake ]
   before_action :confirm_session, only: %i[ show new create edit update destroy test ]
 
+  require 'net/http'
+  require "lemmatizer"
+
   # GET /words or /words.json
   def index
     if params[:student_id]
@@ -121,6 +124,26 @@ class WordsController < ApplicationController
       }
       format.json { render json: @word}
     end
+  end
+
+  def to_prototype
+    lem = Lemmatizer.new()
+    word = lem.lemma(params[:word])
+    render plain: word
+  end
+
+  def translate
+    logger.debug params
+    url = URI.parse("https://translation.googleapis.com/language/translate/v2")
+    prm = {
+      q: params[:word],
+      source: "en",
+      target: "ja",
+      key: ENV['G_API_TOKEN']
+    }
+    url.query = URI.encode_www_form(prm)
+    res = Net::HTTP.get_response(url)
+    render plain: JSON.parse(res.body)['data']['translations'][0]['translatedText']
   end
 
   private
