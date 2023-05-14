@@ -33,6 +33,10 @@ gem "devise"
 
 gem 'lemmatizer'
 
+gem 'nokogiri', '~>1.14.4'
+
+gem 'rack', '~>2.2.7'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
