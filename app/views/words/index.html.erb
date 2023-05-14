@@ -32,7 +32,7 @@
     <% if current_time != word.time %>
       <% current_time = word.time %>
       <hr class="<%= word.time %>">
-      <h3 class="<%= word.time %>" style="text-align: center;">
+      <h3 class="<%= word.time %>">
         第<%= word.time %>回
       </h3>
       <hr class="<%= word.time %>">
@@ -57,23 +57,41 @@
 
 <table class="words only-print" style="width: 100vw;">
   <% current_time = 0 %>
+  <% current_index = 0 %>
   <% @words.each do |word| %>
     <% if current_time != word.time %>
+      <% if current_time != 0 %>
+        </table>
+        <div class="<%= word.time %> break-after"></div>
+        <table class="words only-print <%= word.time %>">
+      <% end %>
       <% current_time = word.time %>
+      <% current_index = 0 %>
       <tr class="<%= word.time %>">
         <td colspan="2">
-          <h3 style="text-align: center;">
+          <h3>
             第<%= word.time %>回
           </h3>
         </td>
       </tr>
     <% end %>
     <tr class="<%= word.time %>">
-      <td align="center" style="width: 30vw;"><%= word.word %></td><td style="width: 70vw; border-bottom: 1px solid #000;"></td>
+      <td align="center" style="width: 30vw;font-size: 0.8em;"><%= word.word %></td><td style="width: 70vw; border-bottom: 1px solid #000;"></td>
     </tr>
     <tr class="<%= word.time %>">
-      <td align="center"><%= word.mean %></td><td></td>
+      <td align="center"style="font-size: 0.8em;"><%= word.mean %></td><td></td>
     </tr>
+    <% word_page_num = 10 %>
+    <% if current_index % word_page_num == word_page_num - 1 %>
+      </table>
+      <div class="<%= word.time %> break-after"></div>
+      <table class="words only-print <%= word.time %>">
+    <% else %>
+      <tr class="<%= word.time %>">
+        <td align="center" style="font-size: 0.4em;">　</td><td></td>
+      </tr>
+    <% end %>
+    <% current_index = current_index + 1 %>
   <% end %>
 </table>
 

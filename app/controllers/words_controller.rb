@@ -128,8 +128,15 @@ class WordsController < ApplicationController
 
   def to_prototype
     lem = Lemmatizer.new()
-    word = lem.lemma(params[:word])
-    render plain: word
+    line = ""
+    params[:words].each_with_index do |word, index|
+      if index == 0
+        line = lem.lemma(word)
+      else
+        line = line + " " + lem.lemma(word)
+      end
+    end
+    render plain: line
   end
 
   def translate
@@ -137,8 +144,8 @@ class WordsController < ApplicationController
     url = URI.parse("https://translation.googleapis.com/language/translate/v2")
     prm = {
       q: params[:word],
-      source: "en",
-      target: "ja",
+      source: params[:from],
+      target: params[:to],
       key: ENV['G_API_TOKEN']
     }
     url.query = URI.encode_www_form(prm)

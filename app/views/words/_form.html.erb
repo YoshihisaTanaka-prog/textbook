@@ -28,9 +28,9 @@
   <div style="display: flex;">
     <div>
       <%= form.label :word, style: "display: block" %>
-      <%= form.text_field :word, style: "font-size: 2em;" %><br>
+      <%= form.text_field :word, style: "font-size: 2em;" %><br><br>
       <button type="button" onclick="toPrototype()">原型にする</button>
-      <button type="button" onclick="translateToJp()">翻訳する</button>
+      <button type="button" onclick="translateTo()">翻訳する</button>
     </div>
     　
     <div>
@@ -61,17 +61,34 @@
   }
 
   function toPrototype(){
-    let word = $("#word_word").val();
+    let words= $("#word_word").val().split(" ");
     set_csrftoken();
-    $.post("/prototype", {word: word}, function(data){
+    $.post("/prototype", {words: words}, function(data){
       $("#word_word").val(data);
     });
   }
 
-  function translateToJp(){
-    let word = $("#word_word").val();
+  function translateTo(){
+    var word = $("#word_word").val();
+    if(word === ""){
+      word = $("#word_mean").val();
+      if(word !== ""){
+        translateToEn(word);
+      }
+    }
+    translateToJp(word);
+  }
+
+  function translateToEn(word){
     set_csrftoken();
-    $.post("/translate", {word: word}, function(data){
+    $.post("/translate", {word: word, to: "en", from: "ja"}, function(data){
+      $("#word_word").val(data);
+    });
+  }
+
+  function translateToJp(word){
+    set_csrftoken();
+    $.post("/translate", {word: word, to: "ja", from: "en"}, function(data){
       $("#word_mean").val(data);
     });
   }
