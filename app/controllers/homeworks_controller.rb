@@ -75,11 +75,25 @@ class HomeworksController < ApplicationController
   def factorization
     @junior_array = []
     for i in 0..9 do
-      @junior_array.push(junior_factorization_unit) 
+      r = rand(5)
+      if r == 0
+        @junior_array.push(special_junior_factorization_unit(1))
+      elsif r == 1
+        @junior_array.push(special_junior_factorization_unit(-1))
+      else
+        @junior_array.push(junior_factorization_unit) 
+      end
     end
     @array = []
     for i in 0..9 do
-      @array.push(factorization_unit) 
+      r = rand(5)
+      if r == 0
+        @array.push(special_factorization_unit(1))
+      elsif r == 1
+        @array.push(special_factorization_unit(-1))
+      else
+        @array.push(factorization_unit) 
+      end
     end
   end
 
@@ -172,6 +186,26 @@ class HomeworksController < ApplicationController
   end
 
   private
+
+    def special_factorization_unit(mode)
+      r1 = rand(3) + 1
+      r2 = rand(9) + 1
+      fugo = rand(2)
+      if fugo == 0
+        r2 = -r2
+      end 
+      return [r1, r2, r1, r2 * mode]
+    end
+
+    def special_junior_factorization_unit(mode)
+      r = rand(9) + 1
+      fugo = rand(2)
+      if fugo == 0
+        r = -r
+      end
+      return [r, r * mode]
+    end
+
     def factorization_unit
       ret = []
       r = rand(5) + 1
