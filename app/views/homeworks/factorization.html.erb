@@ -24,7 +24,7 @@
 <div id="junior">
   <table class='homework'>
     <tr>
-      <% @array.each_with_index do |unit, index| %>
+      <% @junior_array.each_with_index do |unit, index| %>
         <td style="height: 22vw; width: 49vw;" valign="top">
         x^2
         <% if unit[0] + unit[1] < 0 %>
@@ -58,7 +58,7 @@
   <div class="answer">
     <div style="break-after: page;"></div>
     以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
-    <% @array.each do |unit| %>
+    <% @junior_array.each do |unit| %>
     <div style="margin-top: 1em;">
         　
         x^2

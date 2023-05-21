@@ -73,26 +73,32 @@ class HomeworksController < ApplicationController
   end
 
   def factorization
+    order_array = [0,1,2,3,4,5,6,7,8,9]
+    for i in 0..9 do
+      r = rand(10)
+      keep = order_array[i]
+      order_array[i] = order_array[r]
+      order_array[r] = keep
+    end
+    order_array = [[ order_array[0], order_array[1] ],[ order_array[2], order_array[3] ]]
     @junior_array = []
     for i in 0..9 do
-      r = rand(5)
-      if r == 0
+      if order_array[0].include?(i)
         @junior_array.push(special_junior_factorization_unit(1))
-      elsif r == 1
+      elsif order_array[1].include?(i)
         @junior_array.push(special_junior_factorization_unit(-1))
       else
-        @junior_array.push(junior_factorization_unit) 
+        @junior_array.push(junior_factorization_unit)
       end
     end
     @array = []
     for i in 0..9 do
-      r = rand(5)
-      if r == 0
+      if order_array[0].include?(i)
         @array.push(special_factorization_unit(1))
-      elsif r == 1
+      elsif order_array[1].include?(i)
         @array.push(special_factorization_unit(-1))
       else
-        @array.push(factorization_unit) 
+        @array.push(factorization_unit)
       end
     end
   end
