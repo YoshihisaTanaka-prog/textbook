@@ -15,97 +15,297 @@
 %>
 
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
-<h2>因数分解</h2>
+<h2>展開・因数分解</h2>
 <div class="no-print">
+  展開<input type='range' id='mode' value='0' min='0' max='1' style='width:2em;' onchange='changeMode()'>因数分解<br>
   中学生用<input type='range' id='grade' value='0' min='0' max='1' style='width:2em;' onchange='changeGrade()'>高校生用<br>
   解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
 </div>
-以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　　　分　　秒
+以下の二次式を<span class="expansion">展開</span><span class="factorization" style="display: none">因数分解</span>してね。　　名前　　　　　　　　　　　　　　分　　秒
 <div id="junior">
-  <table class='homework'>
-    <tr>
-      <% @junior_array.each_with_index do |unit, index| %>
-        <td style="height: 22vw; width: 49vw;" valign="top">
-        x^2
-        <% if unit[0] + unit[1] < 0 %>
-            <% if unit[0] + unit[1] == -1 %>
-                -x
-            <% else %>
-                <%= unit[0] + unit[1] %>x
-            <% end %>
-        <% elsif unit[0] + unit[1] > 0 %>
-            <% if unit[0] + unit[1] == 1 %>
-                +x
-            <% else %>
-                +<%= unit[0] + unit[1] %>x
-            <% end %>
+
+  <div class="expansion">
+    <table class='homework'>
+      <tr>
+        <% @junior_array.each_with_index do |unit, index| %>
+          <td style="height: 22vw; width: 49vw;" valign="top">
+          <% if unit[0] == 0%>
+            x
+          <% elsif unit[0] < 0 %>
+            (x<%= unit[0] %>)
+          <% else %>
+            (x+<%= unit[0] %>)
+          <% end %>
+          <% if unit[1] == 0%>
+            x
+          <% elsif unit[1] < 0 %>
+            (x<%= unit[1] %>)
+          <% else %>
+            (x+<%= unit[1] %>)
+          <% end %>
+          </td>
+          <% if index % 2 == 1 && index != 9 %>
+            </tr><tr>
+          <% end %>
         <% end %>
-        <% if unit[0] * unit[1] < 0 %>
+      </tr>
+    </table>
+
+    <div class="answer">
+      <div style="break-after: page;"></div>
+      以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+      <% @junior_array.each do |unit| %>
+      <div style="margin-top: 1em;">
+          <% if unit[0] == unit[1] %>
+            (x
+            <% if unit[0] < 0 %>
+            <%= unit[0] %>
+            <% elsif unit[0] > 0%>
+            +<%= unit[0] %>
+            <% end %>
+            )^2
+          <% else %>
+            (x
+            <% if unit[0] < 0 %>
+            <%= unit[0] %>
+            <% elsif unit[0] > 0%>
+            +<%= unit[0] %>
+            <% end %>
+            )(x
+            <% if unit[1] < 0 %>
+            <%= unit[1] %>
+            <% elsif unit[1] > 0%>
+            +<%= unit[1] %>
+            <% end %>
+            )
+          <% end %><br>
+          =x^2
+          <% if unit[0] + unit[1] < 0 %>
+            <%= unit[0] + unit[1] %>x
+          <% elsif unit[0] + unit[1] > 0 %>
+            +<%= unit[0] + unit[1] %>x
+          <% end %>
+          <% if unit[0] * unit[1] < 0 %>
             <%= unit[0] * unit[1] %>
-        <% elsif unit[0] * unit[1] > 0 %>
+          <% elsif unit[0] * unit[1] > 0 %>
             +<%= unit[0] * unit[1] %>
-        <% end %>
-        </td>
-        <% if index % 2 == 1 && index != 9 %>
-          </tr><tr>
-        <% end %>
+          <% end %>
+        </div>
       <% end %>
-    </tr>
-  </table>
+    </div>
+  </div>
 
-
-
-  <div class="answer">
-    <div style="break-after: page;"></div>
-    以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
-    <% @junior_array.each do |unit| %>
-    <div style="margin-top: 1em;">
-        　
-        x^2
-        <% if unit[0] + unit[1] < 0 %>
-          <%= unit[0] + unit[1] %>x
-        <% elsif unit[0] + unit[1] > 0 %>
-          +<%= unit[0] + unit[1] %>x
+  <div class="factorization" style="display: none">
+    <table class='homework'>
+      <tr>
+        <% @junior_array.each_with_index do |unit, index| %>
+          <td style="height: 22vw; width: 49vw;" valign="top">
+          x^2
+          <% if unit[0] + unit[1] < 0 %>
+              <% if unit[0] + unit[1] == -1 %>
+                  -x
+              <% else %>
+                  <%= unit[0] + unit[1] %>x
+              <% end %>
+          <% elsif unit[0] + unit[1] > 0 %>
+              <% if unit[0] + unit[1] == 1 %>
+                  +x
+              <% else %>
+                  +<%= unit[0] + unit[1] %>x
+              <% end %>
+          <% end %>
+          <% if unit[0] * unit[1] < 0 %>
+              <%= unit[0] * unit[1] %>
+          <% elsif unit[0] * unit[1] > 0 %>
+              +<%= unit[0] * unit[1] %>
+          <% end %>
+          </td>
+          <% if index % 2 == 1 && index != 9 %>
+            </tr><tr>
+          <% end %>
         <% end %>
-        <% if unit[0] * unit[1] < 0 %>
-          <%= unit[0] * unit[1] %>
-        <% elsif unit[0] * unit[1] > 0 %>
-          +<%= unit[0] * unit[1] %>
-        <% end %><br>
-        
-        <% if unit[0] == unit[1] %>
-          =(x
-          <% if unit[0] < 0 %>
-          <%= unit[0] %>
-          <% elsif unit[0] > 0%>
-          +<%= unit[0] %>
+      </tr>
+    </table>
+
+    <div class="answer">
+      <div style="break-after: page;"></div>
+      以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+      <% @junior_array.each do |unit| %>
+      <div style="margin-top: 1em;">
+          　
+          x^2
+          <% if unit[0] + unit[1] < 0 %>
+            <%= unit[0] + unit[1] %>x
+          <% elsif unit[0] + unit[1] > 0 %>
+            +<%= unit[0] + unit[1] %>x
           <% end %>
-          )^2
-        <% else %>
-          =(x
-          <% if unit[0] < 0 %>
-          <%= unit[0] %>
-          <% elsif unit[0] > 0%>
-          +<%= unit[0] %>
+          <% if unit[0] * unit[1] < 0 %>
+            <%= unit[0] * unit[1] %>
+          <% elsif unit[0] * unit[1] > 0 %>
+            +<%= unit[0] * unit[1] %>
+          <% end %><br>
+          
+          <% if unit[0] == unit[1] %>
+            =(x
+            <% if unit[0] < 0 %>
+            <%= unit[0] %>
+            <% elsif unit[0] > 0%>
+            +<%= unit[0] %>
+            <% end %>
+            )^2
+          <% else %>
+            =(x
+            <% if unit[0] < 0 %>
+            <%= unit[0] %>
+            <% elsif unit[0] > 0%>
+            +<%= unit[0] %>
+            <% end %>
+            )(x
+            <% if unit[1] < 0 %>
+            <%= unit[1] %>
+            <% elsif unit[1] > 0%>
+            +<%= unit[1] %>
+            <% end %>
+            )
           <% end %>
-          )(x
-          <% if unit[1] < 0 %>
-          <%= unit[1] %>
-          <% elsif unit[1] > 0%>
-          +<%= unit[1] %>
-          <% end %>
-          )
-        <% end %>
-      </div>
-    <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 
 <div id="high" style="display: none;">
-  <table class='homework'>
-    <tr>
-      <% @array.each_with_index do |single, index| %>
-        <td valign="top" style="height: 22vw; width: 49vw">
+  <div class="expansion">
+    <table class='homework'>
+      <tr>
+        <% @array.each_with_index do |single, index| %>
+          <td valign="top" style="height: 22vw; width: 49vw">
+
+          <%
+            gcd_1 = gcd single[0], single[1]
+            gcd_2 = gcd single[2], single[3]
+            single_gcd = gcd_1 * gcd_2
+            single_2 = []
+            single_2.push(single[0] / gcd_1)
+            single_2.push(single[1] / gcd_1)
+            single_2.push(single[2] / gcd_2)
+            single_2.push(single[3] / gcd_2)
+          %>
+
+          <% unless single_gcd == 1 %>
+            <%= single_gcd %>
+          <% end%>
+          
+          <% if single_2[0] == single_2[2] && single_2[1] == single_2[3] %>
+            (
+            <% if single_2[0] == 1 %>
+              x
+            <% else %>
+              <%= single_2[0] %>x
+            <% end %>
+            <% if single_2[1] < 0 %>
+              <%= single_2[1] %>
+            <% elsif single_2[1] > 0 %>
+              +<%= single_2[1] %>
+            <% end %>
+            )^2
+          <% else %>
+            (
+            <% if single_2[0] == 1 %>
+              x
+            <% else %>
+              <%= single_2[0] %>x
+            <% end %>
+            <% if single_2[1] < 0 %>
+              <%= single_2[1] %>
+            <% elsif single_2[1] > 0 %>
+              +<%= single_2[1] %>
+            <% end %>
+            )(
+            <% if single_2[2] == 1 %>
+              x
+            <% else %>
+              <%= single_2[2] %>x
+            <% end %>
+            <% if single_2[3] < 0 %>
+              <%= single_2[3] %>
+            <% elsif single_2[3] > 0 %>
+              +<%= single_2[3] %>
+            <% end %>
+            )
+          <% end %>
+          </td>
+          <% if index % 2 == 1 && index != 9%>
+            </tr><tr>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+
+
+    <div class="answer">
+      <div style="break-after: page;"></div>
+      以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+      <% @array.each do |single| %>
+        <div style="margin-top: 1em;">
+          
+
+          <%
+            gcd_1 = gcd single[0], single[1]
+            gcd_2 = gcd single[2], single[3]
+            single_gcd = gcd_1 * gcd_2
+            single_2 = []
+            single_2.push(single[0] / gcd_1)
+            single_2.push(single[1] / gcd_1)
+            single_2.push(single[2] / gcd_2)
+            single_2.push(single[3] / gcd_2)
+          %>
+
+          <% unless single_gcd == 1 %>
+            <%= single_gcd %>
+          <% end%>
+          
+          <% if single_2[0] == single_2[2] && single_2[1] == single_2[3] %>
+            (
+            <% if single_2[0] == 1 %>
+              x
+            <% else %>
+              <%= single_2[0] %>x
+            <% end %>
+            <% if single_2[1] < 0 %>
+              <%= single_2[1] %>
+            <% elsif single_2[1] > 0 %>
+              +<%= single_2[1] %>
+            <% end %>
+            )^2
+          <% else %>
+            (
+            <% if single_2[0] == 1 %>
+              x
+            <% else %>
+              <%= single_2[0] %>x
+            <% end %>
+            <% if single_2[1] < 0 %>
+              <%= single_2[1] %>
+            <% elsif single_2[1] > 0 %>
+              +<%= single_2[1] %>
+            <% end %>
+            )(
+            <% if single_2[2] == 1 %>
+              x
+            <% else %>
+              <%= single_2[2] %>x
+            <% end %>
+            <% if single_2[3] < 0 %>
+              <%= single_2[3] %>
+            <% elsif single_2[3] > 0 %>
+              +<%= single_2[3] %>
+            <% end %>
+            )
+          <% end %><br>
+          
+          =
+          
           <% if single[0] * single[2] == 1%>
             x^2
           <% else %>
@@ -129,105 +329,141 @@
           <% else %>
             +<%= single[1] * single[3] %>
           <% end %>
-        </td>
-        <% if index % 2 == 1 && index != 9%>
-          </tr><tr>
-        <% end %>
+            
+
+        </div>
       <% end %>
-    </tr>
-  </table>
+    </div>
+  </div>
 
+  <div class="factorization" style="display: none">
+    <table class='homework'>
+      <tr>
+        <% @array.each_with_index do |single, index| %>
+          <td valign="top" style="height: 22vw; width: 49vw">
+            <% if single[0] * single[2] == 1%>
+              x^2
+            <% else %>
+              <%= single[0] * single[2] %> x^2
+            <% end %>
 
-  <div class="answer">
-    <div style="break-after: page;"></div>
-    以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
-    <% @array.each do |single| %>
-      <div style="margin-top: 1em;">
-        　
-        <% if single[0] * single[2] == 1%>
-          x^2
-        <% else %>
-          <%= single[0] * single[2] %> x^2
+            <% if single[0] * single[3] + single[1] * single[2] == 0 %>
+            <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
+              +x
+            <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
+              -x
+            <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
+              <%= single[0] * single[3] + single[1] * single[2] %>x
+            <% else %>
+              +<%= single[0] * single[3] + single[1] * single[2] %>x
+            <% end %>
+
+            <% if single[1] * single[3] == 0 %>
+            <% elsif single[1] * single[3] < 0 %>
+              <%= single[1] * single[3] %>
+            <% else %>
+              +<%= single[1] * single[3] %>
+            <% end %>
+          </td>
+          <% if index % 2 == 1 && index != 9%>
+            </tr><tr>
+          <% end %>
         <% end %>
+      </tr>
+    </table>
 
-        <% if single[0] * single[3] + single[1] * single[2] == 0 %>
-        <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
-          +x
-        <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
-          -x
-        <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
-          <%= single[0] * single[3] + single[1] * single[2] %>x
-        <% else %>
-          +<%= single[0] * single[3] + single[1] * single[2] %>x
-        <% end %>
 
-        <% if single[1] * single[3] == 0 %>
-        <% elsif single[1] * single[3] < 0 %>
-          <%= single[1] * single[3] %>
-        <% else %>
-          +<%= single[1] * single[3] %>
-        <% end %><br>
-        
-        =
-
-        <%
-          gcd_1 = gcd single[0], single[1]
-          gcd_2 = gcd single[2], single[3]
-          single_gcd = gcd_1 * gcd_2
-          single_2 = []
-          single_2.push(single[0] / gcd_1)
-          single_2.push(single[1] / gcd_1)
-          single_2.push(single[2] / gcd_2)
-          single_2.push(single[3] / gcd_2)
-        %>
-
-        <% unless single_gcd == 1 %>
-          <%= single_gcd %>
-        <% end%>
-        
-        <% if single_2[0] == single_2[2] && single_2[1] == single_2[3] %>
-          (
-          <% if single_2[0] == 1 %>
-            x
+    <div class="answer">
+      <div style="break-after: page;"></div>
+      以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+      <% @array.each do |single| %>
+        <div style="margin-top: 1em;">
+          　
+          <% if single[0] * single[2] == 1%>
+            x^2
           <% else %>
-            <%= single_2[0] %>x
+            <%= single[0] * single[2] %> x^2
           <% end %>
-          <% if single_2[1] < 0 %>
-            <%= single_2[1] %>
-          <% elsif single_2[1] > 0 %>
-            +<%= single_2[1] %>
-          <% end %>
-          )^2
-        <% else %>
-          (
-          <% if single_2[0] == 1 %>
-            x
+
+          <% if single[0] * single[3] + single[1] * single[2] == 0 %>
+          <% elsif single[0] * single[3] + single[1] * single[2] == 1 %>
+            +x
+          <% elsif single[0] * single[3] + single[1] * single[2] == -1 %>
+            -x
+          <% elsif single[0] * single[3] + single[1] * single[2] < 0 %>
+            <%= single[0] * single[3] + single[1] * single[2] %>x
           <% else %>
-            <%= single_2[0] %>x
+            +<%= single[0] * single[3] + single[1] * single[2] %>x
           <% end %>
-          <% if single_2[1] < 0 %>
-            <%= single_2[1] %>
-          <% elsif single_2[1] > 0 %>
-            +<%= single_2[1] %>
-          <% end %>
-          )(
-          <% if single_2[2] == 1 %>
-            x
+
+          <% if single[1] * single[3] == 0 %>
+          <% elsif single[1] * single[3] < 0 %>
+            <%= single[1] * single[3] %>
           <% else %>
-            <%= single_2[2] %>x
-          <% end %>
-          <% if single_2[3] < 0 %>
-            <%= single_2[3] %>
-          <% elsif single_2[3] > 0 %>
-            +<%= single_2[3] %>
-          <% end %>
-          )
-        <% end %>
+            +<%= single[1] * single[3] %>
+          <% end %><br>
           
-          
+          =
 
-      </div>
-    <% end %>
+          <%
+            gcd_1 = gcd single[0], single[1]
+            gcd_2 = gcd single[2], single[3]
+            single_gcd = gcd_1 * gcd_2
+            single_2 = []
+            single_2.push(single[0] / gcd_1)
+            single_2.push(single[1] / gcd_1)
+            single_2.push(single[2] / gcd_2)
+            single_2.push(single[3] / gcd_2)
+          %>
+
+          <% unless single_gcd == 1 %>
+            <%= single_gcd %>
+          <% end%>
+          
+          <% if single_2[0] == single_2[2] && single_2[1] == single_2[3] %>
+            (
+            <% if single_2[0] == 1 %>
+              x
+            <% else %>
+              <%= single_2[0] %>x
+            <% end %>
+            <% if single_2[1] < 0 %>
+              <%= single_2[1] %>
+            <% elsif single_2[1] > 0 %>
+              +<%= single_2[1] %>
+            <% end %>
+            )^2
+          <% else %>
+            (
+            <% if single_2[0] == 1 %>
+              x
+            <% else %>
+              <%= single_2[0] %>x
+            <% end %>
+            <% if single_2[1] < 0 %>
+              <%= single_2[1] %>
+            <% elsif single_2[1] > 0 %>
+              +<%= single_2[1] %>
+            <% end %>
+            )(
+            <% if single_2[2] == 1 %>
+              x
+            <% else %>
+              <%= single_2[2] %>x
+            <% end %>
+            <% if single_2[3] < 0 %>
+              <%= single_2[3] %>
+            <% elsif single_2[3] > 0 %>
+              +<%= single_2[3] %>
+            <% end %>
+            )
+          <% end %>
+            
+            
+
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 
@@ -247,6 +483,16 @@
     } else{
       $("#junior").attr("style", "display: none;");
       $("#high").attr("style", "");
+    }
+  }
+
+  function changeMode(){
+    if ( $("#mode").val() == "0" ) {
+      $(".expansion").attr("style", "");
+      $(".factorization").attr("style", "display: none;");
+    } else{
+      $(".expansion").attr("style", "display: none;");
+      $(".factorization").attr("style", "");
     }
   }
 </script>
