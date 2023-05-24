@@ -2,8 +2,8 @@
 <h2>分数計算</h2>
 
 <div class="no-print">
-  小学生用<input type='range' id='grade' value='0' min='0' max='1' style='width:2em;' onchange='changeGrade()'>中高生用<br>
-  解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+  小学生用<input type='range' id='grade' value='<%= session["fraction"]["grade"] if session[:fraction] %><%= 0 unless session[:fraction] %>' min='0' max='1' style='width:2em;' onchange='changeGrade()'>中高生用<br>
+  解答付き<input type='range' id='status' value='<%= session["fraction"]["status"] if session[:fraction] %><%= 0 unless session[:fraction] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
 </div>
 以下の計算をしてね。　　名前　　　　　　　　　　　　　　分　　秒
 <div id='primary'>
@@ -336,6 +336,7 @@
     } else{
       $(".answer").attr("style", "display: none;");
     }
+    sendSelections();
   }
   function changeGrade(){
     if ( $("#grade").val() == "0" ) {
@@ -345,5 +346,42 @@
       $("#primary").attr("style", "display: none;");
       $("#junior").attr("style", "");
     }
+    sendSelections();
+  }
+
+  function getSelections(){
+    return {pageName: "fraction", status: $("#status").val(), grade: $("#grade").val()};
+  }
+
+  function setSelections(){
+    changeStatus();
+  }
+
+  setSelections()
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
   }
 </script>

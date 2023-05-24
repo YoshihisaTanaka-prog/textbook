@@ -191,6 +191,15 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def set_session
+    sym = params[:pageName].to_sym
+    session[sym] = {}
+    params.each do |key,value|
+      session[sym][key.to_sym] = value.to_i if !["controller", "action", "pageName"].include?(key)
+    end
+    render json: session[sym]
+  end
+
   private
 
     def special_factorization_unit(mode)

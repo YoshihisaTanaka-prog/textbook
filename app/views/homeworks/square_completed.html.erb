@@ -1,9 +1,12 @@
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h2>平方完成</h2>
+
 <div class="no-print">
-  解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+  解答付き<input type='range' id='status' value='<%= session["square_completed"]["status"] unless session["square_completed"].blank? %><%= 0 if session[:square_completed].blank?%>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
 </div>
+
 以下の二次式を平方完成してね　　名前　　　　　　　　　　　　　　分　　秒
+
 <table id="homework">
   <tr>
     <% @array.each_with_index do |single, index| %>
@@ -96,5 +99,42 @@
     } else{
       $("#answer").attr("style", "display: none;");
     }
+    sendSelections();
+  }
+
+  function getSelections(){
+    return {pageName: "square_completed", status: $("#status").val()};
+  }
+
+  function setSelections(){
+    changeStatus();
+  }
+
+  // setSelections();
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
   }
 </script>

@@ -17,9 +17,9 @@
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h2>展開・因数分解</h2>
 <div class="no-print">
-  展開<input type='range' id='mode' value='0' min='0' max='1' style='width:2em;' onchange='changeMode()'>因数分解<br>
-  中学生用<input type='range' id='grade' value='0' min='0' max='1' style='width:2em;' onchange='changeGrade()'>高校生用<br>
-  解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+  展開<input type='range' id='mode' value='<%= session["factorization"]["mode"] if session[:factorization] %><%= 0 unless session[:factorization] %>' min='0' max='1' style='width:2em;' onchange='changeMode()'>因数分解<br>
+  中学生用<input type='range' id='grade' value='<%= session["factorization"]["grade"] if session[:factorization] %><%= 0 unless session[:factorization] %>' min='0' max='1' style='width:2em;' onchange='changeGrade()'>高校生用<br>
+  解答付き<input type='range' id='status' value='<%= session["factorization"]["status"] if session[:factorization] %><%= 0 unless session[:factorization] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
 </div>
 以下の二次式を<span class="expansion">展開</span><span class="factorization" style="display: none">因数分解</span>してね。　　名前　　　　　　　　　　　　　　分　　秒
 <div id="junior">
@@ -474,6 +474,7 @@
     } else{
       $(".answer").attr("style", "display: none;");
     }
+    sendSelections();
   }
 
   function changeGrade(){
@@ -484,6 +485,7 @@
       $("#junior").attr("style", "display: none;");
       $("#high").attr("style", "");
     }
+    sendSelections();
   }
 
   function changeMode(){
@@ -494,5 +496,44 @@
       $(".expansion").attr("style", "display: none;");
       $(".factorization").attr("style", "");
     }
+    sendSelections();
+  }
+
+  function getSelections(){
+    return {pageName: "factorization", status: $("#status").val(), grade: $("#grade").val(), mode: $("#mode").val()};
+  }
+
+  function setSelections(){
+    changeStatus();
+    changeGrade();
+    changeMode();
+  }
+
+  setSelections()
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
   }
 </script>

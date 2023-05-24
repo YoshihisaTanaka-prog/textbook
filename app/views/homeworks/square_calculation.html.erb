@@ -1,11 +1,11 @@
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h2>100マス計算</h2>
 <div class="no-print">
-    解答付き<input type='range' id='status' value='0' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
-    足し算<input type='range' id='operator' value='0' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>
-    レベル<input type="range" min="1" max="7" value="1" id='level-input' onchange="levelChanged()"><span id="level-output">1</span>
+    解答付き<input type='range' id='status' value='<%= session["square_calculation"]["status"] if session[:square_calculation] %><%= 0 unless session[:square_calculation] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+    足し算<input type='range' id='operator' value='<%= session["square_calculation"]["operator"] if session[:square_calculation] %><%= 0 unless session[:square_calculation] %>' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>
+    レベル<input type="range" min="1" max="7" value='<%= session["square_calculation"]["level"] if session[:square_calculation] %><%= 1 unless session[:square_calculation] %>' id='level-input' onchange="levelChanged()"><span id="level-output">1</span>
     <div class="plus">
-        数直線<input type='range' id='line' value='0' min='0' max='1' style='width:2em;' onchange='changeLine()'>
+        数直線<input type='range' id='line' value='<%= session["square_calculation"]["line"] if session[:square_calculation] %><%= 0 unless session[:square_calculation] %>' min='0' max='1' style='width:2em;' onchange='changeLine()'>
     </div>
 </div>
 名前　　　　　　　　　　　　　　分　　秒
@@ -361,6 +361,7 @@
     }
     let id = ".level-" + level;
     $(id).attr("style","");
+    sendSelections();
   }
 
   function changeStatus(){
@@ -369,6 +370,7 @@
     } else{
       $("#answer").attr("style", "display: none;");
     }
+    sendSelections()
   }
 
   function changeOperator(){
@@ -379,6 +381,7 @@
       $(".plus").attr("style", "display: none;");
       $(".multiply").attr("style", "");
     }
+    sendSelections()
   }
 
   function changeLine() {
@@ -388,6 +391,47 @@
       $("#num-line").attr("style", "width: 100vw").html("");
       drawLine();
     }
+    sendSelections()
+  }
+
+
+  function getSelections(){
+    return {pageName: "square_calculation", status: $("#status").val(), operator: $("#operator").val(), line: $("#line").val(), level: $("#level-input").val(),};
+  }
+
+  function setSelections(){
+    levelChanged();
+    changeStatus();
+    changeLine();
+    changeOperator();
+  }
+
+  setSelections()
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
   }
 
   function drawLine() {
@@ -448,6 +492,6 @@
       t.setAttribute("y",x[2]);
       svg1.appendChild(t);
     });
-
   }
+
 </script>
