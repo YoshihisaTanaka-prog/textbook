@@ -1,0 +1,437 @@
+<script type="text/javascript" asyncsrc="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=MML_SVG"></script>
+<h1>方程式</h1>
+
+<div class="no-print">
+  解答付き<input type='range' id='status' value='<%= session["equation"]["status"] if session[:equation] %><%= 0 unless session[:equation] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+  レベル<input type="range" min="1" max="3" value='<%= session["equation"]["level"] if session[:equation] %><%= 1 unless session[:equation] %>' id='level-input' onchange="levelChanged()"><span id="level-output">1</span>
+</div>
+<table class="lv-1">
+  <tr>
+    <% @array1.each_with_index do |unit, index| %>
+      <td style="height: 22vw; width:49vw;" valign="top">
+        <% if unit[0][0] + unit[2][0] == 0 %>
+        <% elsif unit[0][0] + unit[2][0] == 1 %>
+          x
+        <% elsif unit[0][0] + unit[2][0] == -1 %>
+          -x
+        <% else %>
+          <%= unit[0][0] + unit[2][0] %>x
+        <% end %>
+        <%  if unit[2][1] == 0 %>
+        <% elsif unit[2][1] > 0 %>
+          + <%= unit[2][1] %>
+        <% else %>
+          <%= unit[2][1] %>
+        <% end %>
+        =
+        <% if unit[2][0] == 0 %>
+        <% elsif unit[2][0] == 1 %>
+          x
+        <% elsif unit[2][0] == -1 %>
+          -x
+        <% else %>
+          <%= unit[2][0]%>x
+        <% end %>
+        <% if unit[1][0] * unit[0][0] + unit[2][1] == 0 %>
+        <% elsif unit[1][0] * unit[0][0] + unit[2][1] > 0 %>
+          + <%= unit[1][0] * unit[0][0] + unit[2][1] %>
+        <% else %>
+          <%= unit[1][0] * unit[0][0] + unit[2][1] %>
+        <% end %>
+      </td>
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<div class="answer lv-1">
+  <div style="break-after: page;"></div>
+  <% @array1.each do |unit| %>
+    <p>
+      <% if unit[0][0] + unit[2][0] == 0 %>
+      <% elsif unit[0][0] + unit[2][0] == 1 %>
+        x
+      <% elsif unit[0][0] + unit[2][0] == -1 %>
+        -x
+      <% else %>
+        <%= unit[0][0] + unit[2][0] %>x
+      <% end %>
+      <%  if unit[2][1] == 0 %>
+      <% elsif unit[2][1] > 0 %>
+        + <%= unit[2][1] %>
+      <% else %>
+        <%= unit[2][1] %>
+      <% end %>
+      =
+      <% if unit[2][0] == 0 %>
+      <% elsif unit[2][0] == 1 %>
+        x
+      <% elsif unit[2][0] == -1 %>
+        -x
+      <% else %>
+        <%= unit[2][0]%>x
+      <% end %>
+      <% if unit[1][0] * unit[0][0] + unit[2][1] == 0 %>
+      <% elsif unit[1][0] * unit[0][0] + unit[2][1] > 0 %>
+        + <%= unit[1][0] * unit[0][0] + unit[2][1] %>
+      <% else %>
+        <%= unit[1][0] * unit[0][0] + unit[2][1] %>
+      <% end %><br>
+      x=<%= unit[1][0] %>
+    </p>
+  <% end %>
+</div>
+
+<table class="lv-2">
+  <tr>
+    <% @array2.each_with_index do |unit, index| %>
+      <td style="height: 30vw; width:49vw;" valign="top">
+        <math>
+          <mfenced>
+            <mo>{</mo>
+            <mtable columnalign="left">
+            <mtr>
+              <mtd>
+                <% if unit[0][0] == 0 %>
+                <% elsif unit[0][0] == 1 %>
+                  x
+                <% elsif unit[0][0] == -1 %>
+                  -x
+                <% else %>
+                  <%= unit[0][0] %>x
+                <% end %>
+
+                <% if unit[0][1] == 0 %>
+                <% elsif unit[0][1] == 1 %>
+                  <% if unit[0][0] == 0 %>
+                    y
+                  <% else %>
+                    +y
+                  <% end %>
+                <% elsif unit[0][1] == -1 %>
+                  -y
+                <% elsif unit[0][1] > 0 %>
+                  <% if unit[0][0] == 0 %>
+                    <%= unit[0][1] %>y
+                  <% else %>
+                    +<%= unit[0][1] %>y
+                  <% end %>
+                <% else %>
+                  <%= unit[0][1] %>y
+                <% end %>
+                =
+                <%= unit[0][0] * unit[2][0] + unit[0][1] * unit[2][1]%>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <% if unit[1][0] == 0 %>
+                <% elsif unit[1][0] == 1 %>
+                  x
+                <% elsif unit[1][0] == -1 %>
+                  -x
+                <% else %>
+                  <%= unit[1][0] %>x
+                <% end %>
+
+                <% if unit[1][1] == 0 %>
+                <% elsif unit[1][1] == 1 %>
+                  <% if unit[1][0] == 0 %>
+                    y
+                  <% else %>
+                    +y
+                  <% end %>
+                <% elsif unit[1][1] == -1 %>
+                  -y
+                <% elsif unit[1][1] > 0 %>
+                  <% if unit[1][0] == 0 %>
+                    <%= unit[1][1] %>y
+                  <% else %>
+                    +<%= unit[1][1] %>y
+                  <% end %>
+                <% else %>
+                  <%= unit[1][1] %>y
+                <% end %>
+                =
+                <%= unit[1][0] * unit[2][0] + unit[1][1] * unit[2][1]%>
+              </mtd>
+            </mtr>
+          </mtable>
+        </mfenced>
+      </math>
+      </td>
+      <% if index % 2 == 1 && index != 7 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+<div class="answer lv-2">
+  <div style="break-after: page;"></div>
+  <% @array2.each do |unit| %>
+    <p>
+      <math>
+        <mfenced>
+          <mo>{</mo>
+          <mtable columnalign="left">
+          <mtr>
+            <mtd>
+              <% if unit[0][0] == 0 %>
+              <% elsif unit[0][0] == 1 %>
+                x
+              <% elsif unit[0][0] == -1 %>
+                -x
+              <% else %>
+                <%= unit[0][0] %>x
+              <% end %>
+
+              <% if unit[0][1] == 0 %>
+              <% elsif unit[0][1] == 1 %>
+                <% if unit[0][0] == 0 %>
+                  y
+                <% else %>
+                  +y
+                <% end %>
+              <% elsif unit[0][1] == -1 %>
+                -y
+              <% elsif unit[0][1] > 0 %>
+                <% if unit[0][0] == 0 %>
+                  <%= unit[0][1] %>y
+                <% else %>
+                  +<%= unit[0][1] %>y
+                <% end %>
+              <% else %>
+                <%= unit[0][1] %>y
+              <% end %>
+              =
+              <%= unit[0][0] * unit[2][0] + unit[0][1] * unit[2][1]%>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd>
+              <% if unit[1][0] == 0 %>
+              <% elsif unit[1][0] == 1 %>
+                x
+              <% elsif unit[1][0] == -1 %>
+                -x
+              <% else %>
+                <%= unit[1][0] %>x
+              <% end %>
+
+              <% if unit[1][1] == 0 %>
+              <% elsif unit[1][1] == 1 %>
+                <% if unit[1][0] == 0 %>
+                  y
+                <% else %>
+                  +y
+                <% end %>
+              <% elsif unit[1][1] == -1 %>
+                -y
+              <% elsif unit[1][1] > 0 %>
+                <% if unit[1][0] == 0 %>
+                  <%= unit[1][1] %>y
+                <% else %>
+                  +<%= unit[1][1] %>y
+                <% end %>
+              <% else %>
+                <%= unit[1][1] %>y
+              <% end %>
+              =
+              <%= unit[1][0] * unit[2][0] + unit[1][1] * unit[2][1]%>
+            </mtd>
+          </mtr>
+          </mtable>
+        </mfenced>
+      </math><br>
+      (x,y) = (<%= unit[2][0] %>, <%= unit[2][1] %>)
+    </p>
+  <% end %>
+</div>
+
+<table class="lv-3">
+  <tr>
+    <% @array3.each_with_index do |unit, index| %>
+      <td style="height: 60vw; width:49vw;" valign="top">
+        <math>
+          <mfenced>
+            <mo>{</mo>
+            <mtable columnalign="left">
+            <% array = ["x","y","z"] %>
+            <% for i in 0..2 %>
+              <mtr>
+                <mtd>
+                  <% for j in 0..2 %>
+                    <% if unit[i][j] == 0 %>
+                    <% elsif unit[i][j] == 1 %>
+                      <% case j %>
+                      <% when 1 %> 
+                        <% if unit[i][0] != 0 %>
+                          +
+                        <% end %>
+                      <% when 2 %>
+                        <% if unit[i][0] != 0 || unit[i][1] != 0 %>
+                          +
+                        <% end %>
+                      <% end %>
+                      <%= array[j] %>
+                    <% elsif unit[i][j] == -1 %>
+                      -<%= array[j] %>
+                    <% else %>
+                      <% if j != 0 && unit[i][j] > 0 %>
+                      <% case j %>
+                      <% when 1 %> 
+                        <% if unit[i][0] != 0 %>
+                          +
+                        <% end %>
+                      <% when 2 %>
+                        <% if unit[i][0] != 0 || unit[i][1] != 0 %>
+                          +
+                        <% end %>
+                      <% end %>
+                      <% end %>
+                      <%= unit[i][j] %><%= array[j] %>
+                    <% end %>
+                  <% end %>
+                  =
+                  <% b = 0 %>
+                  <% for j in 0..2 %>
+                    <% b = b + unit[i][j] * unit[3][j] %>
+                  <% end %>
+                  <%= b %>
+                </mtd>
+              </mtr>
+            <% end %>
+          </mtable>
+        </mfenced>
+      </math>
+      </td>
+      <% if index % 2 == 1 && index != 3 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+<div class="answer lv-3">
+  <div style="break-after: page;"></div>
+  <% @array3.each do |unit| %>
+      <p>
+        <math>
+          <mfenced>
+            <mo>{</mo>
+            <mtable columnalign="left">
+            <% array = ["x","y","z"] %>
+            <% for i in 0..2 %>
+              <mtr>
+                <mtd>
+                  <% for j in 0..2 %>
+                    <% if unit[i][j] == 0 %>
+                    <% elsif unit[i][j] == 1 %>
+                      <% case j %>
+                      <% when 1 %> 
+                        <% if unit[i][0] != 0 %>
+                          +
+                        <% end %>
+                      <% when 2 %>
+                        <% if unit[i][0] != 0 || unit[i][1] != 0 %>
+                          +
+                        <% end %>
+                      <% end %>
+                      <%= array[j] %>
+                    <% elsif unit[i][j] == -1 %>
+                      -<%= array[j] %>
+                    <% elsif unit[i][j] > 0%>
+                      <% case j %>
+                      <% when 1 %> 
+                        <% if unit[i][0] != 0 %>
+                          +
+                        <% end %>
+                      <% when 2 %>
+                        <% if unit[i][0] != 0 || unit[i][1] != 0 %>
+                          +
+                        <% end %>
+                      <% end %>
+                      <%= unit[i][j] %><%= array[j] %>
+                    <% else %>
+                      <%= unit[i][j] %><%= array[j] %>
+                    <% end %>
+                  <% end %>
+                  =
+                  <% b = 0 %>
+                  <% for j in 0..2 %>
+                    <% b = b + unit[i][j] * unit[3][j] %>
+                  <% end %>
+                  <%= b %>
+                </mtd>
+              </mtr>
+            <% end %>
+          </mtable>
+        </mfenced>
+      </math><br>
+      (x,y,z) = (<%= unit[3][0] %>, <%= unit[3][1] %>, <%= unit[3][2] %>)
+      </p>
+    <% end %>
+</div>
+
+<script type="text/javascript">
+  function levelChanged(){
+    let level = Number( $("#level-input").val() );
+    $("#level-output").html(level);
+    for (let index = 1; index <= 3; index++) {
+      console.log(index);
+        let id = ".lv-" + index;
+        $(id).attr("style","display:none;");
+    }
+    let id = ".lv-" + level;
+    $(id).attr("style","");
+    sendSelections();
+  }
+
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $("#answer").attr("style", "");
+    } else{
+      $("#answer").attr("style", "display: none;");
+    }
+    sendSelections()
+  }
+
+  
+  function getSelections(){
+    return {pageName: "equation", status: $("#status").val(), level: $("#level-input").val(),};
+  }
+
+  function setSelections(){
+    levelChanged();
+    changeStatus();
+  }
+
+  setSelections()
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>

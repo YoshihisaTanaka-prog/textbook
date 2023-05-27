@@ -13,7 +13,7 @@ class WordsController < ApplicationController
     end
     confirm_session
     @words = Word.where(student_id: session[:student_id]).order(time: :desc).order(:word)
-    @student = Student.find(session[:student_id])
+    @student = Student.find_by(id: session[:student_id])
   end
 
   # GET /words/1 or /words/1.json
@@ -160,6 +160,7 @@ class WordsController < ApplicationController
     end
 
     def confirm_session
+      logger.debug session[:student_id]
       if session[:student_id].blank?
         redirect_to words_no_session_path
       end

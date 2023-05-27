@@ -191,6 +191,21 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def equation
+    @array1 = []
+    for i in 0..9 do
+      @array1.push( system_of_equation_k_unit(1) + [[ rand(9) - 4, rand(9) - 4]] )
+    end
+    @array2 = []
+    for i in 0..7 do
+      @array2.push( system_of_equation_k_unit(2) )
+    end
+    @array3 = []
+    for i in 0..3 do
+      @array3.push( system_of_equation_k_unit(3) )
+    end
+  end
+
   def set_session
     sym = params[:pageName].to_sym
     session[sym] = {}
@@ -290,6 +305,63 @@ class HomeworksController < ApplicationController
       else
         return plus_fraction_unit(max)
       end
+    end
+
+    def system_of_equation_k_unit num
+      keisuu = []
+      for i in 1..num do
+        keisuu.push([])
+        for j in 1..num do
+          keisuu[i-1].push( rand(11) - 5 )
+        end
+      end
+      if det(keisuu) == 0
+        return system_of_equation_k_unit(num)
+      else
+        if num == 2
+          keisuu.each do |k|
+            k.each do |i|
+              if i == 0
+                return system_of_equation_k_unit(num)
+              end
+            end
+          end
+        end
+        return keisuu.push( system_of_equation_t_unit(num) )
+      end
+    end
+
+    def det matrix
+      size = matrix.size
+      
+      return matrix[0][0] if size == 1
+
+      return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0] if size == 2
+      
+      return matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) -
+         matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) +
+         matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) 
+    end
+
+    def system_of_equation_t_unit num
+      teisuu = []
+      for i in 1..num do
+        teisuu.append( rand(11) - 5 )
+      end
+      if is_all_0(teisuu)
+        return system_of_equation_t_unit(num)
+      else
+        return teisuu
+      end
+    end
+
+    def is_all_0 array
+      array.each do |i|
+        if i != 0
+          return false
+        end
+      end
+      return true
     end
 
     def gcd x,y
