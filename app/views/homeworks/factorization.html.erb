@@ -29,19 +29,28 @@
       <tr>
         <% @junior_array.each_with_index do |unit, index| %>
           <td style="height: 22vw; width: 49vw;" valign="top">
-          <% if unit[0] == 0%>
-            x
-          <% elsif unit[0] < 0 %>
-            (x<%= unit[0] %>)
+          <% if unit[0] == unit[1] %>
+            <% if unit[0] < 0 %>
+              (x<%= unit[0] %>)^2
+            <% else %>
+              (x+<%= unit[0] %>)^2
+            <% end %>
+            
           <% else %>
-            (x+<%= unit[0] %>)
-          <% end %>
-          <% if unit[1] == 0%>
-            x
-          <% elsif unit[1] < 0 %>
-            (x<%= unit[1] %>)
-          <% else %>
-            (x+<%= unit[1] %>)
+            <% if unit[0] == 0%>
+              x
+            <% elsif unit[0] < 0 %>
+              (x<%= unit[0] %>)
+            <% else %>
+              (x+<%= unit[0] %>)
+            <% end %>
+            <% if unit[1] == 0%>
+              x
+            <% elsif unit[1] < 0 %>
+              (x<%= unit[1] %>)
+            <% else %>
+              (x+<%= unit[1] %>)
+            <% end %>
           <% end %>
           </td>
           <% if index % 2 == 1 && index != 9 %>
@@ -53,7 +62,7 @@
 
     <div class="answer">
       <div style="break-after: page;"></div>
-      以下の二次式を因数分解してね。　　名前　　　　　　　　　　　　
+      以下の二次式を展開してね。　　名前　　　　　　　　　　　　
       <% @junior_array.each do |unit| %>
       <div style="margin-top: 1em;">
           <% if unit[0] == unit[1] %>

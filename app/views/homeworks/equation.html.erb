@@ -1,4 +1,5 @@
 <script type="text/javascript" asyncsrc="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=MML_SVG"></script>
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h1>方程式</h1>
 
 <div class="no-print">
@@ -87,7 +88,7 @@
 <table class="lv-2">
   <tr>
     <% @array2.each_with_index do |unit, index| %>
-      <td style="height: 30vw; width:49vw;" valign="top">
+      <td style="height: 40vw; width:49vw;" valign="top">
         <math>
           <mfenced>
             <mo>{</mo>
@@ -162,7 +163,7 @@
         </mfenced>
       </math>
       </td>
-      <% if index % 2 == 1 && index != 7 %>
+      <% if index % 2 == 1 && index != 5 %>
         </tr><tr>
       <% end %>
     <% end %>
@@ -307,9 +308,6 @@
         </mfenced>
       </math>
       </td>
-      <% if index % 2 == 1 && index != 3 %>
-        </tr><tr>
-      <% end %>
     <% end %>
   </tr>
 </table>

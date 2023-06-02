@@ -197,11 +197,11 @@ class HomeworksController < ApplicationController
       @array1.push( system_of_equation_k_unit(1) + [[ rand(9) - 4, rand(9) - 4]] )
     end
     @array2 = []
-    for i in 0..7 do
+    for i in 0..5 do
       @array2.push( system_of_equation_k_unit(2) )
     end
     @array3 = []
-    for i in 0..3 do
+    for i in 0..1 do
       @array3.push( system_of_equation_k_unit(3) )
     end
   end
@@ -287,7 +287,9 @@ class HomeworksController < ApplicationController
       ret.push(r)
       r = rand(9) + 1
       ret.push(r)
-      if gcd(ret[0], ret[1]) == 1
+      if ret[0] == 0
+        return fraction_unit
+      elsif gcd(ret[0], ret[1]) == 1
         return ret
       else
         return fraction_unit
@@ -300,7 +302,10 @@ class HomeworksController < ApplicationController
       ret.push(r)
       r = rand(9) + 1
       ret.push(r)
-      if gcd(ret[0], ret[1]) == 1 && ret[0].to_f / ret[1].to_f < max
+      
+      if ret[0] == 0
+        return fraction_unit
+      elsif gcd(ret[0], ret[1]) == 1 && ret[0].to_f / ret[1].to_f < max
         return ret
       else
         return plus_fraction_unit(max)
