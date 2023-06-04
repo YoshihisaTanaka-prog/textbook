@@ -36,8 +36,8 @@
       <div style="display: flex;">
         <div>
           <div>
-            <input type="text" id="search-text" onchange="searchSolution()" placeholder="検索用">
-            <input type="text" id="search-kana" onchange="searchSolution()" placeholder="ふりがな">
+            <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
+            <input type="text" id="search-kana" onkeyup="searchSolution()" placeholder="ふりがな">
             <input type="hidden" id="search-selection" value="<%= @selection.id %>">
           </div>
           <%= form_with(model: @ss, id: "ss-form") do |form| %>
@@ -254,10 +254,10 @@
     for (let i = 0; i < 26; i++) {
       alphabetArray.push(String.fromCharCode(65 + i),String.fromCharCode(97 + i))
     }
-    for (const c in zenAlphabetArray){
+    for (const c of zenAlphabetArray){
       alphabetArray.push(c);
     }
-    for (const c of kana) {
+    for (const c of text) {
       if(alphabetArray.includes(c)) {
         return
       }
