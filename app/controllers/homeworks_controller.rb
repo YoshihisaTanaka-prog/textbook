@@ -399,7 +399,7 @@ class HomeworksController < ApplicationController
         non_a_array << j*j
       end
       root_unit.each do |i|
-        for j in 1..9
+        for j in 1..7
           non_a_array << j*j*i
         end
       end
