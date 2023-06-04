@@ -206,6 +206,18 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def root
+    @array = []
+    for i in 0..19
+      r = rand(5)
+      if r == 0
+        @array.push( root_a_unit )
+      else
+        @array.push( root_ab_unit)
+      end
+    end
+  end
+
   def set_session
     sym = params[:pageName].to_sym
     session[sym] = {}
@@ -304,7 +316,7 @@ class HomeworksController < ApplicationController
       ret.push(r)
       
       if ret[0] == 0
-        return fraction_unit
+        return plus_fraction_unit(max)
       elsif gcd(ret[0], ret[1]) == 1 && ret[0].to_f / ret[1].to_f < max
         return ret
       else
@@ -345,7 +357,7 @@ class HomeworksController < ApplicationController
       
       return matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) -
          matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) +
-         matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) 
+         matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0])
     end
 
     def system_of_equation_t_unit num
@@ -367,6 +379,40 @@ class HomeworksController < ApplicationController
         end
       end
       return true
+    end
+
+    def root_ab_unit
+      ret = [0,0]
+      r = rand(16)
+      ret[1] = root_unit[r]
+      ret[0] = rand(6) + 2
+      if ret[0] * ret[0] * ret[1] > 99
+        return root_ab_unit
+      else
+        return ret
+      end
+    end
+
+    def root_a_unit
+      non_a_array = []
+      for j in 0..9
+        non_a_array << j*j
+      end
+      root_unit.each do |i|
+        for j in 1..9
+          non_a_array << j*j*i
+        end
+      end
+      r = rand(100)
+      if non_a_array.include?(r)
+        return root_a_unit
+      else
+        return [1,r]
+      end
+    end
+
+    def root_unit
+      return [2,3,5,6,7,10,11,12,13,14,15,17,19,21,22,23]
     end
 
     def gcd x,y

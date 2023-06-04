@@ -1,0 +1,84 @@
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
+<h1>ルートの計算</h1>
+
+<div class="no-print">
+  解答付き<input type='range' id='status' value='<%= session["root"]["status"] if session[:root] %><%= 0 unless session[:root] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+</div>
+a√bの形に変形してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
+<table>
+  <tr>
+    <% @array.each_with_index do |unit, index| %>
+      <td style="height: 22.5vw; width:24.5vw;" valign="top">
+        <% if unit[0] == 1 %>
+          √<%= unit[1] %>
+        <% else %>
+          √<%= unit[1] * unit[0] * unit[0] %>
+        <% end %>
+      </td>
+      <% if index % 4 == 3 && index != 19 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<div class="answer">
+  <div style="break-after: page;"></div>
+  a√bの形に変形してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
+  <% @array.each do |unit| %>
+    <p>
+      <% if unit[0] == 1 %>
+        √<%= unit[1] %> => ×
+      <% else %>
+        √<%= unit[1] * unit[0] * unit[0] %> = <%= unit[0] %>√<%= unit[1] %>
+      <% end %>
+    </p>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $(".answer").attr("style", "");
+    } else{
+      $(".answer").attr("style", "display: none;");
+    }
+    sendSelections()
+  }
+
+  function getSelections(){
+    return {pageName: "root", status: $("#status").val()};
+  }
+
+  function setSelections(){
+    changeStatus();
+  }
+
+  setSelections()
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>
