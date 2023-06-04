@@ -8,3 +8,7 @@
 
   <%= button_to "Destroy this solution", @solution, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
 </div>
+
+<% @solution.selections.each do |selection| %>
+  <p><%= link_to selection.text, selection %></p>
+<% end %>
