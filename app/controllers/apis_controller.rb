@@ -52,4 +52,12 @@ class ApisController < ApplicationController
         render json: subjects
     end
 
+    def email
+        @teacher = []
+        Teacher.where(teacher: true).each do |t|
+            @teacher << t.email
+        end
+        render json: @teacher
+    end
+
 end

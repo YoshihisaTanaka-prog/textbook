@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   post "api/solution", to: "apis#solution"
   post "api/main", to: "apis#main"
   post "api/subject", to: "apis#subject"
+  post "api/email", to: "apis#email"
   post "solution_selections", to:"solution_selection#change_status"
   delete "solution_selection/:id", to:"solution_selection#delete", as: "solution_selection"
 
