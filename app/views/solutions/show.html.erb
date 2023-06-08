@@ -1,6 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @solution %>
+<% @solution.selections.each do |selection| %>
+  <p><%= link_to "「" + selection.text + "」に戻る", selection %></p>
+<% end %>
 
 <div>
   <%= link_to "Edit this solution", edit_solution_path(@solution) %> |
@@ -8,7 +11,3 @@
 
   <%= button_to "Destroy this solution", @solution, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
 </div>
-
-<% @solution.selections.each do |selection| %>
-  <p><%= link_to selection.text, selection %></p>
-<% end %>

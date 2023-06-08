@@ -24,7 +24,7 @@
     <h3>解決策</h3>
     <% @selection.all_solutions.each do |solution| %>
       <p>
-        <%= link_to solution.title + "を修正", edit_solution_path(solution) %>
+        <%= link_to "「" + solution.title + "」を修正", edit_solution_path(solution) %>
         <% ss = SolutionSelection.find_by(solution_id: solution.id, selection_id: @selection.id) %>
         <% if ss %>
           <%= button_to "関連を削除", ss, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
@@ -286,11 +286,17 @@
     if ($("#status").val() == "0") {
       $("#add-solution").attr("style", "");
       $("#create-solution").attr("style", "display: none;");
-      $("#search-text").focus();
-    } else {  
+      let text = $("#solution_title").val();
+      let kana = $("#solution_kana").val();
+      $("#search-text").val(text).focus();
+      $("#search-kana").val(kana);
+    } else {
       $("#add-solution").attr("style", "display: none;");
       $("#create-solution").attr("style", "");
-      $("#solution_title").focus();
+      let text = $("#search-text").val();
+      let kana = $("#search-kana").val();
+      $("#solution_title").val(text).focus();
+      $("#solution_kana").val(kana);
     }
   }
 </script>
