@@ -270,12 +270,10 @@
         changeStatus();
       } else {
         $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
-        $("#status").val(0);
-        changeStatus();
-      }
-      for (const solution of data) {
-        let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
-        $("#solution_selection_solution_id").append(option);
+        for (const solution of data) {
+          let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
+          $("#solution_selection_solution_id").append(option);
+        }
       }
     });
   }
