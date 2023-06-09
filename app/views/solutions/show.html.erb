@@ -6,8 +6,7 @@
 <% end %>
 
 <div>
-  <%= link_to "Edit this solution", edit_solution_path(@solution) %> |
-  <%= link_to "Back to solutions", solutions_path %>
+  <%= link_to "Edit this solution", edit_solution_path(@solution) %>
 
   <%= button_to "Destroy this solution", @solution, {method: :delete, data: {turbo_confirm: "削除しますか？"}} %>
 </div>
