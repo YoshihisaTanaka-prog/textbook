@@ -383,7 +383,7 @@ class HomeworksController < ApplicationController
 
     def root_ab_unit
       ret = [0,0]
-      r = rand(16)
+      r = rand(15)
       ret[1] = root_unit[r]
       ret[0] = rand(6) + 2
       if ret[0] * ret[0] * ret[1] > 99
