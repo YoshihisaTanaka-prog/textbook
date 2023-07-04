@@ -263,8 +263,12 @@
         return
       }
     }
-    let selection = $("#search-selection").val();
+    if( $("#status").val() == "1" && text.length == 0 ){
+      $("#status").val(0);
+      changeStatus();
+    }
     if ($("#status").val() == "0") {
+      let selection = $("#search-selection").val();
       $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
         if (data.length == 0) {
           $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
