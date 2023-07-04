@@ -23,10 +23,14 @@
         <% end %>
         <%  if unit[2][1] == 0 %>
         <% elsif unit[2][1] > 0 %>
-          + <%= unit[2][1] %>
-        <% else %>
-          <%= unit[2][1] %>
+          <% if unit[0][0] + unit[2][0] != 0 %>
+						+
+          <% end %>
+	        <%= unit[2][1] %>
+				<% else %>
+	        <%= unit[2][1] %>
         <% end %>
+
         =
         <% if unit[2][0] == 0 %>
           <% if unit[1][0] * unit[0][0] + unit[2][1] == 0 %>
@@ -41,10 +45,13 @@
         <% end %>
         <% if unit[1][0] * unit[0][0] + unit[2][1] == 0 %>
         <% elsif unit[1][0] * unit[0][0] + unit[2][1] > 0 %>
-          + <%= unit[1][0] * unit[0][0] + unit[2][1] %>
+          <% if unit[2][0] != 0 %>
+						+
+          <% end %>
+          <%= unit[1][0] * unit[0][0] + unit[2][1] %>
         <% else %>
           <%= unit[1][0] * unit[0][0] + unit[2][1] %>
-        <% end %>
+				<% end %>
       </td>
       <% if index % 2 == 1 && index != 9 %>
         </tr><tr>
