@@ -1,4 +1,4 @@
-<%= form_with(model: solution) do |form| %>
+<%= form_with(model: solution, id: 'create-solution-form') do |form| %>
   <% if solution.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(solution.errors.count, "error") %> prohibited this solution from being saved:</h2>

@@ -32,16 +32,16 @@
       </p>
     <% end %>
       解決策を追加<input type='range' min="0" max="1" value="0" onchange="changeStatus()" id="status" style="width: 2em;">解決策を新規作成
-    <div id='add-solution'>
+    <div>
       <div style="display: flex;">
         <div>
-          <form id="solution-main-form">
+          <form id="solution-main-form" method="post">
             <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
             <input type="text" id="search-kana" onkeyup="searchSolution()" placeholder="ふりがな">
             <input type="hidden" id="search-selection" value="<%= @selection.id %>">
             <div id="solution-main-form-add-place"></div>
           </form>
-          <%= form_with(model: @ss, id: "ss-form") do |form| %>
+          <%= form_with(model: @ss, id: "add-solution") do |form| %>
             <div>
               <%= form.hidden_field :selection_id, value: @selection.id %>
               <%= form.select :solution_id, [] %>
@@ -264,36 +264,43 @@
       }
     }
     let selection = $("#search-selection").val();
-    $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
-      if (data.length == 0) {
-        $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
-        $("#status").val(1);
-        changeStatus();
-      } else {
-        $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
-        for (const solution of data) {
-          let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
-          $("#solution_selection_solution_id").append(option);
+    if ($("#status").val() == "0") {
+      $.post("/api/solution", {text: text, kana: kana, selection: selection}, function(data) {
+        if (data.length == 0) {
+          $("#solution_selection_solution_id").html("<option value=''>該当する解決策がありません。</option>");
+          $("#status").val(1);
+          changeStatus();
+        } else {
+          $("#solution_selection_solution_id").html("<option value=''>選択してください。</option>");
+          for (const solution of data) {
+            let option = "<option value='" + solution.id + "'>" + solution.title + "</option>";
+            $("#solution_selection_solution_id").append(option);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   function changeStatus(){
     if ($("#status").val() == "0") {
       $("#add-solution").attr("style", "");
-      $("#create-solution").attr("style", "display: none;");
-      let text = $("#solution_title").val();
-      let kana = $("#solution_kana").val();
-      $("#search-text").val(text).focus();
-      $("#search-kana").val(kana);
+      $("#confirm-solution").attr("style", "");
+      $("#solution-main-form-add-place").html("");
     } else {
       $("#add-solution").attr("style", "display: none;");
-      $("#create-solution").attr("style", "");
-      let text = $("#search-text").val();
-      let kana = $("#search-kana").val();
-      $("#solution_title").val(text).focus();
-      $("#solution_kana").val(kana);
+      $("#confirm-solution").attr("style", "display: none;");
+      $("#search-text").attr("name", "solution[title]");
+      $("#search-kana").attr("name", "solution[kana]");
+      $("#search-selection").attr("name", "selection");
+      let action = $("#create-solution-form").attr("action");
+      $("#solution-main-form").attr("action", action);
+      $("#solution-main-form-add-place").html("");
+      $("#solution-main-form-add-place").append('<label style="display: block" for="solution_content">該当する解決策が見当たらないので作ってください。</label>')
+      $("#solution-main-form-add-place").append('<textarea name="solution[content]" id="solution_content" style="width: 90vw;"></textarea>')
+      $("#solution-main-form-add-place").append('<p><button type="button" onclick="submit();">解決策の作成</button></p>');
+      let tokenInput = $("#create-solution-form").find('input[name="authenticity_token"]')[0];
+      let token = $(tokenInput).val();
+      $("#solution-main-form-add-place").append('<input type="hidden" name="authenticity_token" value="' + token + '" autocomplete="off">');
     }
   }
 </script>
