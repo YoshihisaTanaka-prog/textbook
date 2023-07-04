@@ -35,11 +35,12 @@
     <div id='add-solution'>
       <div style="display: flex;">
         <div>
-          <div>
+          <form id="solution-main-form">
             <input type="text" id="search-text" onkeyup="searchSolution()" placeholder="検索用">
             <input type="text" id="search-kana" onkeyup="searchSolution()" placeholder="ふりがな">
             <input type="hidden" id="search-selection" value="<%= @selection.id %>">
-          </div>
+            <div id="solution-main-form-add-place"></div>
+          </form>
           <%= form_with(model: @ss, id: "ss-form") do |form| %>
             <div>
               <%= form.hidden_field :selection_id, value: @selection.id %>
