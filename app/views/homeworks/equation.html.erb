@@ -11,6 +11,9 @@
     <% @array1.each_with_index do |unit, index| %>
       <td style="height: 22vw; width:49vw;" valign="top">
         <% if unit[0][0] + unit[2][0] == 0 %>
+          <% if unit[2][1] == 0 %>
+            0
+          <% end %>
         <% elsif unit[0][0] + unit[2][0] == 1 %>
           x
         <% elsif unit[0][0] + unit[2][0] == -1 %>
@@ -26,6 +29,9 @@
         <% end %>
         =
         <% if unit[2][0] == 0 %>
+          <% if unit[1][0] * unit[0][0] + unit[2][1] == 0 %>
+            0
+          <% end %>
         <% elsif unit[2][0] == 1 %>
           x
         <% elsif unit[2][0] == -1 %>
