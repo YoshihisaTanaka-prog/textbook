@@ -46,12 +46,10 @@
               <%= form.hidden_field :selection_id, value: @selection.id %>
               <%= form.select :solution_id, [] %>
             </div>
-            <div>
-              <%= form.submit %>
-            </div>
+            <div id="add-solution-button-place"></div>
           <% end %>
         </div>
-        <iframe id="confirm-solution" style='width: 50vw; height: 50vh;'></iframe>
+        <iframe id="confirm-solution" style='width: 50vw; height: 50vh; pointer-events: none;'></iframe>
       </div>
     </div>
     <div id="create-solution" style="display: none;">
@@ -241,7 +239,14 @@
     });
     $("#solution_selection_solution_id").on("change", function(){
       let val = $("#solution_selection_solution_id").val();
-      $("#confirm-solution").attr("src","/solutions/" + val);
+      console.log(val);
+      if(val == "") {
+        $("#add-solution-button-place").html("");
+        $("#confirm-solution").attr("src","");
+      } else{
+        $("#add-solution-button-place").html("<input type='submit' value='解決策を追加'>");
+        $("#confirm-solution").attr("src","/solutions/" + val);
+      }
     });
     $("#ss-form").css({"width":"35vw", "padding":0, "margin":0});
     searchSolution();
