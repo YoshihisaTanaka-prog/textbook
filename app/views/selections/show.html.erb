@@ -249,10 +249,25 @@
       }
     });
     $("#ss-form").css({"width":"35vw", "padding":0, "margin":0});
+    
+    var input = document.getElementById("search-text");
+    input.addEventListener("keyup", function(e){
+      console.log(e.keyCode);
+      if (e.key === 'Enter') {
+        searchSolution(true);
+      }
+    });
+    input = document.getElementById("search-kana");
+    input.addEventListener("keyup", function(e){
+      console.log(e.keyCode);
+      if (e.key === 'Enter') {
+        searchSolution(true);
+      }
+    });
     searchSolution();
   }
   onLoad();
-  function searchSolution() {
+  function searchSolution(isEnter = false) {
     let text = $("#search-text").val();
     let kana = $("#search-kana").val();
     let zenAlphabetArray = "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ";
@@ -263,10 +278,9 @@
     for (const c of zenAlphabetArray){
       alphabetArray.push(c);
     }
-    for (const c of text) {
-      if(alphabetArray.includes(c)) {
-        return
-      }
+    let lastChar = text[text.length - 1];
+    if( alphabetArray.includes(lastChar) && !isEnter ) {
+      return
     }
     if( $("#status").val() == "1" && text.length == 0 ){
       $("#status").val(0);
