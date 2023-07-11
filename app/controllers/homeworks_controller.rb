@@ -1,4 +1,5 @@
 class HomeworksController < ApplicationController
+  after_action :allow_iframe
   def square_calculation
     array = []
     for i in 2..19
