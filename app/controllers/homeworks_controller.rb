@@ -231,7 +231,7 @@ class HomeworksController < ApplicationController
   private
 
     def allow_iframe
-      url="http://example.herokuapp.com"
+      url="https://yoshihisatanaka-prog.github.io"
       response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
       response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
     end
