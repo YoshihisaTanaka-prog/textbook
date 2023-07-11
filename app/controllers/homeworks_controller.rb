@@ -230,6 +230,12 @@ class HomeworksController < ApplicationController
 
   private
 
+    def allow_iframe
+      url="http://example.herokuapp.com"
+      response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
+      response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
+    end
+
     def special_factorization_unit(mode)
       r1 = rand(3) + 1
       r2 = rand(9) + 1

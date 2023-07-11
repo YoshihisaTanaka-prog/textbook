@@ -37,6 +37,8 @@ gem 'nokogiri', '~>1.14.4'
 
 gem 'rack', '~>2.2.7'
 
+gem 'rack-cors'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
