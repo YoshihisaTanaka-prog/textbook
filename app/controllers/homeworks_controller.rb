@@ -201,9 +201,31 @@ class HomeworksController < ApplicationController
     for i in 0..5 do
       @array2.push( system_of_equation_k_unit(2) )
     end
+    @transform_dic = {}
+    for i in 1..250 do
+      @transform_dic[i] = [1,i]
+    end
+    ([1] + root_unit).each do |i|
+      for j in 2..15 do
+        @transform_dic[j*j*i] = [j,i]
+      end
+    end
+    @transform_dic[0] = [0,1]
+    for i in 0..250 do
+      logger.debug [i, @transform_dic[i]]
+    end
     @array3 = []
+    for i in 0..9 do
+      r = rand(2)
+      if r == 0
+        @array3.push([r] + sqeq_unit)
+      else
+        @array3.push([r, rand(4) + 1] + sqeq_factorization_unit )
+      end
+    end
+    @array4 = []
     for i in 0..1 do
-      @array3.push( system_of_equation_k_unit(3) )
+      @array4.push( system_of_equation_k_unit(3) )
     end
   end
 
@@ -331,6 +353,30 @@ class HomeworksController < ApplicationController
       end
     end
 
+    def sqeq_factorization_unit
+      return [rand(19)-9, rand(19)-9]
+    end
+
+    def sqeq_unit
+      a = rand(4) + 1
+      b = rand(19) - 9
+      c = rand(19) - 9
+      if discriminant_judge(a,b,c)
+        return [a,b,c]
+      else
+        return sqeq_unit
+      end
+    end
+
+    def discriminant_judge(a,b,c)
+      d = b*b - 4*a*c
+      if d < 0
+        return false
+      else
+        return true
+      end
+    end
+
     def system_of_equation_k_unit num
       keisuu = []
       for i in 1..num do
@@ -419,7 +465,7 @@ class HomeworksController < ApplicationController
     end
 
     def root_unit
-      return [2,3,5,6,7,10,11,13,14,15,17,19,21,22,23]
+      return [2,3,5,6,7,10,11,13,14,15,17,19,21,22,23,26,29,30,31,33,34,35,37,38,39,41,42,46,47,51,53,55,57,58,59,61,62]
     end
 
     def gcd x,y

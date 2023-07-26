@@ -1,10 +1,57 @@
+<% 
+  def gcd x,y
+    if y == 0
+      return x
+    elsif x % y == 0
+      if y < 0
+        return -y
+      else
+        return y
+      end
+    else
+      return gcd y, x % y
+    end
+  end
+%>
 <script type="text/javascript" asyncsrc="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=MML_SVG"></script>
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h1>方程式</h1>
 
 <div class="no-print">
   解答付き<input type='range' id='status' value='<%= session["equation"]["status"] if session[:equation] %><%= 0 unless session[:equation] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
-  レベル<input type="range" min="1" max="3" value='<%= session["equation"]["level"] if session[:equation] %><%= 1 unless session[:equation] %>' id='level-input' onchange="levelChanged()"><span id="level-output">1</span>
+  レベル
+  <input type="radio" name="level" onclick="levelChanged(1)" class="1"
+    <% if session["equation"] %>
+      <% if session["equation"]["level"] == 1 || session["equation"]["level"] == nil %>
+        checked
+      <% end %>
+    <% else %>
+     checked
+    <% end %>
+    
+  >一次方程式
+  <input type="radio" name="level" onclick="levelChanged(2)" class="2"
+    <% if session["equation"] %>
+      <% if session["equation"]["level"] == 2 %>
+        checked
+      <% end %>
+    <% end %>
+  >二元一次方程式
+  <input type="radio" name="level" onclick="levelChanged(3)" class="3"
+    <% if session["equation"] %>
+      <% if session["equation"]["level"] == 3 %>
+        checked
+      <% end %>
+    <% end %>
+  >二次方程式
+  <input type="radio" name="level" onclick="levelChanged(4)" class="4"
+    <% if session["equation"] %>
+      <% if session["equation"]["level"] == 4 %>
+        checked
+      <% end %>
+    <% end %>
+  >三元一次方程式
+  <span id="level-output">1</span>
 </div>
 <table class="lv-1">
   <tr>
@@ -267,6 +314,188 @@
 <table class="lv-3">
   <tr>
     <% @array3.each_with_index do |unit, index| %>
+      <td style="height: 22vw; width:49vw;" valign="top">
+        <% if unit[0] == 1 %>
+          <%# 因数分解 %>
+          <% a = unit[1] %>
+          <% b = (unit[2] + unit[3])* unit[1] %>
+          <% c = unit[1] * unit[2] * unit[3] %>
+        <% else %>
+          <%# 解の公式 %>
+          <% a = unit[1] %>
+          <% b = unit[2] %>
+          <% c = unit[3] %>
+        <% end %>
+        <% if a != 1 %>
+          <%= a %>
+        <% end %>
+        x^2
+        
+        <% if b == 0 %>
+        <% elsif b < 0 %>
+          <%= b %>
+        <% else %>
+          +<%= b %>
+        <% end %>
+        x
+
+        <% if c == 0 %>
+        <% elsif c < 0 %>
+          <%= c %>
+        <% else %>
+          +<%= c %>
+        <% end %>
+      </td>
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+<div class="lv-3 answer">
+  <% @array3.each do |unit| %>
+    <p>
+      <% if unit[0] == 1 %>
+        <%# 因数分解 %>
+        <% a = unit[1] %>
+        <% b = (unit[2] + unit[3])* unit[1] %>
+        <% c = unit[1] * unit[2] * unit[3] %>
+      <% else %>
+        <%# 解の公式 %>
+        <% a = unit[1] %>
+        <% b = unit[2] %>
+        <% c = unit[3] %>
+      <% end %>
+      <% if a != 1 %>
+        <%= a %>
+      <% end %>
+      x^2
+      
+      <% if b == 0 %>
+      <% elsif b < 0 %>
+        <%= b %>
+      <% else %>
+        +<%= b %>
+      <% end %>
+      x
+
+      <% if c == 0 %>
+      <% elsif c < 0 %>
+        <%= c %>
+      <% else %>
+        +<%= c %>
+      <% end %>
+      <br>
+      <% if unit[0] == 1 %>
+        <%# 因数分解 %>
+        <% if unit[2] == unit[3] %>
+          x=
+          <% if unit[2] <= 0 %>
+            <%= -unit[2] %>
+          <% else %>
+            -<%= unit[2] %>
+          <% end %>
+        <% elsif unit[2] > unit[3] %>
+          x=
+          <% if unit[2] <= 0 %>
+            <%= -unit[2] %>
+          <% else %>
+            -<%= unit[2] %>
+          <% end %>
+          ,
+          <% if unit[3] <= 0 %>
+            <%= -unit[3] %>
+          <% else %>
+            -<%= unit[3] %>
+          <% end %>
+        <% else %>
+          x=
+          <% if unit[3] <= 0 %>
+            <%= -unit[3] %>
+          <% else %>
+            -<%= unit[3] %>
+          <% end %>
+          ,
+          <% if unit[2] <= 0 %>
+            <%= -unit[2] %>
+          <% else %>
+            -<%= unit[2] %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%# 解の公式 %>
+        <% a = unit[1] * 2 %>
+        <% b = unit[2] * -1 %>
+        <% c = unit[2] * unit[2] - 4 * unit[1] * unit[3] %>
+        <% d = @transform_dic[c][0] %>
+        <% e = @transform_dic[c][1] %>
+        <% if d == 0 %>
+        <%# 重解 %>
+          <% g = gcd(a,b) %>
+          <% if a == g %>
+            x = <%= b/g %>
+          <% elsif b<0  %>
+            <table>
+              <tr><td rowspan="2">x =- </td><td style="border-bottom: solid 1px #000;"><%= -b/g %></td></tr>
+              <tr><td align="center"><%= a/g %></td></tr>
+            </table>
+          <% else %>
+            <table>
+              <tr><td rowspan="2">x =</td><td style="border-bottom: solid 1px #000;"><%= b/g %></td></tr>
+              <tr><td align="center"><%= a/g %></td></tr>
+            </table>
+          <% end %>
+        <% elsif e == 1 %>
+        <%# ルートが外せる %>
+          <table>
+            <tr>
+              <td rowspan="2">x =</td>
+              <td rowspan="2"><%= "-" if b-d < 0%></td>
+              <% if a == gcd(a,b-d) %>
+                <td align="center" rowspan="2"><%= ((b-d)/gcd(a,b-d)).abs %></td>
+              <% else %>
+                <td align="center" style="border-bottom: solid 1px #000;"><%= ((b-d)/gcd(a,b-d)).abs %></td>
+              <% end %>
+              <td></td>
+              <td rowspan="2"><%= "-" if b+d < 0%></td>
+              <% if a == gcd(a,b+d) %>
+                <td align="center" rowspan="2"><%= ((b+d)/gcd(a,b+d)).abs %></td>
+              <% else %>
+                <td align="center" style="border-bottom: solid 1px #000;"><%= ((b+d)/gcd(a,b+d)).abs %></td>
+              <% end %>
+            </tr>
+            <tr>
+              <% if a != gcd(a,b-d) %>
+                <td align="center"><%= a/gcd(a,b-d) %></td>
+              <% end %>
+              <td>,</td>
+              <% if a != gcd(a,b+d) %>
+                <td align="center"><%= a/gcd(a,b+d) %></td>
+              <% end %>
+            </tr>
+          </table>
+        <% else %>
+        <%# 解の公式の形 %>
+          <% g = gcd(a,gcd(b,d)) %>
+          <% if a == g %>
+            x = <%= b/g unless b == 0 %> ± <%= d/g unless d == g %>√<%=e%>
+          <% else %>
+            <table>
+              <tr><td rowspan="2">x = </td><td style="border-bottom: solid 1px #000;"><%= b/g %> ± <%= d/g unless d == g %>√<%=e%></td></tr>
+              <tr><td align="center"><%= a/g %></td></tr>
+            </table>
+          <% end %>
+          
+        <% end %>
+      <% end %>
+      
+    </p>
+  <% end %>
+</div>
+
+<table class="lv-4">
+  <tr>
+    <% @array4.each_with_index do |unit, index| %>
       <td style="height: 60vw; width:49vw;" valign="top">
         <math>
           <mfenced>
@@ -324,9 +553,9 @@
     <% end %>
   </tr>
 </table>
-<div class="answer lv-3">
+<div class="answer lv-4">
   <div style="break-after: page;"></div>
-  <% @array3.each do |unit| %>
+  <% @array4.each do |unit| %>
       <p>
         <math>
           <mfenced>
@@ -386,10 +615,9 @@
 </div>
 
 <script type="text/javascript">
-  function levelChanged(){
-    let level = Number( $("#level-input").val() );
+  function levelChanged(level){
     $("#level-output").html(level);
-    for (let index = 1; index <= 3; index++) {
+    for (let index = 1; index <= 4; index++) {
       console.log(index);
         let id = ".lv-" + index;
         $(id).attr("style","display:none;");
@@ -410,11 +638,23 @@
 
   
   function getSelections(){
-    return {pageName: "equation", status: $("#status").val(), level: $("#level-input").val(),};
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    return {pageName: "equation", status: $("#status").val(), level: level};
   }
 
   function setSelections(){
-    levelChanged();
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    levelChanged(level);
     changeStatus();
   }
 
