@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :students
   resources :out_sites
   get 'training/square_calculation', to: "homeworks#square_calculation", as: "homeworks_square_calculation"
+  get 'training/gcd-lcm', to: "homeworks#gcd_lcm", as: "homeworks_gcd_lcm"
   get 'training/factorization', to: "homeworks#factorization", as: "homeworks_factorization"
   get 'training/square_completed', to: "homeworks#square_completed", as: "homeworks_square_completed"
   get 'training/fraction', to: "homeworks#fraction", as: "homeworks_fraction"

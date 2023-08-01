@@ -241,6 +241,13 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def gcd_lcm
+    @array = []
+    for i in 0..19 do
+      @array.push(gcd_lcm_unit)
+    end
+  end
+
   def set_session
     sym = params[:pageName].to_sym
     session[sym] = {}
@@ -251,6 +258,17 @@ class HomeworksController < ApplicationController
   end
 
   private
+
+    def gcd_lcm_unit
+      r1 = rand(9) + 1
+      r2 = rand(9) + 1
+      r3 = rand(9) + 1
+      if r2 == r3
+        return gcd_lcm_unit
+      else
+        return [r1*r2, r1*r3]
+      end
+    end
 
     def allow_iframe
       url="https://yoshihisatanaka-prog.github.io"

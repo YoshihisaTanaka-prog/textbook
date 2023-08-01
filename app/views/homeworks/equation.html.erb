@@ -19,7 +19,7 @@
 
 <div class="no-print">
   解答付き<input type='range' id='status' value='<%= session["equation"]["status"] if session[:equation] %><%= 0 unless session[:equation] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
-  レベル
+
   <input type="radio" name="level" onclick="levelChanged(1)" class="1"
     <% if session["equation"] %>
       <% if session["equation"]["level"] == 1 || session["equation"]["level"] == nil %>
@@ -51,7 +51,6 @@
       <% end %>
     <% end %>
   >三元一次方程式
-  <span id="level-output">1</span>
 </div>
 <table class="lv-1">
   <tr>
@@ -616,7 +615,6 @@
 
 <script type="text/javascript">
   function levelChanged(level){
-    $("#level-output").html(level);
     for (let index = 1; index <= 4; index++) {
       console.log(index);
         let id = ".lv-" + index;
