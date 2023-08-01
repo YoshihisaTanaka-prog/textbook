@@ -211,9 +211,6 @@ class HomeworksController < ApplicationController
       end
     end
     @transform_dic[0] = [0,1]
-    for i in 0..250 do
-      logger.debug [i, @transform_dic[i]]
-    end
     @array3 = []
     for i in 0..9 do
       r = rand(2)
@@ -242,9 +239,11 @@ class HomeworksController < ApplicationController
   end
 
   def gcd_lcm
-    @array = []
+    @array = [[],[],[]]
     for i in 0..19 do
-      @array.push(gcd_lcm_unit)
+      @array[0].push(gcd_lcm_unit(100))
+      @array[1].push(gcd_lcm_unit(200))
+      @array[2].push(gcd_lcm_unit(650))
     end
   end
 
@@ -259,12 +258,14 @@ class HomeworksController < ApplicationController
 
   private
 
-    def gcd_lcm_unit
+    def gcd_lcm_unit(max)
       r1 = rand(9) + 1
       r2 = rand(9) + 1
       r3 = rand(9) + 1
       if r2 == r3
-        return gcd_lcm_unit
+        return gcd_lcm_unit(max)
+      elsif r1 * r2 * r3 / gcd(r2,r3) > max
+        return gcd_lcm_unit(max)
       else
         return [r1*r2, r1*r3]
       end

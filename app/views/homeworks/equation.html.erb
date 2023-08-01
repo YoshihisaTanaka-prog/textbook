@@ -28,7 +28,6 @@
     <% else %>
      checked
     <% end %>
-    
   >一次方程式
   <input type="radio" name="level" onclick="levelChanged(2)" class="2"
     <% if session["equation"] %>
@@ -331,12 +330,15 @@
         x^2
         
         <% if b == 0 %>
-        <% elsif b < 0 %>
-          <%= b %>
+        <% elsif b == -1 %>
+          - x
+        <% elsif b < 0%>
+          <%= b %>x
+        <% elsif b == 1 %>
+          + x
         <% else %>
-          +<%= b %>
+          +<%= b %>x
         <% end %>
-        x
 
         <% if c == 0 %>
         <% elsif c < 0 %>
@@ -344,6 +346,7 @@
         <% else %>
           +<%= c %>
         <% end %>
+      =0
       </td>
       <% if index % 2 == 1 && index != 9 %>
         </tr><tr>
@@ -352,6 +355,7 @@
   </tr>
 </table>
 <div class="lv-3 answer">
+  <div style="break-after: page;"></div>
   <% @array3.each do |unit| %>
     <p>
       <% if unit[0] == 1 %>
@@ -371,12 +375,15 @@
       x^2
       
       <% if b == 0 %>
-      <% elsif b < 0 %>
-        <%= b %>
+      <% elsif b == -1 %>
+        - x
+      <% elsif b < 0%>
+        <%= b %>x
+      <% elsif b == 1 %>
+        + x
       <% else %>
-        +<%= b %>
+        +<%= b %>x
       <% end %>
-      x
 
       <% if c == 0 %>
       <% elsif c < 0 %>
@@ -384,6 +391,7 @@
       <% else %>
         +<%= c %>
       <% end %>
+      =0
       <br>
       <% if unit[0] == 1 %>
         <%# 因数分解 %>
