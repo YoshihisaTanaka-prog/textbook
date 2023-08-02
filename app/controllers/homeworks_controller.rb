@@ -240,7 +240,7 @@ class HomeworksController < ApplicationController
 
   def gcd_lcm
     @array = [[],[],[]]
-    for i in 0..19 do
+    for i in 0..9 do
       @array[0].push(gcd_lcm_unit(100))
       @array[1].push(gcd_lcm_unit(200))
       @array[2].push(gcd_lcm_unit(650))
@@ -263,6 +263,8 @@ class HomeworksController < ApplicationController
       r2 = rand(9) + 1
       r3 = rand(9) + 1
       if r2 == r3
+        return gcd_lcm_unit(max)
+      elsif r1 == 1 && (r2 == 1 || r3 == 1)
         return gcd_lcm_unit(max)
       elsif r1 * r2 * r3 / gcd(r2,r3) > max
         return gcd_lcm_unit(max)

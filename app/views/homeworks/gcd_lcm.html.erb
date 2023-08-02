@@ -25,7 +25,8 @@
   レベル
   <input type='range' min="1" max="3" value='<%= session["gcd_lcm"]["level"] if session[:gcd_lcm] %><%= 1 unless session[:gcd_lcm] %>' id='level-input' onchange="levelChanged()"><span id="level-output"></span>
 </div>
-以下の2つの数の最大公約数と最小公倍数を求めよ。　　名前　　　　　　　　　　　　　　分　　秒
+名前　　　　　　　　　　　　　　分　　秒<br>
+以下の2つの数の最大公約数と最小公倍数を求めよ。
 <% for i in 0..2 %>
   <div class="lv-<%= i+1 %>">
     <table>
@@ -33,13 +34,15 @@
         <% @array[i].each_with_index do |unit, index| %>
           <td style="height: 22.5vw; width:24.5vw;" valign="top">
             (<%= unit[0]%>, <%= unit[1] %>)
-            <div style="height: 10vw;"></div>
+          </td>
+          <td>
+            <div style="height: 10vw; width:24.5vw;"></div>
             <table>
                 <tr><td>最大公約数</td><td style="border-bottom: 1px solid #000;">　　　</td></tr>
                 <tr><td>最小公倍数</td><td style="border-bottom: 1px solid #000;"></td></tr>
             </table>
           </td>
-          <% if index % 4 == 3 && index != 19 %>
+          <% if index % 2 == 1 && index != 9 %>
             </tr><tr>
           <% end %>
         <% end %>
@@ -51,14 +54,14 @@
       <table class="answer">
         <tr>
           <% @array[i].each_with_index do |unit, index| %>
-            <td style="height: 22.5vw; width:24.5vw;" valign="top">
+            <td style="height: 22.5vw; width:49vw;" valign="top">
               (<%= unit[0]%>, <%= unit[1] %>)
               <table>
                 <tr><td >最大公約数</td><td style="border-bottom: 1px solid #000;"><%= gcd(unit[0], unit[1]) %></td></tr>
                 <tr><td >最小公倍数</td><td style="border-bottom: 1px solid #000;"><%= lcm(unit[0], unit[1]) %></td></tr>
               </table>
             </td>
-            <% if index % 4 == 3 && index != 19 %>
+            <% if index % 2 == 1 && index != 9 %>
               </tr><tr>
             <% end %>
           <% end %>
