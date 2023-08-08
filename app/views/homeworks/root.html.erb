@@ -1,40 +1,174 @@
+<% 
+  def gcd x,y
+    if y == 0
+      return x
+    elsif x % y == 0
+      if y < 0
+        return -y
+      else
+        return y
+      end
+    else
+      return gcd y, x % y
+    end
+  end
+%>
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
 <h1>ルートの計算</h1>
 
 <div class="no-print">
   解答付き<input type='range' id='status' value='<%= session["root"]["status"] if session[:root] %><%= 0 unless session[:root] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
-</div>
-a√bの形に変形してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
-<table>
-  <tr>
-    <% @array.each_with_index do |unit, index| %>
-      <td style="height: 22.5vw; width:24.5vw;" valign="top">
-        <% if unit[0] == 1 %>
-          √<%= unit[1] %>
-        <% else %>
-          √<%= unit[1] * unit[0] * unit[0] %>
-        <% end %>
-      </td>
-      <% if index % 4 == 3 && index != 19 %>
-        </tr><tr>
+  モード
+  <input type="radio" name="level" onclick="levelChanged(1)" class="1"
+    <% if session["root"] %>
+      <% if session["root"]["level"] == 1 || session["root"]["level"] == nil %>
+        checked
+      <% end %>
+    <% else %>
+     checked
+    <% end %>
+  >a√b
+  <input type="radio" name="level" onclick="levelChanged(2)" class="2"
+    <% if session["root"] %>
+      <% if session["root"]["level"] == 2 %>
+        checked
       <% end %>
     <% end %>
-  </tr>
-</table>
-
-<div class="answer">
-  <div style="break-after: page;"></div>
-  a√bの形に変形してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
-  <% @array.each do |unit| %>
-    <p>
-      <% if unit[0] == 1 %>
-        √<%= unit[1] %> => ×
-      <% else %>
-        √<%= unit[1] * unit[0] * unit[0] %> = <%= unit[0] %>√<%= unit[1] %>
+  >有理化
+  <input type="radio" name="level" onclick="levelChanged(3)" class="3"
+    <% if session["root"] %>
+      <% if session["root"]["level"] == 3 %>
+        checked
       <% end %>
-    </p>
-  <% end %>
+    <% end %>
+  >加減
 </div>
+<div class="ab">
+  a√bの形に変形してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
+  <table>
+    <tr>
+      <% @array.each_with_index do |unit, index| %>
+        <td style="height: 22.5vw; width:24.5vw;" valign="top">
+          <% if unit[0] == 1 %>
+            √<%= unit[1] %>
+          <% else %>
+            √<%= unit[1] * unit[0] * unit[0] %>
+          <% end %>
+        </td>
+        <% if index % 4 == 3 && index != 19 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+
+  <div class="answer">
+    <div style="break-after: page;"></div>
+    a√bの形に変形してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
+    <% @array.each do |unit| %>
+      <p>
+        <% if unit[0] == 1 %>
+          √<%= unit[1] %> => ×
+        <% else %>
+          √<%= unit[1] * unit[0] * unit[0] %> = <%= unit[0] %>√<%= unit[1] %>
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<div class="rationalization">
+  有理化してね。　　名前　　　　　　　　　　　　　　分　　秒
+  <table class="rationalization">
+    <tr>
+      <% @rationalization_array.each_with_index do |unit, index| %>
+        <td style="height: 22.5vw; width:24.5vw;" valign="top">
+          <table>
+            <tr>
+              <td align="center" style="border-bottom: 1px solid #000;">
+                <% if unit[0] == 1 && unit[2] != 1 %>
+                <% else %>
+                  <%= unit[0] %>
+                <% end %>
+                <% if unit[2] != 1 %>
+                  √<%= unit[2] %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td align="center">
+                √<%= unit[1]*unit[1]*unit[3] %>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <% if index % 4 == 3 && index != 19 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+
+  <div class="answer">
+    <div style="break-after: page;"></div>
+    有理化してね。　　名前　　　　　　　　　　　　　　分　　秒
+    <table>
+      <tr>
+        <% @rationalization_array.each_with_index do |unit, index| %>
+          <td style="height: 22.5vw; width:24.5vw;" valign="top">
+            <table>
+              <tr>
+                <td align="center" style="border-bottom: 1px solid #000;">
+                  <% if unit[0] == 1 && unit[2] != 1 %>
+                  <% else %>
+                    <%= unit[0] %>
+                  <% end %>
+                  <% if unit[2] != 1 %>
+                    √<%= unit[2] %>
+                  <% end %>
+                </td>
+                <td rowspan="2" align="center"> = </td>
+                <% arr = @transform_dic[ unit[2] * unit[3] ] %>
+                <% g = gcd(unit[0] * arr[0], unit[1]*unit[3]) %>
+                <% if unit[1] * unit[3] == g %>
+                  <td rowspan="2" align="center">
+                <% else %>
+                  <td align="center" style="border-bottom: 1px solid #000;">
+                <% end %>
+                  <% if unit[0] * arr[0] == g && arr[1] != 1 %>
+                  <% else %>
+                    <%= unit[0] * arr[0] / g %>
+                  <% end %>
+                  <% if arr[1] != 1 %>
+                    √<%= arr[1] %>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  √<%= unit[1]*unit[1]*unit[3] %>
+                </td>
+                <% if unit[1] * unit[3] != g %>
+                  <td align="center">
+                  <%= unit[1]*unit[3] / g %>
+                  </td>
+                <% end %>
+              </tr>
+            </table>
+          </td>
+          <% if index % 4 == 3 && index != 19 %>
+            </tr><tr>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="calc">
+<h1>制作中</h1>
+</div>
+
 
 <script type="text/javascript">
   function changeStatus(){
@@ -46,11 +180,44 @@ a√bの形に変形してね。できないときは×と書いてね。　　�
     sendSelections()
   }
 
+  function levelChanged(level) {
+    for (const cls of [".ab",".rationalization", ".calc"]) {
+      $(cls).attr("style", "display: none;")
+    }
+    let cls = "";
+    switch (level) {
+      case 1:
+        cls = ".ab"
+        break;
+      case 2:
+        cls = ".rationalization"
+        break;
+      case 3:
+        cls = ".calc"
+        break;
+    }
+    $(cls).attr("style","");
+    sendSelections();
+  }
+
   function getSelections(){
-    return {pageName: "root", status: $("#status").val()};
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    return {pageName: "root", status: $("#status").val(), level: level};
   }
 
   function setSelections(){
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    levelChanged(level);
     changeStatus();
   }
 

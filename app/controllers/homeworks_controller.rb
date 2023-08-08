@@ -228,6 +228,7 @@ class HomeworksController < ApplicationController
 
   def root
     @array = []
+    @rationalization_array = []
     for i in 0..19
       r = rand(5)
       if r == 0
@@ -235,7 +236,20 @@ class HomeworksController < ApplicationController
       else
         @array.push( root_ab_unit)
       end
+      @rationalization_array.push(rationalization_unit)
     end
+    
+    @transform_dic = {}
+    for i in 1..250 do
+      @transform_dic[i] = [1,i]
+    end
+    ([1] + root_unit).each do |i|
+      for j in 2..15 do
+        @transform_dic[j*j*i] = [j,i]
+      end
+    end
+    @transform_dic[0] = [0,1]
+    
   end
 
   def gcd_lcm
@@ -257,6 +271,24 @@ class HomeworksController < ApplicationController
   end
 
   private
+
+    def rationalization_unit
+      ret = plus_fraction_unit(10) + plus_fraction_unit(10)
+      if [1,4,8,9].include?(ret[2]) || [1,4,8,9].include?(ret[3])
+        return rationalization_unit
+      elsif ret[1] * ret[1] * ret[3] > 100
+        return rationalization_unit
+      else
+        if ret[2] == 4
+          ret[0] = ret[0] * 2
+          ret[2] = 1
+        elsif ret[2] == 9
+          ret[0] = ret[0] * 3
+          ret[2] = 1
+        end
+        return ret
+      end
+    end
 
     def gcd_lcm_unit(max)
       r1 = rand(9) + 1
