@@ -1,5 +1,8 @@
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
-<h2>100マス計算</h2>
+<div style="display: flex;">
+  <h1>100マス計算</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
 <div class="no-print">
     解答付き<input type='range' id='status' value='<%= session["square_calculation"]["status"] if session[:square_calculation] %><%= 0 unless session[:square_calculation] %>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
     足し算<input type='range' id='operator' value='<%= session["square_calculation"]["operator"] if session[:square_calculation] %><%= 0 unless session[:square_calculation] %>' min='0' max='1' style='width:2em;' onchange='changeOperator()'>掛け算<br>

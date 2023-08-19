@@ -1,5 +1,8 @@
 <p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
-<h2>分数計算</h2>
+<div style="display: flex;">
+  <h1>分数計算</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
 
 <div class="no-print">
   小学生用<input type='range' id='grade' value='<%= session["fraction"]["grade"] if session[:fraction] %><%= 0 unless session[:fraction] %>' min='0' max='1' style='width:2em;' onchange='changeGrade()'>中高生用<br>
