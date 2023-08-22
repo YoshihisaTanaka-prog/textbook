@@ -1,0 +1,112 @@
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
+<div style="display: flex;">
+  <h1>三角比</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
+
+<div class="no-print">
+  解答付き<input type='range' id='status' value='<%= session["trigonometric"]["status"] unless session["trigonometric"].blank? %><%= 0 if session[:trigonometric].blank?%>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+</div>
+
+以下の式を変形してね　　名前　　　　　　　　　　　　　　分　　秒
+<table>
+  <tr>
+    <% @rand_array.each_with_index do |unit, index| %>
+      <td style="height: 22.5vw; width:24.5vw;" valign="top">
+        <%= @funcs[unit[0]] %> ( <%= @keys[unit[1]] %> )
+      </td>
+      <% if index % 4 == 3 && index != 19 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<div id="answer">
+  <div style="break-after: page;"></div>
+  以下の式を変形してね　　名前　　　　　　　　　　　　
+  <table>
+    <tr>
+      <% @rand_array.each_with_index do |unit, index| %>
+        <td style="height: 22.5vw; width:24.5vw;" valign="top">
+          <%= @funcs[unit[0]] %> ( <%= @keys[unit[1]] %> )
+          <% array = [] %>
+          <% case unit[0] %>
+          <% when 0 then %>
+            <% array = @sin[@keys[unit[1]]] %>
+          <% when 1 then %>
+            <% array = @cos[@keys[unit[1]]] %>
+          <% when 2 then %>
+            <% array = @tan[@keys[unit[1]]] %>
+          <% end %>
+          <table>
+            <tr>
+              <td rowspan="2">=<%= array[0] %></td>
+              <% if array[2] == "1" %>
+                <td rowspan="2"><%= array[1] %></td>
+              <% else %>
+                <td align="center" style="border-bottom: 1px solid #000;"><%= array[1] %><td>
+              <% end %>
+            </tr>
+            <tr>
+              <% unless array[2] == "1" %>
+                <td align="center"><%= array[2] %></td>
+              <% end %>
+            </tr>
+          </table>
+        </td>
+        <% if index % 4 == 3 && index != 19 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $("#answer").attr("style", "");
+    } else{
+      $("#answer").attr("style", "display: none;");
+    }
+    sendSelections();
+  }
+
+  function getSelections(){
+    return {pageName: "trigonometric", status: $("#status").val()};
+  }
+
+  function setSelections(){
+    changeStatus();
+  }
+
+  setSelections();
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>

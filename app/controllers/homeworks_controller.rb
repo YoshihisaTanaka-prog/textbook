@@ -229,6 +229,7 @@ class HomeworksController < ApplicationController
   def root
     @array = []
     @rationalization_array = []
+    @add_array = []
     for i in 0..19
       r = rand(5)
       if r == 0
@@ -237,6 +238,7 @@ class HomeworksController < ApplicationController
         @array.push( root_ab_unit)
       end
       @rationalization_array.push(rationalization_unit)
+      @add_array.push(root_add_unit)
     end
     
     @transform_dic = {}
@@ -270,24 +272,97 @@ class HomeworksController < ApplicationController
     render json: session[sym]
   end
 
+  def trigonometric
+    @sin = {}
+    @cos = {}
+    @tan = {}
+
+    @sin["0°"] = ["","0","1"]
+    @cos["0°"] = ["","1","1"]
+    @tan["0°"] = ["","0","1"]
+    
+    @sin["15°"] = ["","√6-√2","4"]
+    @cos["15°"] = ["","√6+√2","4"]
+    @tan["15°"] = ["","√6-√2","√6+√2"]
+    
+    @sin["30°"] = ["","1","2"]
+    @cos["30°"] = ["","√3","2"]
+    @tan["30°"] = ["","1","√3"]
+    
+    @sin["45°"] = ["","1","√2"]
+    @cos["45°"] = ["","1","√2"]
+    @tan["45°"] = ["","1","1"]
+    
+    @sin["60°"] = ["","√3","2"]
+    @cos["60°"] = ["","1","2"]
+    @tan["60°"] = ["","√3","1"]
+    
+    @sin["75°"] = ["","√6+√2","4"]
+    @cos["75°"] = ["","√6-√2","4"]
+    @tan["75°"] = ["","√6+√2","√6-√2"]
+    
+    @sin["90°"] = ["","1","1"]
+    @cos["90°"] = ["","0","1"]
+    @tan["90°"] = ["","なし","1"]
+
+    @sin["105°"] = ["","√6+√2","4"]
+    @cos["105°"] = ["-","√6-√2","4"]
+    @tan["105°"] = ["-","√6+√2","√6-√2"]
+
+    @sin["120°"] = ["","√3","2"]
+    @cos["120°"] = ["-","1","2"]
+    @tan["120°"] = ["-","√3","1"]
+
+    @sin["135°"] = ["","1","√2"]
+    @cos["135°"] = ["-","1","√2"]
+    @tan["135°"] = ["-","1","1"]
+
+    @sin["150°"] = ["","1","2"]
+    @cos["150°"] = ["-","√3","2"]
+    @tan["150°"] = ["-","1","√3"]
+
+    @sin["165°"] = ["","√6-√2","4"]
+    @cos["165°"] = ["-","√6+√2","4"]
+    @tan["165°"] = ["-","√6-√2","√6+√2"]
+
+    @sin["180°"] = ["","0","1"]
+    @cos["180°"] = ["","1","1"]
+    @tan["180°"] = ["","0","1"]
+
+    @sin["90°-θ"] = ["", "cos(θ)", "1"]
+    @cos["90°-θ"] = ["", "sin(θ)", "1"]
+    @tan["90°-θ"] = ["", "1", "tan(θ)"]
+
+    @sin["90°+θ"] = ["", "cos(θ)", "1"]
+    @cos["90°+θ"] = ["-", "sin(θ)", "1"]
+    @tan["90°+θ"] = ["-", "1", "tan(θ)"]
+    
+    @sin["180°-θ"] = ["", "sin(θ)", "1"]
+    @cos["180°-θ"] = ["-", "cos(θ)", "1"]
+    @tan["180°-θ"] = ["-", "tan(θ)", "1"]
+    
+    @sin["α+β"] = ["", "sin(α)cos(β)+cos(α)sin(β)", "1"]
+    @cos["α+β"] = ["", "cos(α)cos(β)-sin(α)sin(β)", "1"]
+    @tan["α+β"] = ["", "tan(α)+tan(β)", "1-tan(α)tan(β)"]
+
+    @sin["α-β"] = ["", "sin(α)cos(β)-cos(α)sin(β)", "1"]
+    @cos["α-β"] = ["", "cos(α)cos(β)+sin(α)sin(β)", "1"]
+    @tan["α-β"] = ["", "tan(α)-tan(β)", "1+tan(α)tan(β)"]
+    
+    @funcs = ["sin","cos","tan"]
+    @keys = @sin.keys
+    @rand_array = []
+    for i in 0..19 do
+      @rand_array.push([rand(@funcs.length), rand(@keys.length)])
+    end
+  end
+
   private
 
-    def rationalization_unit
-      ret = plus_fraction_unit(10) + plus_fraction_unit(10)
-      if [1,4,8,9].include?(ret[2]) || [1,4,8,9].include?(ret[3])
-        return rationalization_unit
-      elsif ret[1] * ret[1] * ret[3] > 100
-        return rationalization_unit
-      else
-        if ret[2] == 4
-          ret[0] = ret[0] * 2
-          ret[2] = 1
-        elsif ret[2] == 9
-          ret[0] = ret[0] * 3
-          ret[2] = 1
-        end
-        return ret
-      end
+    def allow_iframe
+      url="https://yoshihisatanaka-prog.github.io"
+      response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
+      response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
     end
 
     def gcd_lcm_unit(max)
@@ -303,12 +378,6 @@ class HomeworksController < ApplicationController
       else
         return [r1*r2, r1*r3]
       end
-    end
-
-    def allow_iframe
-      url="https://yoshihisatanaka-prog.github.io"
-      response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
-      response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
     end
 
     def special_factorization_unit(mode)
@@ -519,6 +588,42 @@ class HomeworksController < ApplicationController
 
     def root_unit
       return [2,3,5,6,7,10,11,13,14,15,17,19,21,22,23,26,29,30,31,33,34,35,37,38,39,41,42,46,47,51,53,55,57,58,59,61,62]
+    end
+
+    def rationalization_unit
+      ret = plus_fraction_unit(10) + plus_fraction_unit(10)
+      if [1,4,8,9].include?(ret[2]) || [1,4,8,9].include?(ret[3])
+        return rationalization_unit
+      elsif ret[1] * ret[1] * ret[3] > 100
+        return rationalization_unit
+      else
+        if ret[2] == 4
+          ret[0] = ret[0] * 2
+          ret[2] = 1
+        elsif ret[2] == 9
+          ret[0] = ret[0] * 3
+          ret[2] = 1
+        end
+        return ret
+      end
+    end
+
+    def root_add_unit
+      ret = [0, 0, 0, 0, 0]
+      if rand(5) == 0
+        ret[1] = root_unit[rand(5)]
+        ret[4] = root_unit[rand(5)]
+      else
+        ret[1] = root_unit[rand(5)]
+        ret[4] = ret[1]
+      end
+      ret[0] = rand(5) + 1
+      ret[3] = rand(5) + 1
+      ret[2] = rand(2)
+      if ret[0] * ret[0] * ret[1] > 100 || ret[3] * ret[3] * ret[4] > 100
+        return root_add_unit
+      end
+      return ret
     end
 
     def gcd x,y

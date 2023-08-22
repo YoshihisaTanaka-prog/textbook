@@ -169,7 +169,69 @@
 </div>
 
 <div class="calc">
-<h1>制作中</h1>
+  加減してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
+  <table>
+    <tr>
+      <% @add_array.each_with_index do |unit, index| %>
+        <td style="height: 22.5vw; width:24.5vw;" valign="top">
+          √<%= unit[0] * unit[0] * unit[1] %>
+          <% if unit[2] == 0 %>
+            +
+          <% else %>
+            -
+          <% end %>
+          √<%= unit[3] * unit[3] * unit[4] %>
+        </td>
+        <% if index % 4 == 3 && index != 19 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+
+  <div class="answer">
+    <div style="break-after: page;"></div>
+    加減してね。できないときは×と書いてね。　　名前　　　　　　　　　　　　　　分　　秒
+    <table>
+      <tr>
+        <% @add_array.each_with_index do |unit, index| %>
+          <td style="height: 22.5vw; width:24.5vw;" valign="top">
+            √<%= unit[0] * unit[0] * unit[1] %>
+            <% if unit[2] == 0 %>
+              +
+            <% else %>
+              -
+            <% end %>
+            √<%= unit[3] * unit[3] * unit[4] %><br>
+            =
+            <% if unit[1] == unit[4] %>
+              <% if unit[2] == 0 %>
+                <% coefficient = unit[0] + unit[3] %>
+              <% else %>
+                <% coefficient = unit[0] - unit[3] %>
+              <% end %>
+              
+              <% if coefficient == 0 %>
+                0
+              <% elsif coefficient == 1 %>
+                √<%= unit[1] %>
+              <% elsif coefficient == -1 %>
+                -√<%= unit[1] %>
+              <% else %>
+                <%= coefficient %>√<%= unit[1] %>
+              <% end %>
+              
+            <% else %>
+              >×
+            <% end %>
+          </td>
+          <% if index % 4 == 3 && index != 19 %>
+            </tr><tr>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+  </div>
 </div>
 
 

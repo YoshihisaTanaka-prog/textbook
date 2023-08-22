@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'training/fraction', to: "homeworks#fraction", as: "homeworks_fraction"
   get 'training/equation', to: "homeworks#equation", as: "homeworks_equation"
   get 'training/root', to: "homeworks#root", as: "homeworks_root"
+  get 'training/trigonometric', to: "homeworks#trigonometric", as: "homeworks_trigonometric"
   post "set-training-session", to: "homeworks#set_session"
   get 'training', to: "homeworks#top", as: "homeworks"
   get 'admins/teacher', to: 'admins#teacher'
