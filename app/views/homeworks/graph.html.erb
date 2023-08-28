@@ -1,0 +1,467 @@
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
+<div style="display: flex;">
+  <h1>関数とグラフ</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
+
+<div class="no-print">
+  解答付き<input type='range' id='status' value='<%= session["graph"]["status"] unless session["graph"].blank? %><%= 0 if session[:graph].blank?%>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br>
+  <input type="radio" name="level" onclick="levelChanged(1)" class="1"
+    <% if session["graph"] %>
+      <% if session["graph"]["level"] == 1 || session["graph"]["level"] == nil %>
+        checked
+      <% end %>
+    <% else %>
+     checked
+    <% end %>
+  >比例と反比例
+  <input type="radio" name="level" onclick="levelChanged(2)" class="2"
+    <% if session["graph"] %>
+      <% if session["graph"]["level"] == 2 %>
+        checked
+      <% end %>
+    <% end %>
+  >一次関数
+  <input type="radio" name="level" onclick="levelChanged(3)" class="3"
+    <% if session["graph"] %>
+      <% if session["graph"]["level"] == 3 %>
+        checked
+      <% end %>
+    <% end %>
+  >y=ax^2
+</div>
+名前　　　　　　　　　　　　　　分　　秒<br>
+以下の条件を満たす関数を求めて、グラフを描いてね。<br>
+ただし、1目盛の大きさを1とします。
+<div class="lv-1">
+  <table>
+    <tr>
+      <% @array1.each_with_index do |unit, index| %>
+        <td style="width: 49vw; height: 55vw;" valign="top">
+          <% if unit[:question][:constant] %>
+            <table>
+              <tr>
+                <td rowspan="2">yがxに<%= "反" if unit[:mode] == 1 %>比例し、比例定数が<%= "-" if unit[:constant][0] == 1 %></td><td <%= 'rowspan="2"' if unit[:constant][2] == 1 %><%= 'style="border-bottom: 1px solid #000;"'.html_safe unless unit[:constant][2] == 1 %>><%= unit[:constant][1] %></td><td rowspan="2">。</td>
+              </tr>
+              <% unless unit[:constant][2] == 1 %>
+                <tr><td><%= unit[:constant][2] %></td></tr>
+              <% end %>
+            </table>
+          <% else %>
+            yがxに<%= "反" if unit[:mode] == 1 %>比例し、点(
+              <% if unit[:question][:point][0] == 0 %>
+                <%= unit[:question][:point][1] %>
+              <% else %>
+                <%= -unit[:question][:point][1] %>
+              <% end %>
+              ,
+              <%= unit[:question][:point][2] %>
+            )を通る。
+          <% end %>
+          <div style="width: fit-content;">
+            <svg width="200" height="200">
+              <polyline stroke="gray" fill="none" points="0,0 0,200, 200,200 200,0 0,0" />
+              <% for i in 1..19 %>
+                <% if i == 10 %>
+                  <polyline stroke="black" fill="none" stroke-width="2" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                  <polyline stroke="black" fill="none" stroke-width="2" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                <% else %>
+                  <polyline stroke="gray" fill="none" stroke-width="1" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                  <polyline stroke="gray" fill="none" stroke-width="1" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                <% end %>
+              <% end %>
+              <text x="85" y="115">O</text>
+              <text x="85" y="15">y</text>
+              <text x="185" y="115">x</text>
+            </svg>
+          </div>
+        </td>
+        <% if index%2 == 1 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+  <div class="answer">
+    <div style="break-before: page;">名前　　　　　　　　　　　分　　秒</div>
+    <table>
+      <tr>
+        <% @array1.each_with_index do |unit, index| %>
+          <td style="width: 49vw; height: 55vw;" valign="top">
+            <table>
+              <tr>
+                <% if unit[:mode] == 0 %>
+                  <td rowspan="2">y=<%= "-" if unit[:constant][0] == 1 %></td>
+                  <% if unit[:constant][2] == 1 %>
+                    <% unless unit[:constant][1] == 1 %>
+                      <td rowspan="2"><%= unit[:constant][1] %></td>
+                    <% end %>
+                  <% else %>
+                    <td align="center" style="border-bottom: 1px solid #000;"><%= unit[:constant][1] %></td>
+                  <% end %>
+                  <td rowspan="2">x</td>
+                  <% if unit[:constant][2] != 1 %>
+                    </tr><tr>
+                    <td align="center"><%= unit[:constant][2] %></td>
+                  <% end %>
+                <% else %>
+                  <td rowspan="2">y=<%= "-" if unit[:constant][0] == 1 %></td><td align="center" style="border-bottom: 1px solid #000;"><%= unit[:constant][1] %></td>
+                  </tr><tr>
+                  <td align="center">x</td>
+                <% end %>
+              </tr>
+            </table>
+            <div style="width: fit-content;">
+              <svg width="200" height="200">
+                <polyline stroke="gray" fill="none" points="0,0 0,200, 200,200 200,0 0,0" />
+                <% for i in 1..19 %>
+                  <% if i == 10 %>
+                    <polyline stroke="black" fill="none" stroke-width="2" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                    <polyline stroke="black" fill="none" stroke-width="2" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                  <% else %>
+                    <polyline stroke="gray" fill="none" stroke-width="1" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                    <polyline stroke="gray" fill="none" stroke-width="1" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                  <% end %>
+                <% end %>
+                <% if unit[:mode] == 0 %>
+                  <% if unit[:constant][0] == 0 %>
+                    <polyline stroke="black" fill="none" stroke-width="1" points="0,<%= 100 + unit[:constant][1].to_f / unit[:constant][2].to_f * 100 %> 200,<%= 100 - unit[:constant][1].to_f / unit[:constant][2].to_f * 100 %>" />
+                  <% else %>
+                    <polyline stroke="black" fill="none" stroke-width="1" points="0,<%= 100 - unit[:constant][1].to_f / unit[:constant][2].to_f * 100 %> 200,<%= 100 + unit[:constant][1].to_f / unit[:constant][2].to_f * 100 %>" />
+                  <% end %>
+                <% else %>
+                  <% con = 0.0 %>
+                  <% if unit[:constant][0] == 0 %>
+                    <% con = - unit[:constant][1].to_f %>
+                  <% else %>
+                    <% con = unit[:constant][1].to_f %>
+                  <% end %>
+                  <polyline stroke="black" fill="none" stroke-width="1" points="
+                    <% for i in 1..1000 %>
+                      <% x = i.to_f / 100 %>
+                      <% y = con / x %>
+                      <%= x * 100 + 100 %>,<%= y + 100 %>
+                    <% end %>
+                  " />
+                  <polyline stroke="black" fill="none" stroke-width="1" points="
+                    <% for i in 1..1000 %>
+                      <% x = - i.to_f / 100 %>
+                      <% y = con / x %>
+                      <%= x * 100 + 100 %>,<%= y + 100 %>
+                    <% end %>
+                  " />
+                <% end %>
+                <text x="85" y="115">O</text>
+                <text x="85" y="15">y</text>
+                <text x="185" y="115">x</text>
+              </svg>
+            </div>
+          </td>
+          <% if index%2 == 1 %>
+            </tr><tr>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="lv-2" style="display: none;">
+  <table>
+    <tr>
+      <% @array2.each_with_index do |unit, index| %>
+        <td style="width: 49vw; height: 55vw;" valign="top">
+          <div style="display: flex;">
+            <% if unit[:question][:constant][0] == 1 %>
+              <table style="border-collapse: collapse">
+                <tr>
+                  <td <%= "rowspan=2" unless unit[:constant][0][2] == 1 %>>
+                    <% if rand(2) == 0 %>
+                      変化の割合が
+                    <% else %>
+                      傾きが
+                    <% end %>
+                    <% if unit[:constant][0][0] == 1 %>
+                      -
+                    <% end %>
+                  </td>
+                  <td <%= "rowspan=2" if unit[:constant][0][2] == 1 %><%= 'style="border-bottom: 1px solid #000;"'.html_safe unless unit[:constant][0][2] == 1 %>>
+                    <%= unit[:constant][0][1] %>
+                  </td>
+                  <td <%= "rowspan=2" if unit[:constant][0][2] == 1 %>>　</td>
+                </tr>
+                <% unless unit[:constant][0][2] == 1 %>
+                  <tr><td><%= unit[:constant][0][2] %></td></tr>
+                <% end %>
+              </table>
+            <% end %>
+            <% if unit[:question][:constant][1] == 1 %>
+              切片が<% '-' if unit[:constant][1][0] == 1 %><%= unit[:constant][1][1] %>　
+            <% end %>
+            <% unless unit[:question][:points].length == 0 %>
+              <% if rand(2) == 0 %>
+                点
+                <% unit[:question][:points].each do |point| %>
+                  (<%= point[0] %>,<%= point[1] %>)
+                <% end %>
+                を通る
+              <% else %>
+                <% unit[:question][:points].each do |point| %>
+                  x=<%= point[0] %>のとき、y=<%= point[1] %>。
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div style="width: fit-content;">
+            <svg width="200" height="200">
+              <polyline stroke="gray" fill="none" points="0,0 0,200, 200,200 200,0 0,0" />
+              <% for i in 1..19 %>
+                <% if i == 10 %>
+                  <polyline stroke="black" fill="none" stroke-width="2" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                  <polyline stroke="black" fill="none" stroke-width="2" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                <% else %>
+                  <polyline stroke="gray" fill="none" stroke-width="1" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                  <polyline stroke="gray" fill="none" stroke-width="1" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                <% end %>
+              <% end %>
+              <text x="85" y="115">O</text>
+              <text x="85" y="15">y</text>
+              <text x="185" y="115">x</text>
+            </svg>
+          </div>
+        </td>
+        <% if index%2 == 1 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+  <div class="answer">
+    <div style="break-before: page;">名前　　　　　　　　　　　分　　秒</div>
+    <table>
+      <tr>
+        <% @array2.each_with_index do |unit, index| %>
+          <td style="width: 49vw; height: 55vw;" valign="top">
+            <table>
+              <tr>
+                <td rowspan="2">y=<%= "-" if unit[:constant][0][0] == 1 %></td>
+                <% if unit[:constant][0][2] == 1 %>
+                  <% unless unit[:constant][0][1] == 1 %>
+                    <td rowspan="2"><%= unit[:constant][0][1] %></td>
+                  <% end %>
+                <% else %>
+                  <td align="center" style="border-bottom: 1px solid #000;"><%= unit[:constant][0][1] %></td>
+                <% end %>
+                <td rowspan="2">x</td>
+                <td rowspan="2">
+                  <% if unit[:constant][1][0] == 0 %>
+                    +<%= unit[:constant][1][1] %>
+                  <% else %>
+                    -<%= unit[:constant][1][1] %>
+                  <% end %>
+                </td>
+                <% if unit[:constant][0][2] != 1 %>
+                  </tr><tr>
+                  <td align="center"><%= unit[:constant][0][2] %></td>
+                <% end %>
+              </tr>
+            </table>
+            <div style="width: fit-content;">
+              <svg width="200" height="200">
+                <polyline stroke="gray" fill="none" points="0,0 0,200, 200,200 200,0 0,0" />
+                <% for i in 1..19 %>
+                  <% if i == 10 %>
+                    <polyline stroke="black" fill="none" stroke-width="2" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                    <polyline stroke="black" fill="none" stroke-width="2" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                  <% else %>
+                    <polyline stroke="gray" fill="none" stroke-width="1" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                    <polyline stroke="gray" fill="none" stroke-width="1" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                  <% end %>
+                <% end %>
+                <% add = 0 %>
+                <% if unit[:constant][1][0] == 0 %>
+                  <% add = - unit[:constant][1][1] %>
+                <% else %>
+                  <% add = unit[:constant][1][1] %>
+                <% end %>
+                <% if unit[:constant][0][0] == 0 %>
+                  <polyline stroke="black" fill="none" stroke-width="1" points="0,<%= 100 + unit[:constant][0][1].to_f / unit[:constant][0][2].to_f * 100 + add * 10 %> 200,<%= 100 - unit[:constant][0][1].to_f / unit[:constant][0][2].to_f * 100 + add * 10 %>" />
+                <% else %>
+                  <polyline stroke="black" fill="none" stroke-width="1" points="0,<%= 100 - unit[:constant][0][1].to_f / unit[:constant][0][2].to_f * 100 + add * 10 %> 200,<%= 100 + unit[:constant][0][1].to_f / unit[:constant][0][2].to_f * 100 + add * 10 %>" />
+                <% end %>
+                <text x="85" y="115">O</text>
+                <text x="85" y="15">y</text>
+                <text x="185" y="115">x</text>
+              </svg>
+            </div>
+          </td>
+          <% if index%2 == 1 %>
+            </tr><tr>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="lv-3" style="display: none;">
+  <table>
+    <tr>
+      <% @array3.each_with_index do |unit, index| %>
+        <td style="width: 49vw; height: 55vw;" valign="top">
+          <%= unit %>
+          <div style="width: fit-content;">
+            <svg width="200" height="200">
+              <polyline stroke="gray" fill="none" points="0,0 0,200, 200,200 200,0 0,0" />
+              <% for i in 1..19 %>
+                <% if i == 10 %>
+                  <polyline stroke="black" fill="none" stroke-width="2" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                  <polyline stroke="black" fill="none" stroke-width="2" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                <% else %>
+                  <polyline stroke="gray" fill="none" stroke-width="1" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                  <polyline stroke="gray" fill="none" stroke-width="1" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                <% end %>
+              <% end %>
+              <text x="85" y="115">O</text>
+              <text x="85" y="15">y</text>
+              <text x="185" y="115">x</text>
+            </svg>
+          </div>
+        </td>
+        <% if index%2 == 1 %>
+          </tr><tr>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+  <div class="answer">
+    <div style="break-before: page;">名前　　　　　　　　　　　分　　秒</div>
+    <table>
+      <tr>
+        <% @array3.each_with_index do |unit, index| %>
+          <td style="width: 49vw; height: 55vw;" valign="top">
+            <table>
+              <tr>
+                <td rowspan="2">y=<%= "-" if unit[:constant][0] == 1 %></td>
+                <% if unit[:constant][2] == 1 %>
+                  <% unless unit[:constant][1] == 1 %>
+                    <td rowspan="2"><%= unit[:constant][1] %></td>
+                  <% end %>
+                <% else %>
+                  <td align="center" style="border-bottom: 1px solid #000;"><%= unit[:constant][1] %></td>
+                <% end %>
+                <td rowspan="2">x^2</td>
+                <% if unit[:constant][2] != 1 %>
+                  </tr><tr>
+                  <td align="center"><%= unit[:constant][2] %></td>
+                <% end %>
+              </tr>
+            </table>
+            <div style="width: fit-content;">
+              <svg width="200" height="200">
+                <polyline stroke="gray" fill="none" points="0,0 0,200, 200,200 200,0 0,0" />
+                <% for i in 1..19 %>
+                  <% if i == 10 %>
+                    <polyline stroke="black" fill="none" stroke-width="2" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                    <polyline stroke="black" fill="none" stroke-width="2" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                  <% else %>
+                    <polyline stroke="gray" fill="none" stroke-width="1" points="<%= i*10 %>,0 <%= i*10 %>,200" />
+                    <polyline stroke="gray" fill="none" stroke-width="1" points="0,<%= i*10 %> 200,<%= i*10 %>" />
+                  <% end %>
+                <% end %>
+                <% con = 0.0 %>
+                <% if unit[:constant][0] == 0 %>
+                  <% con = - unit[:constant][1].to_f / unit[:constant][2].to_f %>
+                <% else %>
+                  <% con = unit[:constant][1].to_f / unit[:constant][2].to_f %>
+                <% end %>
+                <polyline stroke="black" fill="none" stroke-width="2" points="
+                  <% for i in 0..2000 %>
+                    <% x = i.to_f / 10 - 100 %>
+                    <% y = con * x * x / 10 %>
+                    <%= x + 100 %>,<%= y + 100 %>
+                  <% end %>
+                " />
+                <text x="85" y="115">O</text>
+                <text x="85" y="15">y</text>
+                <text x="185" y="115">x</text>
+              </svg>
+            </div>
+          </td>
+          <% if index%2 == 1 %>
+            </tr><tr>
+          <% end %>
+        <% end %>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function levelChanged(level){
+    for (let index = 1; index <= 4; index++) {
+      console.log(index);
+        let id = ".lv-" + index;
+        $(id).attr("style","display:none;");
+    }
+    let id = ".lv-" + level;
+    $(id).attr("style","");
+    sendSelections();
+  }
+
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $("#answer").attr("style", "");
+    } else{
+      $("#answer").attr("style", "display: none;");
+    }
+    sendSelections();
+  }
+
+  function getSelections(){
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    return {pageName: "graph", status: $("#status").val(), level: level};
+  }
+
+  function setSelections(){
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    levelChanged(level);
+    changeStatus();
+  }
+
+  setSelections();
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>

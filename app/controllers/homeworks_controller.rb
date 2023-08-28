@@ -357,12 +357,134 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def graph
+    @array1 = []
+    @array2 = []
+    @array3 = []
+    for i in 0..3 do
+      @array1.push(proportional_func_unit)
+      @array2.push(linear_func_unit)
+      @array3.push(quadratic_func_unit)
+    end
+  end
+
   private
 
     def allow_iframe
       url="https://yoshihisatanaka-prog.github.io"
       response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
       response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
+    end
+
+    def proportional_func_unit
+      r1 = rand(2)
+      r2 = rand(2)
+      r3 = rand(5) + 1
+      r4 = rand(5) + 1
+      g = gcd(r3,r4)
+      r5 = rand(2)
+      question = {}
+      if r5 == 0
+        question[:constant] = true
+      elsif r1 == 0
+        r6 = rand(5) + 1
+        if rand(2) == 0
+          r6 = - r6
+        end
+        question[:point] = [r2, r4/g * r6, r3/g * r6]
+      else
+        if rand(2) == 0
+          question[:point] = [r2, r3, r4]
+        else
+          question[:point] = [r2, -r3, -r4]
+        end
+      end
+      if r1 == 0
+        return {mode: 0, constant: [r2, r3/g, r4/g], question: question}
+      end
+      return {mode: 1, constant: [r2, r3*r4,1], question: question}
+    end
+
+    def linear_func_unit
+      r1 = rand(2)
+      r2 = rand(5) + 1
+      r3 = rand(5) + 1
+      r4 = rand(2)
+      r5 = rand(3) + 1
+      g = gcd(r2,r3)
+      question = {}
+      question[:constant] = [rand(2), rand(2)]
+      if question[:constant][0] == 0 && question[:constant][1] == 0
+        point_x_list = linear_func_two_points_unit
+        points = []
+        point_x_list.each do |point_x|
+          point = []
+          point.push(point_x * r3 / g)
+          a = 0
+          if r1 == 0
+            a = r2/g
+          else
+            a = - r2/g
+          end
+          b = 0
+          if r4 == 0
+            b = r5
+          else
+            b = - r5
+          end
+          point.push(point_x * a + b)
+          points.push(point)
+        end
+        question[:points] = points
+      elsif question[:constant].include?(0)
+        point = []
+        point_x = rand(5) + 1
+        if rand(2) == 0
+          point_x = - point_x
+        end
+        point.push(point_x * r3 / g)
+        a = 0
+        if r1 == 0
+          a = r2/g
+        else
+          a = - r2/g
+        end
+        b = 0
+        if r4 == 0
+          b = r5
+        else
+          b = - r5
+        end
+        point.push(point_x * a + b)
+        question[:points] = [point]
+      else
+        question[:points] = []
+      end
+      return {constant: [[r1, r2/g, r3/g], [r4, r5]], question: question}
+    end
+
+    def linear_func_two_points_unit
+      r1 = rand(5) + 1
+      if rand(2) == 0
+        r1 = - r1
+      end
+      r2 = rand(5) + 1
+      if rand(2) == 0
+        r2 = - r2
+      end
+      if r1 == r2
+        return linear_func_two_points_unit
+      else
+        return [r1,r2]
+      end
+    end
+
+    def quadratic_func_unit
+      r1 = rand(2)
+      r2 = rand(5) + 1
+      r3 = rand(5) + 1
+      g = gcd(r2,r3)
+      return {constant: [r1,r2/g, r3/g], question: {}}
     end
 
     def gcd_lcm_unit(max)
