@@ -484,7 +484,21 @@ class HomeworksController < ApplicationController
       r2 = rand(5) + 1
       r3 = rand(5) + 1
       g = gcd(r2,r3)
-      return {constant: [r1,r2/g, r3/g], question: {}}
+      question = {}
+      question[:constant] = rand(2)
+      question[:point] = []
+      if question[:constant] == 1
+        r4 = rand(3) + 1
+        if rand(2) == 0
+          r4 = - r4
+        end
+        if r1 == 0
+          question[:point].push([r3/g * r4, r2/g * r4 * r3/g * r4])
+        else
+          question[:point].push([r3/g * r4,  - r2/g * r4 * r3/g * r4])
+        end
+      end
+      return {constant: [r1,r2/g, r3/g], question: question}
     end
 
     def gcd_lcm_unit(max)
