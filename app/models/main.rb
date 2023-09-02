@@ -13,6 +13,6 @@ class Main < ApplicationRecord
         self.selections.each do |selection|
             selections << selection.hash_format
         end
-        return {question: self.question, selections: selections, main_selection_id: self.selection_id}
+        return {id: self.id, question: self.question, selections: selections, main_selection_id: self.selection_id}
     end
 end
