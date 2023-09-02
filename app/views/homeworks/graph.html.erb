@@ -41,7 +41,7 @@
           <% if unit[:question][:constant] %>
             <table>
               <tr>
-                <td rowspan="2">yがxに<%= "反" if unit[:mode] == 1 %>比例し、比例定数が<%= "-" if unit[:constant][0] == 1 %></td><td <%= 'rowspan="2"' if unit[:constant][2] == 1 %><%= 'style="border-bottom: 1px solid #000;"'.html_safe unless unit[:constant][2] == 1 %>><%= unit[:constant][1] %></td><td rowspan="2">。</td>
+                <td rowspan="2">yがxに<%= "反" if unit[:mode] == 1 %>比例し、比例定数が</td><td rowspan="2"><%= "-" if unit[:constant][0] == 1 %></td><td <%= 'rowspan="2"' if unit[:constant][2] == 1 %><%= 'style="border-bottom: 1px solid #000;"'.html_safe unless unit[:constant][2] == 1 %>><%= unit[:constant][1] %></td><td rowspan="2">。</td>
               </tr>
               <% unless unit[:constant][2] == 1 %>
                 <tr><td><%= unit[:constant][2] %></td></tr>
@@ -180,9 +180,10 @@
                     <% else %>
                       傾きが
                     <% end %>
-                    <% if unit[:constant][0][0] == 1 %>
-                      -
-                    <% end %>
+                  </td>
+                  <% if unit[:constant][0][0] == 1 %>
+                    <td rowspan="2">-</td>
+                  <% end %>
                   </td>
                   <td <%= "rowspan=2" if unit[:constant][0][2] == 1 %><%= 'style="border-bottom: 1px solid #000;"'.html_safe unless unit[:constant][0][2] == 1 %>>
                     <%= unit[:constant][0][1] %>
@@ -195,7 +196,7 @@
               </table>
             <% end %>
             <% if unit[:question][:constant][1] == 1 %>
-              切片が<% '-' if unit[:constant][1][0] == 1 %><%= unit[:constant][1][1] %>　
+              切片が<%= '-' if unit[:constant][1][0] == 1 %><%= unit[:constant][1][1] %>　
             <% end %>
             <% unless unit[:question][:points].length == 0 %>
               <% if rand(2) == 0 %>
