@@ -31,7 +31,7 @@
   >y=ax^2
 </div>
 名前　　　　　　　　　　　　　　分　　秒<br>
-以下の条件を満たす関数を求めて、グラフを描いてね。<br>
+以下の条件を満たす<span class='ichiji'></span>関数を求めて、グラフを描いてね。<br>
 ただし、1目盛の大きさを1とします。
 <div class="lv-1">
   <table>
@@ -328,6 +328,7 @@
               <table>
                 <tr>
                   <td <%= "rowspan=2" unless unit[:constant][2] == 1 %>>yはxの2乗に比例し、比例定数は</td>
+                  <td rowspan="2"><%= "-" if unit[:constant][0] == 1 %></td>
                   <td <%= "rowspan=2" if unit[:constant][2] == 1 %><%= 'style="border-bottom: 1px solid #000;"'.html_safe unless unit[:constant][2] == 1 %>>
                     <%= unit[:constant][1] %>
                   </td>
@@ -441,6 +442,11 @@
     }
     let id = ".lv-" + level;
     $(id).attr("style","");
+    if(level == 2){
+      $(".ichiji").html("一次");
+    } else{
+      $(".ichiji").html("");
+    }
     sendSelections();
   }
 

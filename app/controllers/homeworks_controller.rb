@@ -480,9 +480,11 @@ class HomeworksController < ApplicationController
     end
 
     def quadratic_func_unit
+      const_list = [[1,4],[1,3],[1,2],[1,1],[2,1]]
       r1 = rand(2)
-      r2 = rand(5) + 1
-      r3 = rand(5) + 1
+      r2_3 = rand(const_list.length)
+      r2 = const_list[r2_3][0]
+      r3 = const_list[r2_3][1]
       g = gcd(r2,r3)
       question = {}
       question[:constant] = rand(2)
