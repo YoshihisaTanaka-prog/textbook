@@ -62,12 +62,12 @@ class HomeworksController < ApplicationController
     for i in 0..9 do
       r = rand(2)
       if r == 0
-        r = -1        
+        r = -1
       end
       @pm_array[0].push( r )
       r = rand(2)
       if r == 0
-        r = -1        
+        r = -1
       end
       @pm_array[1].push( r )
     end
@@ -326,7 +326,7 @@ class HomeworksController < ApplicationController
     @tan["165°"] = ["-","√6-√2","√6+√2"]
 
     @sin["180°"] = ["","0","1"]
-    @cos["180°"] = ["","1","1"]
+    @cos["180°"] = ["-","1","1"]
     @tan["180°"] = ["","0","1"]
 
     @sin["90°-θ"] = ["", "cos(θ)", "1"]
@@ -368,12 +368,33 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def decimalizable_fraction
+    @array = []
+    for i in 0..9 do
+      @array.push(decimalizable_fraction_unit)
+    end
+  end
+
   private
 
     def allow_iframe
       url="https://yoshihisatanaka-prog.github.io"
       response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
       response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
+    end
+
+    def limited_denominator_array
+      return [2,4,5,8,10,20,25,100]
+    end
+
+    def decimalizable_fraction_unit
+      r1 = limited_denominator_array[rand(limited_denominator_array.length)]
+      r2 = rand(r1*3)
+      if gcd(r1,r2) == 1
+        return {num: [r1, r2], mode: rand(2)}
+      else
+        return decimalizable_fraction_unit
+      end
     end
 
     def proportional_func_unit

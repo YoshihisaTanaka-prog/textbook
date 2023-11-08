@@ -1,0 +1,75 @@
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
+<div style="display: flex;">
+  <h1>小数・分数の変換</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
+分数は小数に、小数は分数に直してね。　　名前　　　　　　　　　　　　　　分　　秒
+<table>
+  <tr>
+    <% @array.each_with_index do |unit, index| %>
+      <td valign="top" style="height: 22vw; width: 49vw">
+        <% if unit[:mode] == 0 %>
+        <table  style="border-collapse: collapse">
+          <tr>
+            <td align="center"><%= unit[:num][1] %></td>
+            <td rowspan="2">=</td>
+          </tr>
+          <tr>
+            <td align="center" style="border-top: 2px solid #000;"><%= unit[:num][0] %></td>
+          </tr>
+        </table>
+        <% else %>
+          <table  style="border-collapse: collapse">
+            <tr>
+              <td rowspan="2"><%= unit[:num][1].to_f / unit[:num][0].to_f %></td><td rowspan="2">=</td>
+              <td align="center" style="color: #fff;">　</td>
+            </tr>
+            <tr>
+              <td align="center">　</td>
+            </tr>
+          </table>
+        <% end %>
+      </td>
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<div class="answer">
+  <div style="break-after: page;"></div>
+  分数は小数に、小数は分数に直してね。　　名前　　　　　　　　　　　　
+</div>
+<table class="answer">
+  <tr>
+    <% @array.each_with_index do |unit, index| %>
+      <td valign="top" style="height: 22vw; width: 49vw">
+        <% if unit[:mode] == 0 %>
+        <table  style="border-collapse: collapse">
+          <tr>
+            <td align="center"><%= unit[:num][1] %></td>
+            <td rowspan="2">=<%= unit[:num][1].to_f / unit[:num][0].to_f %></td>
+          </tr>
+          <tr>
+            <td align="center" style="border-top: 1px solid #000;"><%= unit[:num][0] %></td>
+          </tr>
+        </table>
+        <% else %>
+          <table  style="border-collapse: collapse">
+            <tr>
+              <td rowspan="2"><%= unit[:num][1].to_f / unit[:num][0].to_f %>=</td>
+              <td align="center"><%= unit[:num][1] %></td>
+            </tr>
+            <tr>
+              <td align="center" style="border-top: 1px solid #000;"><%= unit[:num][0] %></td>
+            </tr>
+          </table>
+        <% end %>
+      </td>
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get 'training/trigonometric', to: "homeworks#trigonometric", as: "homeworks_trigonometric"
   get 'training/graph', to: "homeworks#graph", as: "homeworks_graph"
   post "set-training-session", to: "homeworks#set_session"
+  
+  get 'training/decimalizable_fraction', to: "homeworks#decimalizable_fraction", as: "homeworks_decimalizable_fraction"
   get 'training', to: "homeworks#top", as: "homeworks"
   get 'admins/teacher', to: 'admins#teacher'
   get 'admins/teacher/:id', to: 'admins#teacher'
