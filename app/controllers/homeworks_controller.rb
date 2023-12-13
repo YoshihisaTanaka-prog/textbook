@@ -375,12 +375,82 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def utilization_of_data
+    @table_array = []
+    @box_array = []
+
+    for i in 0..2 do
+      data_array = []
+      for j in 1..50 do
+        data_array.push( rand(10) + rand(11) + rand(11) )
+      end
+      data_array.sort!
+      j = rand(50)
+      width = rand(5)*2 + 2
+      min = rand(10) * width
+      @table_array.push({data: [0,0,0,0,0,0], format: {width: width, min: min}, quest:{num: j+1, result: data_array[j], is_from_top: (rand(2) == 0)}})
+      for j in data_array
+        if j < 5
+          @table_array[i][:data][0] = @table_array[i][:data][0] + 1
+        elsif j < 10
+          @table_array[i][:data][1] = @table_array[i][:data][1] + 1
+        elsif j < 15
+          @table_array[i][:data][2] = @table_array[i][:data][2] + 1
+        elsif j < 20
+          @table_array[i][:data][3] = @table_array[i][:data][3] + 1
+        elsif j < 25
+          @table_array[i][:data][4] = @table_array[i][:data][4] + 1
+        else
+          @table_array[i][:data][5] = @table_array[i][:data][5] + 1
+        end
+      end
+    end
+
+    for i in 0..4 do
+      data_array = []
+      cnt = rand(9) + 12
+      for j in 1..cnt do
+        data_array.push( rand(31) + rand(31) + rand(40) )
+      end
+      data_array.sort!
+      @box_array.push( {data: data_array, result: quartile(data_array)} )
+    end
+  end
   private
 
     def allow_iframe
       url="https://yoshihisatanaka-prog.github.io"
       response.headers['X-Frame-Options'] = "ALLOW-FROM #{url}"
       response.headers['Content-Security-Policy'] = "frame-ancestors #{url}"
+    end
+
+    def quartile(data)
+      n = data.length
+      if n % 2 == 1
+        ret2 = data[(n-1)/2]
+        m = n/2
+        if m % 2 == 1
+          ret1 = data[(m-1)/2]
+          ret3 = data[n/2 + (m+1)/2]
+        else
+          ret1 = (data[m/2] + data[m/2-1]).to_f / 2.0
+          ret3 = (data[n/2 + m/2] + data[n/2 + m/2+1]).to_f / 2.0
+        end
+      else
+        ret2 = (data[n/2] + data[n/2-1]).to_f / 2.0
+        m = n/2
+        if m % 2 == 1
+          ret1 = data[(m-1)/2]
+          ret3 = data[n/2 + (m-1)/2]
+        else
+          ret1 = (data[m/2] + data[m/2-1]).to_f / 2.0
+          ret3 = (data[n/2 + m/2] + data[n/2 + m/2-1]).to_f / 2.0
+        end
+      end
+      ret = [ret1, ret2, ret3]
+      logger.debug ({num: n, data: data})
+      logger.debug ret
+      return ret
     end
 
     def limited_denominator_array

@@ -1,0 +1,255 @@
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
+<div style="display: flex;">
+  <h1>データの活用</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
+
+<div class="no-print">
+  解答付き<input type='range' id='status' value='<%= session["utilization_of_data"]["status"] unless session["utilization_of_data"].blank? %><%= 0 if session[:utilization_of_data].blank?%>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ<br><br>
+  <input type="radio" name="level" onclick="levelChanged(1)" class="1"
+    <% if session["utilization_of_data"] %>
+      <% if session["utilization_of_data"]["level"] == 1 || session["utilization_of_data"]["level"] == nil %>
+        checked
+      <% end %>
+    <% else %>
+     checked
+    <% end %>
+  >度数分布表
+  <input type="radio" name="level" onclick="levelChanged(2)" class="2"
+    <% if session["utilization_of_data"] %>
+      <% if session["utilization_of_data"]["level"] == 2 %>
+        checked
+      <% end %>
+    <% end %>
+  >箱ひげ図
+</div>
+
+
+<div class="lv-1">
+  名前　　　　　　　　　　　　　　分　　秒<br>
+  表を埋めて、後の問いに答えてね。
+  <% @table_array.each do | table | %>
+    <div style="display: flex; margin-bottom: 1em;">
+      <table border="1" style="border-collapse: collapse; font-size: 0.8em;">
+        <tr><th style="width: 19.5vw;">階級</th><th style="width: 9.5vw;">度数</th><th style="width: 9.5vw;">相対度数</th><th style="width: 9.5vw;">累積度数</th><th style="width: 9.5vw;">累積相対度数</th></tr>
+        <% width = table[:format][:width] %>
+        <% min = table[:format][:min] %>
+        <% table[:data].each_with_index do |data, index| %>
+          <% if rand(2) == 0 %>
+            <tr><td align="center"><%= min + index * width %>以上～<%= min + width + index * width %>未満<td align="right"><%= data %></td><td align="right"></td><td align="right"></td><td align="right"></td></tr>
+          <% else %>
+            <tr><td align="center"><%= min + index * width %>以上～<%= min + width + index * width %>未満<td align="right"></td><td align="right"><%= sprintf("%00.2f", data.to_f / 50.0) %></td><td align="right"></td><td align="right"></td></tr>
+          <% end %>
+        <% end %>
+        <tr><th>合計</th><td align="right">50</td><td align="right">1.00</td><td align="right"></td><td align="right"></td></tr>
+      </table>
+
+      <div style="margin-left: 1em;">
+        <p>平均値を求めてね。</p>
+        <p>
+          <% if table[:quest][:is_from_top] %>
+            最大値から<%= 51 - table[:quest][:num] %>
+          <% else %>
+            最小値から<%= table[:quest][:num] %>
+          <% end %>
+          番目のデータはどの階級に含まれますか？
+        </p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="answer">
+    <div style="break-before: page;">名前　　　　　　　　　　　分　　秒</div>
+    <% @table_array.each do | table | %>
+      <div style="display: flex; margin-bottom: 1em;">
+        <table border="1" style="border-collapse: collapse; font-size: 0.8em;">
+          <tr><th style="width: 19.5vw;">階級</th><th style="width: 9.5vw;">度数</th><th style="width: 9.5vw;">相対度数</th><th style="width: 9.5vw;">累積度数</th><th style="width: 9.5vw;">累積相対度数</th></tr>
+          <% data_sum = 0 %>
+          <% sum = 0 %>
+          <% width = table[:format][:width] %>
+          <% min = table[:format][:min] %>
+          <% table[:data].each_with_index do |data, index| %>
+            <% data_sum = data_sum + data %>
+            <% sum = sum + (min + index * width + width / 2) * data %>
+            <tr><td align="center"><%= min + index * width %>以上～<%= min + width + index * width %>未満</td><td align="right"><%= data %></td><td align="right"><%= sprintf("%00.2f", data.to_f / 50.0) %></td><td align="right"><%= data_sum %></td><td align="right"><%= sprintf("%00.2f", data_sum.to_f / 50.0) %></td></tr>
+          <% end %>
+          <tr><th>合計</th><td align="right">50</td><td align="right">1.00</td><td align="right"></td><td align="right"></td></tr>
+        </table>
+
+        <div style="margin-left: 1em;">
+          <p>平均値を求めてね。　　　　　　　　<%= sprintf("%00.2f", sum.to_f / 50.0) %></p>
+          <p>
+            <% if table[:quest][:is_from_top] %>
+              最大値から<%= 51 - table[:quest][:num] %>
+            <% else %>
+              最小値から<%= table[:quest][:num] %>
+            <% end %>
+            番目のデータはどの階級に含まれますか？<br>
+            <% index = 0 %>
+            <% result = table[:quest][:result] %>
+            <% if result < 5 %>
+            <% elsif result < 10 %>
+              <% index = 1 %>
+            <% elsif result < 15 %>
+              <% index = 2 %>
+            <% elsif result < 20 %>
+              <% index = 3 %>
+            <% elsif result < 25 %>
+              <% index = 4 %>
+            <% else %>
+              <% index = 5 %>
+            <% end %>
+            <%= min + index * width %>以上～<%= min + width + index * width %>未満の階級
+          </p>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="lv-2">
+  名前　　　　　　　　　　　　　　分　　秒<br>
+  次のデータの箱ひげ図を描いてね。
+  <% @box_array.each do |box| %>
+    <div style="display: flex;">
+      <div style="height: 22.5vw; width: 49.5vw;">
+        <div>
+          <% for i in box[:data] %>
+            <%= i %>　
+          <% end %>
+        </div>
+        <div>
+          <svg width="300" height="60">
+            <polyline stroke="#000" fill="none" stroke-width="1" points="
+              <% for i in 0..10 %>
+                <%= i*30 %>,45 <%= i*30 %>,40 <%= i*30 %>,45
+              <% end %>
+            " />
+            <text x="0" y="58" font-size="70%">0</text>
+            <text x="280" y="58" font-size="70%">100</text>
+          </svg>
+        </div>
+      </div>
+      <div style="margin-left: 1em;">
+        <p>データの範囲を求めてね。</p>
+        <p>四分位範囲を求めてね。</p>
+        <p>四分位偏差を求めてね。</p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="answer">
+    <div style="break-before: page;">名前　　　　　　　　　　　分　　秒</div>
+    <% @box_array.each do |box| %>
+      <% result = box[:result] %>
+      <% min = box[:data][0] %>
+      <% max = box[:data][box[:data].length - 1] %>
+      <div style="display: flex;">
+        <div style="height: 22.5vw; width: 49.5vw;">
+          <div>
+            <% for i in box[:data] %>
+              <%= i %>　
+            <% end %>
+          </div>
+          <div>
+            <svg width="300" height="60">
+              <polyline stroke="#000" fill="none" stroke-width="1" points="
+                <% for i in 0..10 %>
+                  <%= i*30 %>,45 <%= i*30 %>,40 <%= i*30 %>,45
+                <% end %>
+              " />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= min*3 %>,15 <%= min*3 %>,25" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= result[0]*3 %>,10 <%= result[0]*3 %>,30" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= result[1]*3 %>,10 <%= result[1]*3 %>,30" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= result[2]*3 %>,10 <%= result[2]*3 %>,30" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= max*3 %>,15 <%= max*3 %>,25" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= min*3 %>,20 <%= result[0]*3 %>,20" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= result[2]*3 %>,10 <%= result[0]*3 %>,10" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= result[2]*3 %>,30 <%= result[0]*3 %>,30" />
+              <polyline stroke="#000" fill="none" stroke-width="0.5" points="<%= max*3 %>,20 <%= result[2]*3 %>,20" />
+              <text x="0" y="58" font-size="70%">0</text>
+              <text x="280" y="58" font-size="70%">100</text>
+            </svg>
+          </div>
+        </div>
+        <div style="margin-left: 1em;">
+          <p>データの範囲を求めてね。　　<%= max - min %></p>
+          <p>四分位範囲を求めてね。　　<%= result[2] - result[0] %></p>
+          <p>四分位偏差を求めてね。　　<%= (result[2].to_f - result[0].to_f) / 2.0 %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function levelChanged(level){
+    for (let index = 1; index <= 2; index++) {
+      let id = ".lv-" + index;
+      $(id).attr("style","display:none;");
+    }
+    let id = ".lv-" + level;
+    $(id).attr("style","");
+    sendSelections();
+  }
+
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $(".answer").attr("style", "");
+    } else{
+      $(".answer").attr("style", "display: none;");
+    }
+    sendSelections();
+  }
+
+  function getSelections(){
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    return {pageName: "utilization_of_data", status: $("#status").val(), level: level};
+  }
+
+  function setSelections(){
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    levelChanged(level);
+    changeStatus();
+  }
+
+  setSelections();
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>

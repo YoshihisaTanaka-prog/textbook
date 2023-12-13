@@ -14,9 +14,10 @@ Rails.application.routes.draw do
   get 'training/root', to: "homeworks#root", as: "homeworks_root"
   get 'training/trigonometric', to: "homeworks#trigonometric", as: "homeworks_trigonometric"
   get 'training/graph', to: "homeworks#graph", as: "homeworks_graph"
+  get 'training/decimalizable_fraction', to: "homeworks#decimalizable_fraction", as: "homeworks_decimalizable_fraction"
+  get 'training/utilization_of_data', to: "homeworks#utilization_of_data", as: "homeworks_utilization_of_data"
   post "set-training-session", to: "homeworks#set_session"
   
-  get 'training/decimalizable_fraction', to: "homeworks#decimalizable_fraction", as: "homeworks_decimalizable_fraction"
   get 'training', to: "homeworks#top", as: "homeworks"
   get 'admins/teacher', to: 'admins#teacher'
   get 'admins/teacher/:id', to: 'admins#teacher'
