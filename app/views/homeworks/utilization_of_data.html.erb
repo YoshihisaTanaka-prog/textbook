@@ -48,9 +48,9 @@
         <p>平均値を求めてね。</p>
         <p>
           <% if table[:quest][:is_from_top] %>
-            最大値から<%= 51 - table[:quest][:num] %>
+            大きい方から<%= 51 - table[:quest][:num] %>
           <% else %>
-            最小値から<%= table[:quest][:num] %>
+            小さい方から<%= table[:quest][:num] %>
           <% end %>
           番目のデータはどの階級に含まれますか？
         </p>
