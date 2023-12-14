@@ -604,6 +604,8 @@ class HomeworksController < ApplicationController
         return gcd_lcm_unit(max)
       elsif r1 * r2 * r3 / gcd(r2,r3) > max
         return gcd_lcm_unit(max)
+      elsif (r1*r2) % (r1*r3) == 0 || (r1*r3) % (r1*r2) == 0
+        return gcd_lcm_unit(max)
       else
         return [r1*r2, r1*r3]
       end
