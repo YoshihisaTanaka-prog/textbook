@@ -1,0 +1,93 @@
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();">印刷</button></p>
+<div style="display: flex;">
+  <h1>速さの計算</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
+
+<div class="no-print">
+  解答付き<input type='range' id='status' value='<%= session["utilization_of_data"]["status"] unless session["utilization_of_data"].blank? %><%= 0 if session[:utilization_of_data].blank?%>' min='0' max='1' style='width:2em;' onchange='changeStatus()'>問題のみ
+</div>
+
+<table>
+  <tr>
+    <% @speed_array.each_with_index do |unit, index| %>
+      <td style="height: 22vw; width:49vw;" valign="top">
+        <%= unit %>
+        <% case unit.answer_mode.mode %>
+        <% when 0 %>
+          <%# 速さを答える問題 %>
+          <%= unit.time  %>
+          <% case unit.time_mode %>
+          <% when 0 %>
+            秒
+          <% when 1 %>
+            分
+          <% when 2 %>
+            時間
+          <% end %>
+          かけて
+        <% when 1 %>
+          <%# 時間を答える問題 %>
+        <% when 2 %>
+          <%# 距離を答える問題 %>
+        <% end %>
+      </td>
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  function changeStatus(){
+    if ( $("#status").val() == "0" ) {
+      $(".answer").attr("style", "");
+    } else{
+      $(".answer").attr("style", "display: none;");
+    }
+    sendSelections();
+  }
+
+  function getSelections(){
+    var level = 1;
+    for (const elem of $("input[name='level']")) {
+      if( $(elem).prop("checked") ){
+        level = Number($(elem).attr("class"));
+      }
+    }
+    return {pageName: "speed", status: $("#status").val()};
+  }
+
+  function setSelections(){
+    changeStatus();
+  }
+
+  setSelections();
+
+  function sendSelections(){
+    setCSRFtoken();
+    $.ajax({
+      type: "POST",
+      url: "/set-training-session",
+      data: getSelections()
+    })
+    .done(function(data){
+      console.log(data);
+    })
+    .fail(function(){
+      alert("Failed to send settng to server!");
+    })
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>

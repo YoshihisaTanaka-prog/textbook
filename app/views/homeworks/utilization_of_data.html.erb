@@ -46,6 +46,8 @@
 
       <div style="margin-left: 1em;">
         <p>平均値を求めてね。</p>
+        <p>階級の幅を求めてね。</p>
+        <p>データの範囲を求めてね。</p>
         <p>
           <% if table[:quest][:is_from_top] %>
             大きい方から<%= 51 - table[:quest][:num] %>
@@ -78,6 +80,8 @@
 
         <div style="margin-left: 1em;">
           <p>平均値を求めてね。　　　　　　　　<%= sprintf("%00.2f", sum.to_f / 50.0) %></p>
+          <p>階級の幅を求めてね。　　　　　　　　<%= width %></p>
+          <p>データの範囲を求めてね。　　　　　　　　<%= width*6 %></p>
           <p>
             <% if table[:quest][:is_from_top] %>
               最大値から<%= 51 - table[:quest][:num] %>

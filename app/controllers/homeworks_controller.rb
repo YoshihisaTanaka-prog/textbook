@@ -375,13 +375,23 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def speed
+    @speed_array = []
+    for i in 0..9 do
+      speed = (rand(60) + 1).to_f / 2.0;
+      time = rand(120) + 1
+      answer_mode = {mode: rand(3), unit: rand(3)}
+      @speed_array.push({speed: speed, time: time, speeed_mode: rand(3), time_mode: rand(3), answer_mode: answer_mode})
+    end
+  end
+
   def utilization_of_data
     @table_array = []
     @box_array = []
 
     for i in 0..2 do
-      data_array = []
-      for j in 1..50 do
+      data_array = [0,5,10,15,20,25]
+      for j in 1..44 do
         data_array.push( rand(10) + rand(11) + rand(11) )
       end
       data_array.sort!

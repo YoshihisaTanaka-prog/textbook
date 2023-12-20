@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'training/graph', to: "homeworks#graph", as: "homeworks_graph"
   get 'training/decimalizable_fraction', to: "homeworks#decimalizable_fraction", as: "homeworks_decimalizable_fraction"
   get 'training/utilization_of_data', to: "homeworks#utilization_of_data", as: "homeworks_utilization_of_data"
+  get 'training/speed', to: "homeworks#speed", as: "homeworks_speed"
   post "set-training-session", to: "homeworks#set_session"
   
   get 'training', to: "homeworks#top", as: "homeworks"
