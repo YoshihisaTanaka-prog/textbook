@@ -380,8 +380,7 @@ class HomeworksController < ApplicationController
     for i in 0..9 do
       speed = (rand(60) + 1).to_f / 2.0;
       time = rand(120) + 1
-      answer_mode = {mode: rand(3), unit: rand(3)}
-      @speed_array.push({speed: speed, time: time, speeed_mode: rand(3), time_mode: rand(3), answer_mode: answer_mode})
+      @speed_array.push({speed: speed, time: time, speed_mode: rand(3), time_mode: rand(3), distance_mode: rand(2), answer_mode: rand(3)})
     end
   end
 

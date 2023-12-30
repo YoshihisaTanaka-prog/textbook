@@ -12,12 +12,81 @@
   <tr>
     <% @speed_array.each_with_index do |unit, index| %>
       <td style="height: 22vw; width:49vw;" valign="top">
-        <%= unit %>
-        <% case unit.answer_mode.mode %>
+        <% case unit[:answer_mode] %>
         <% when 0 %>
           <%# 速さを答える問題 %>
-          <%= unit.time  %>
-          <% case unit.time_mode %>
+          <%= unit[:time]  %>
+          <% distance = unit[:time] * unit[:speed] %>
+          <% case unit[:time_mode] %>
+          <% when 0 %>
+            秒
+          <% when 1 %>
+            <% distance = distance * 60 %>
+            分
+          <% when 2 %>
+            時間
+            <% distance = distance * 3600 %>
+          <% end %>
+          かけて
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            <%= distance / 1000.0 %>km
+          <% when 1 %>
+            <%= distance %>m
+          <% end %>
+          移動したときの速さは
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速何m
+          <% when 1 %>
+            分速何m
+          <% when 2 %>
+            時速何km
+          <% end %>
+          ですか。
+        <% when 1 %>
+          <%# 時間を答える問題 %>
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速<%= unit[:speed] %>m
+          <% when 1 %>
+            分速<%= unit[:speed] * 60 %>m
+          <% when 2 %>
+            時速<%= unit[:speed] * 3.6 %>km
+          <% end %>
+          で
+          <% time_unit = "" %>
+          <% distance = unit[:time] * unit[:speed] %>
+          <% case unit[:time_mode] %>
+          <% when 0 %>
+            <% time_unit = "秒" %>
+          <% when 1 %>
+            <% time_unit = "分" %>
+            <% distance = distance * 60 %>
+          <% when 2 %>
+            <% time_unit = "時間" %>
+            <% distance = distance * 3600 %>
+          <% end %>
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            <%= distance / 1000.0 %>km
+          <% when 1 %>
+            <%= distance %>m
+          <% end %>
+          移動したときの時間は何<%= time_unit %>ですか。
+        <% when 2 %>
+          <%# 距離を答える問題 %>
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速<%= unit[:speed] %>m
+          <% when 1 %>
+            分速<%= unit[:speed] * 60 %>m
+          <% when 2 %>
+            時速<%= unit[:speed] * 3.6 %>km
+          <% end %>
+          で
+          <%= unit[:time]  %>
+          <% case unit[:time_mode] %>
           <% when 0 %>
             秒
           <% when 1 %>
@@ -25,11 +94,143 @@
           <% when 2 %>
             時間
           <% end %>
+          移動すると何
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            km
+          <% when 1 %>
+            m
+          <% end %>
+          移動することになりますか？
+        <% end %>
+      </td>
+      <% if index % 2 == 1 && index != 9 %>
+        </tr><tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
+
+<table class="answer">
+  <tr>
+    <% @speed_array.each_with_index do |unit, index| %>
+      <td style="height: 22vw; width:49vw;" valign="top">
+        <% case unit[:answer_mode] %>
+        <% when 0 %>
+          <%# 速さを答える問題 %>
+          <%= unit[:time] %>
+          <% distance = unit[:time] * unit[:speed] %>
+          <% case unit[:time_mode] %>
+          <% when 0 %>
+            秒
+          <% when 1 %>
+            <% distance = distance * 60 %>
+            分
+          <% when 2 %>
+            時間
+            <% distance = distance * 3600 %>
+          <% end %>
           かけて
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            <%= distance / 1000.0 %>km
+          <% when 1 %>
+            <%= distance %>m
+          <% end %>
+          移動したときの速さは
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速何m
+          <% when 1 %>
+            分速何m
+          <% when 2 %>
+            時速何km
+          <% end %>
+          ですか。<br>
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速<%= unit[:speed] %>m
+          <% when 1 %>
+            分速<%= unit[:speed] * 60 %>m
+          <% when 2 %>
+            時速<%= unit[:speed] * 3.6 %>km
+          <% end %>
+
         <% when 1 %>
           <%# 時間を答える問題 %>
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速<%= unit[:speed] %>m
+          <% when 1 %>
+            分速<%= unit[:speed] * 60 %>m
+          <% when 2 %>
+            時速<%= unit[:speed] * 3.6 %>km
+          <% end %>
+          で
+          <% time_unit = "" %>
+          <% distance = unit[:time] * unit[:speed] %>
+          <% case unit[:time_mode] %>
+          <% when 0 %>
+            <% time_unit = "秒" %>
+          <% when 1 %>
+            <% time_unit = "分" %>
+            <% distance = distance * 60 %>
+          <% when 2 %>
+            <% time_unit = "時間" %>
+            <% distance = distance * 3600 %>
+          <% end %>
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            <%= distance / 1000.0 %>km
+          <% when 1 %>
+            <%= distance %>m
+          <% end %>
+          移動したときの時間は何<%= time_unit %>ですか。<br>
+          <% case unit[:time_mode] %>
+          <% when 0 %>
+            <%= unit[:time] %>秒
+          <% when 1 %>
+            <%= unit[:time] %>分
+          <% when 2 %>
+            <%= unit[:time] %>時間
+          <% end %>
         <% when 2 %>
           <%# 距離を答える問題 %>
+          <% case unit[:speed_mode] %>
+          <% when 0 %>
+            秒速<%= unit[:speed] %>m
+          <% when 1 %>
+            分速<%= unit[:speed] * 60 %>m
+          <% when 2 %>
+            時速<%= unit[:speed] * 3.6 %>km
+          <% end %>
+          で
+          <%= unit[:time]  %>
+          <% distance = unit[:time] * unit[:speed] %>
+          <% case unit[:time_mode] %>
+          <% when 0 %>
+            秒
+          <% when 1 %>
+            <% distance = distance * 60 %>
+            分
+          <% when 2 %>
+            <% distance = distance * 3600 %>
+            時間
+          <% end %>
+          移動すると何
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            km
+          <% when 1 %>
+            m
+          <% end %>
+          移動することになりますか？<br>
+          <% case unit[:distance_mode] %>
+          <% when 0 %>
+            <%= distance / 1000.0 %>km
+          <% when 1 %>
+            <%= distance %>m
+          <% end %>
         <% end %>
       </td>
       <% if index % 2 == 1 && index != 9 %>
