@@ -8,21 +8,21 @@
 <%= form_with url: "/sort_sentences/search.json", method: :post, id: "units-form", class: "no-print" do |form| %>
   <div style="display: flex;">
     <div style="width: 33%; box-sizing: border-box;">
-      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(1)">1年生</h3>
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(1)" id="grade-1">1年生</h3>
       <%= form.collection_check_boxes :unit_ids, @units1, :id, :title do |category| %>
         <%= category.check_box class: "grade-1", checked: session[:selected_unit_ids].include?(category.value) %>
         <%= category.label %><br>
       <% end %>
     </div>
     <div style="width: 33%; box-sizing: border-box;">
-      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(2)">2年生</h3>
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(2)" id="grade-1">2年生</h3>
       <%= form.collection_check_boxes :unit_ids, @units2, :id, :title do |category| %>
         <%= category.check_box class: "grade-2", checked: session[:selected_unit_ids].include?(category.value) %>
         <%= category.label %><br>
       <% end %>
     </div>
     <div style="width: 33%; box-sizing: border-box;">
-      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(3)">3年生</h3>
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(3)" id="grade-1">3年生</h3>
       <%= form.collection_check_boxes :unit_ids, @units3, :id, :title do |category| %>
         <%= category.check_box class: "grade-3", checked: session[:selected_unit_ids].include?(category.value) %>
         <%= category.label %><br>
