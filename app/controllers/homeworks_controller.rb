@@ -425,6 +425,13 @@ class HomeworksController < ApplicationController
       @box_array.push( {data: data_array, result: quartile(data_array)} )
     end
   end
+
+  def sort_sentence
+    @units1 = SortUnit.where(grade: 1)
+    @units2 = SortUnit.where(grade: 2)
+    @units3 = SortUnit.where(grade: 3)
+  end
+
   private
 
     def allow_iframe

@@ -1,6 +1,6 @@
 class SortSentencesController < ApplicationController
   before_action :set_sort_sentence, only: %i[ show edit update destroy ]
-  before_action :confirm_teacher
+  before_action :confirm_teacher, only: %i[ index show new edit create update destroy ]
 
   # GET /sort_sentences or /sort_sentences.json
   def index
@@ -64,6 +64,17 @@ class SortSentencesController < ApplicationController
     end
   end
 
+  def search
+    array = []
+    params[:unit_ids].each do |unit_id|
+      sss = SortSentence.where(unit_id: unit_id)
+      sss.each do |ss|
+        array.push(ss.hash_format)
+      end
+    end
+    render json: shuffle(array)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sort_sentence
@@ -73,5 +84,23 @@ class SortSentencesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def sort_sentence_params
       params.require(:sort_sentence).permit(:word1, :word2, :word3, :word4, :word5, :word6, :word7, :word8, :word9, :word10, :word11, :word12, :word13, :word14, :word15, :word16, :word17, :word18, :word19, :word20, :sentence, :unit_id)
+    end
+
+    def shuffle array
+      new_array = array
+      (0..(array.length - 1)).each do |i|
+        r = rand(array.length)
+        keep = new_array[i]
+        new_array[i] = new_array[r]
+        new_array[r] = keep
+      end
+      if array.length > 10
+        ret = []
+        (1..10).each do |i|
+          ret.push(new_array[i])
+        end
+      else
+        return new_array
+      end
     end
 end

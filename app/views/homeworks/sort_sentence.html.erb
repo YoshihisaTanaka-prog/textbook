@@ -1,0 +1,67 @@
+<%= form_with url: "/sort_sentences/search.json", method: :post, id: "units-form" do |form| %>
+  <%= form.label :query, "Search for:" %>
+  <div style="display: flex;">
+    <div style="width: 33%; box-sizing: border-box;">
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(1)" id="grade-1">1年生</h3>
+      <%= form.collection_check_boxes :unit_ids, @units1, :id, :title do |category| %>
+        <%= category.check_box class: "grade-1" %>
+        <%= category.label %>
+      <% end %>
+    </div>
+    <div style="width: 33%; box-sizing: border-box;">
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(2)" id="grade-2">2年生</h3>
+      <%= form.collection_check_boxes :unit_ids, @units2, :id, :title do |category| %>
+        <%= category.check_box class: "grade-2" %>
+        <%= category.label %>
+      <% end %>
+    </div>
+    <div style="width: 33%; box-sizing: border-box;">
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(3)" id="grade-3">3年生</h3>
+      <%= form.collection_check_boxes :unit_ids, @units3, :id, :title do |category| %>
+        <%= category.check_box class: "grade-3" %>
+        <%= category.label %>
+      <% end %>
+    </div>
+  </div>
+  <button type="button" onclick="search()">生成</button>
+<% end %>
+
+<script>
+  function search() {
+    const unitIds = $('input[name="unit_ids[]"]:checked').map(function() {
+      return this.value;
+    }).get();
+    
+    const url = $("#units-form").attr('action');
+
+    if(unitIds.length == 0){
+      alert("少なくとも1つの単元を選択してください。");
+    } else {
+      console.log(unitIds);
+      setCSRFtoken();
+      $.post(url, {unit_ids: unitIds}, function(data){
+        console.log(data);
+      });
+    }
+  }
+  function changedGrade(grade){
+    if ($('#grade-'+grade).prop('checked')) {
+      // チェックボックスが選択されている場合の処理
+      $(".grade-"+grade).prop('checked', true);
+    } else {
+      // チェックボックスが選択されていない場合の処理
+      $(".grade-"+grade).prop('checked', false);
+    }
+  }
+
+  function setCSRFtoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      if (!options.crossDomain) {
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (token) {
+          return jqXHR.setRequestHeader('X-CSRF-Token', token);
+        }
+      }
+    });
+  }
+</script>
