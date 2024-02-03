@@ -51,18 +51,6 @@
     splitSentence();
   });
 
-  const wordsArray = [
-    "All", "Are", "Because", "Did", "Do", "Does", "For", "Has", "Have", "He", "Her", "Him", "His", "How", "If",
-    "It", "Its", "Let's", "Me", "My", "Our", "She", "That", "The", "Their", "Them", "They", "This", "Us", "We",
-    "What", "When", "Why", "You", "Your", "Can", "Can't", "Could", "Couldn't", "Do", "Does", "Did", "Have", "Has",
-    "Had", "May", "Might", "Must", "Mustn't", "Shall", "Should", "Shouldn't", "Will", "Won't", "Would", "Wouldn't",
-    "Although", "And", "As", "Because", "But", "For", "If", "Nor", "Or", "So", "Yet", "How", "What", "When", "Where", "Who", "Why"
-  ];
-
-  const sortedWordsArray = wordsArray.slice().sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-
-  console.log(sortedWordsArray);
-
   function splitSentence() {
     let sentence = $("#sort_sentence_sentence").val();
     let words = [""];
