@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :sort_units
+  resources :sort_sentences
   get "/words/no-session", to: "words#no_session"
   get "/words/mistake/:id", to: "words#mistake"
   get "/words/test", to: "words#test"

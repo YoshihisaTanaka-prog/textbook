@@ -1,0 +1,192 @@
+<%= render 'sort_units/form', sort_unit: @unit %>
+
+<%= form_with(model: sort_sentence) do |form| %>
+  <% if sort_sentence.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(sort_sentence.errors.count, "error") %> prohibited this sort_sentence from being saved:</h2>
+
+      <ul>
+        <% sort_sentence.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.collection_select :unit_id, SortUnit.all, :id, :title, { selected: session[:sort_unit_id] }  %>
+  </div>
+  <div>
+    <%= form.hidden_field :word1 %>
+    <%= form.hidden_field :word2 %>
+    <%= form.hidden_field :word3 %>
+    <%= form.hidden_field :word4 %>
+    <%= form.hidden_field :word5 %>
+    <%= form.hidden_field :word6 %>
+    <%= form.hidden_field :word7 %>
+    <%= form.hidden_field :word8 %>
+    <%= form.hidden_field :word9 %>
+    <%= form.hidden_field :word10 %>
+    <%= form.hidden_field :word11 %>
+    <%= form.hidden_field :word12 %>
+    <%= form.hidden_field :word13 %>
+    <%= form.hidden_field :word14 %>
+    <%= form.hidden_field :word15 %>
+    <%= form.hidden_field :word16 %>
+    <%= form.hidden_field :word17 %>
+    <%= form.hidden_field :word18 %>
+    <%= form.hidden_field :word19 %>
+    <%= form.hidden_field :word20 %>
+    <%= form.label :sentence, style: "display: block" %>
+    <%= form.text_field :sentence, style: "width: 100%" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<script>
+  $("#sort_sentence_sentence").on("input", function(){
+    splitSentence();
+  });
+
+  const wordsArray = [
+    "All", "Are", "Because", "Did", "Do", "Does", "For", "Has", "Have", "He", "Her", "Him", "His", "How", "If",
+    "It", "Its", "Let's", "Me", "My", "Our", "She", "That", "The", "Their", "Them", "They", "This", "Us", "We",
+    "What", "When", "Why", "You", "Your", "Can", "Can't", "Could", "Couldn't", "Do", "Does", "Did", "Have", "Has",
+    "Had", "May", "Might", "Must", "Mustn't", "Shall", "Should", "Shouldn't", "Will", "Won't", "Would", "Wouldn't",
+    "Although", "And", "As", "Because", "But", "For", "If", "Nor", "Or", "So", "Yet", "How", "What", "When", "Where", "Who", "Why"
+  ];
+
+  const sortedWordsArray = wordsArray.slice().sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+  console.log(sortedWordsArray);
+
+  function splitSentence() {
+    let sentence = $("#sort_sentence_sentence").val();
+    let words = [""];
+    let index = 0;
+    let chars = sentence.split("");
+
+    for (let i = 0; i<chars.length; i++){
+      let c = chars[i];
+      if (c == " ") {
+        words.push("");
+        index++;
+      } else if ([",", "?", "!"].includes(c)) {
+        words.push(c);
+        index++;
+      } else if(c == ".") {
+        if(i==chars.length-1){
+          words.push(c);
+          index++;
+        } else{
+          words[index] = (words[index] || "") + c;
+        }
+      } else {
+        words[index] = (words[index] || "") + c;
+      }
+    }
+    for (let i = 0; i < 20; i++) {
+      if(i<words.length){
+        if([
+          "All",
+          "Although",
+          "And",
+          "Are",
+          "Aren't",
+          "As",
+          "Because",
+          "But",
+          "Can",
+          "Can't",
+          "Could",
+          "Couldn't",
+          "Did",
+          "Didn't",
+          "Do",
+          "Don't",
+          "Does",
+          "Doesn't",
+          "For",
+          "Had",
+          "Hadn't",
+          "Has",
+          "Hasn't",
+          "Have",
+          "Haven't",
+          "He",
+          "He's",
+          "Her",
+          "Here",
+          "Him",
+          "His",
+          "How",
+          "If",
+          "Is",
+          "Isn't",
+          "It",
+          "It's",
+          "Its",
+          "Let",
+          "Let's",
+          "May",
+          "Me",
+          "Might",
+          "Must",
+          "Mustn't",
+          "My",
+          "No",
+          "Nor",
+          "Or",
+          "Our",
+          "Please",
+          "Shall",
+          "She",
+          "She's",
+          "Should",
+          "Shouldn't",
+          "So",
+          "That",
+          "The",
+          "Their",
+          "There",
+          "Them",
+          "They",
+          "They're",
+          "This",
+          "To",
+          "Us",
+          "Was",
+          "Wasn't",
+          "We",
+          "We're",
+          "Were",
+          "Weren't",
+          "What's",
+          "When",
+          "Where",
+          "Who's",
+          "Whose",
+          "Why",
+          "Will",
+          "Won't",
+          "Would",
+          "Wouldn't",
+          "Yes",
+          "Yet",
+          "You",
+          "You're",
+          "Your"
+        ].includes(words[i])){
+          words[i] = words[i].toLowerCase();
+        } else if(words[i].endsWith("ing")){
+          words[i] = words[i].toLowerCase();
+        }
+      }
+      $(`#sort_sentence_word${i + 1}`).val(words[i] || "");
+    }
+  }
+
+</script>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @sort_sentence %>
+
+<div>
+  <%= link_to "Edit this sort sentence", edit_sort_sentence_path(@sort_sentence) %> |
+  <%= link_to "Back to sort sentences", sort_sentences_path %>
+
+  <%= button_to "Destroy this sort sentence", @sort_sentence, method: :delete %>
+</div>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @sort_unit %>
+
+<div>
+  <%= link_to "Edit this sort unit", edit_sort_unit_path(@sort_unit) %> |
+  <%= link_to "Back to sort units", sort_units_path %>
+
+  <%= button_to "Destroy this sort unit", @sort_unit, method: :delete %>
+</div>

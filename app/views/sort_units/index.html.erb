@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sort units</h1>
+
+<div id="sort_units">
+  <% @sort_units.each do |sort_unit| %>
+    <%= render sort_unit %>
+    <p>
+      <%= link_to "Show this sort unit", sort_unit %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sort unit", new_sort_unit_path %>

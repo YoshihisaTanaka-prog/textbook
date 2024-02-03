@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sort sentences</h1>
+
+<div id="sort_sentences">
+  <% @sort_sentences.each do |sort_sentence| %>
+    <%= render sort_sentence %>
+    <p>
+      <%= link_to "Show this sort sentence", sort_sentence %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sort sentence", new_sort_sentence_path %>
