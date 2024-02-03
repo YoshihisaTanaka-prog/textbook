@@ -1,5 +1,6 @@
 class SortSentencesController < ApplicationController
   before_action :set_sort_sentence, only: %i[ show edit update destroy ]
+  before_action :confirm_teacher
 
   # GET /sort_sentences or /sort_sentences.json
   def index

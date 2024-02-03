@@ -1,5 +1,6 @@
 class SortUnitsController < ApplicationController
   before_action :set_sort_unit, only: %i[ show edit update destroy ]
+  before_action :confirm_teacher
 
   # GET /sort_units or /sort_units.json
   def index
