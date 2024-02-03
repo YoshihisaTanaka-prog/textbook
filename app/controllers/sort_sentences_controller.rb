@@ -99,6 +99,7 @@ class SortSentencesController < ApplicationController
         (1..10).each do |i|
           ret.push(new_array[i])
         end
+        return ret
       else
         return new_array
       end
