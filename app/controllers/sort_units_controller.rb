@@ -27,6 +27,7 @@ class SortUnitsController < ApplicationController
 
     respond_to do |format|
       if @sort_unit.save
+        session[:sort_unit_id] = @sort_unit.id
         format.html { redirect_to new_sort_sentence_url, notice: "Sort unit was successfully created." }
         format.json { render :show, status: :created, location: @sort_unit }
       else
