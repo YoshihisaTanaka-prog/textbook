@@ -430,6 +430,9 @@ class HomeworksController < ApplicationController
     @units1 = SortUnit.where(grade: 1)
     @units2 = SortUnit.where(grade: 2)
     @units3 = SortUnit.where(grade: 3)
+    if session[:selected_unit_ids].blank?
+      session[:selected_unit_ids] = []
+    end
   end
 
   private

@@ -65,13 +65,16 @@ class SortSentencesController < ApplicationController
   end
 
   def search
+    ids = []
     array = []
     params[:unit_ids].each do |unit_id|
       sss = SortSentence.where(unit_id: unit_id)
+      ids.push(unit_id.to_i)
       sss.each do |ss|
         array.push(ss.hash_format)
       end
     end
+    session[:selected_unit_ids] = ids
     render json: shuffle(array)
   end
 
@@ -94,9 +97,9 @@ class SortSentencesController < ApplicationController
         new_array[i] = new_array[r]
         new_array[r] = keep
       end
-      if array.length > 10
+      if array.length > 15
         ret = []
-        (1..10).each do |i|
+        (0..14).each do |i|
           ret.push(new_array[i])
         end
         return ret

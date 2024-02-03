@@ -1,30 +1,42 @@
-<%= form_with url: "/sort_sentences/search.json", method: :post, id: "units-form" do |form| %>
-  <%= form.label :query, "Search for:" %>
+
+<p class="no-print"><%= link_to "トレーニングトップ", homeworks_path %>　<button onclick="window.print();" id="print-button" style="display: none;">印刷</button></p>
+<div style="display: flex;">
+  <h1>英語・並び替え</h1>
+  <%= image_tag "training-qr.jpg", style: "width: 4rem; height: 4rem; margin: auto;" %>
+</div>
+
+<%= form_with url: "/sort_sentences/search.json", method: :post, id: "units-form", class: "no-print" do |form| %>
   <div style="display: flex;">
     <div style="width: 33%; box-sizing: border-box;">
-      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(1)" id="grade-1">1年生</h3>
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(1)">1年生</h3>
       <%= form.collection_check_boxes :unit_ids, @units1, :id, :title do |category| %>
-        <%= category.check_box class: "grade-1" %>
+        <%= category.check_box class: "grade-1", checked: session[:selected_unit_ids].include?(category.value) %>
         <%= category.label %><br>
       <% end %>
     </div>
     <div style="width: 33%; box-sizing: border-box;">
-      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(2)" id="grade-2">2年生</h3>
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(2)">2年生</h3>
       <%= form.collection_check_boxes :unit_ids, @units2, :id, :title do |category| %>
-        <%= category.check_box class: "grade-2" %>
+        <%= category.check_box class: "grade-2", checked: session[:selected_unit_ids].include?(category.value) %>
         <%= category.label %><br>
       <% end %>
     </div>
     <div style="width: 33%; box-sizing: border-box;">
-      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(3)" id="grade-3">3年生</h3>
+      <h3><input type="checkbox" name="grades[]" onchange="changedGrade(3)">3年生</h3>
       <%= form.collection_check_boxes :unit_ids, @units3, :id, :title do |category| %>
-        <%= category.check_box class: "grade-3" %>
+        <%= category.check_box class: "grade-3", checked: session[:selected_unit_ids].include?(category.value) %>
         <%= category.label %><br>
       <% end %>
     </div>
   </div>
-  <button type="button" onclick="search()">生成</button>
+  <center><button type="button" onclick="search()" id='create-button'>生成</button></center>
 <% end %>
+
+<table id="question" width='100%'></table>
+<div class="answer">
+  <div style="break-after: page;"></div>
+  <table id="answer" width='100%'></table>
+</div>
 
 <script>
   function search() {
@@ -37,10 +49,21 @@
     if(unitIds.length == 0){
       alert("少なくとも1つの単元を選択してください。");
     } else {
+      $("#create-button").attr("style", "display: none;");
+      $("#question").html("");
+      $("#answer").html("");
       console.log(unitIds);
       setCSRFtoken();
       $.post(url, {unit_ids: unitIds}, function(data){
-        console.log(data);
+        for(let i=0; i<data.length; i++){
+          const datum = data[i];
+          $("#question").append("<tr><td valign='top' rowspan='3'>(" + (i+1) + ")</td><td>　</td><td width='100%'>" + datum.question + "</td></tr>");
+          $("#question").append("<tr><td></td><td>　");
+          $("#question").append("<tr><td></td><td style='border-bottom: 1px solid #000;'>");
+          $("#answer").append("<tr><td>(" + (i+1) + ")</td><td>　</td><td>" + datum.answer + "</td><td>　</td><td>" + datum.unit + "</td></tr>");
+        }
+        $("#create-button").attr("style", "").text("再生成");
+        $("#print-button").attr("style", "");
       });
     }
   }
