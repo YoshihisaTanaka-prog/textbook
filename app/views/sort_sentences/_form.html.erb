@@ -17,6 +17,7 @@
     <%= form.collection_select :unit_id, SortUnit.all, :id, :title, { selected: session[:sort_unit_id] }  %>
   </div>
   <div>
+    <input type="checkbox" id="isLowerCase">文頭を小文字にする。
     <%= form.hidden_field :word1 %>
     <%= form.hidden_field :word2 %>
     <%= form.hidden_field :word3 %>
@@ -76,109 +77,123 @@
         words[index] = (words[index] || "") + c;
       }
     }
-    for (let i = 0; i < 20; i++) {
-      if(i<words.length){
-        if([
-          "All",
-          "Although",
-          "And",
-          "Are",
-          "Aren't",
-          "As",
-          "Because",
-          "But",
-          "Can",
-          "Can't",
-          "Could",
-          "Couldn't",
-          "Did",
-          "Didn't",
-          "Do",
-          "Don't",
-          "Does",
-          "Doesn't",
-          "For",
-          "Had",
-          "Hadn't",
-          "Has",
-          "Hasn't",
-          "Have",
-          "Haven't",
-          "He",
-          "He's",
-          "Her",
-          "Here",
-          "Him",
-          "His",
-          "How",
-          "If",
-          "Is",
-          "Isn't",
-          "It",
-          "It's",
-          "Its",
-          "Let",
-          "Let's",
-          "May",
-          "Me",
-          "Might",
-          "Must",
-          "Mustn't",
-          "My",
-          "No",
-          "Nor",
-          "Or",
-          "Our",
-          "Please",
-          "Shall",
-          "She",
-          "She's",
-          "Should",
-          "Shouldn't",
-          "So",
-          "That",
-          "The",
-          "Their",
-          "There",
-          "These",
-          "Them",
-          "They",
-          "They're",
-          "This",
-          "To",
-          "Us",
-          "Was",
-          "Wasn't",
-          "We",
-          "We're",
-          "Were",
-          "Weren't",
-          "What",
-          "What's",
-          "When",
-          "Where",
-          "Which",
-          "Who",
-          "Who's",
-          "Whose",
-          "Why",
-          "Will",
-          "Won't",
-          "Would",
-          "Wouldn't",
-          "Yes",
-          "Yet",
-          "You",
-          "You're",
-          "Your"
-        ].includes(words[i])){
-          words[i] = words[i].toLowerCase();
-        } else if(words[i].endsWith("ing")){
-          words[i] = words[i].toLowerCase();
-        }
-      }
+    console.log(words);
+    if([
+      "All",
+      "Although",
+      "And",
+      "Are",
+      "Aren't",
+      "As",
+      "Because",
+      "But",
+      "Can",
+      "Can't",
+      "Could",
+      "Couldn't",
+      "Did",
+      "Didn't",
+      "Do",
+      "Don't",
+      "Does",
+      "Doesn't",
+      "For",
+      "Had",
+      "Hadn't",
+      "Has",
+      "Hasn't",
+      "Have",
+      "Haven't",
+      "He",
+      "He's",
+      "Her",
+      "Here",
+      "Him",
+      "His",
+      "How",
+      "If",
+      "Is",
+      "Isn't",
+      "It",
+      "It's",
+      "Its",
+      "Let",
+      "Let's",
+      "May",
+      "Me",
+      "Might",
+      "Must",
+      "Mustn't",
+      "My",
+      "No",
+      "Nor",
+      "Or",
+      "Our",
+      "Please",
+      "Shall",
+      "She",
+      "She's",
+      "Should",
+      "Shouldn't",
+      "So",
+      "That",
+      "The",
+      "Their",
+      "There",
+      "These",
+      "Them",
+      "They",
+      "They're",
+      "This",
+      "To",
+      "Us",
+      "Was",
+      "Wasn't",
+      "We",
+      "We're",
+      "Were",
+      "Weren't",
+      "What",
+      "What's",
+      "When",
+      "Where",
+      "Which",
+      "Who",
+      "Who's",
+      "Whose",
+      "Why",
+      "Will",
+      "Won't",
+      "Would",
+      "Wouldn't",
+      "Yes",
+      "Yet",
+      "You",
+      "You're",
+      "Your"
+    ].includes(words[0])){
+      words[0] = words[0].toLowerCase();
+      $('#isLowerCase').prop('checked', true);
+    } else if(words[i].endsWith("ing")){
+      words[0] = words[0].toLowerCase();
+      $('#isLowerCase').prop('checked', true);
+    } else if($('#isLowerCase').prop('checked')){
+      words[0] = words[0].toLowerCase();
+    }
+    for(let i=0; i<20;i++){
       $(`#sort_sentence_word${i + 1}`).val(words[i] || "");
     }
   }
+  $("#isLowerCase").on("change", function(){
+    if($('#isLowerCase').prop('checked')){
+      let word = $('#sort_sentence_word1').val();
+      $("#sort_sentence_word1").val(word.toLowerCase());
+    } else{
+      let word = $('#sort_sentence_word1').val();
+      word = word.charAt(0).toUpperCase() + word.slice(1);
+      $('#sort_sentence_word1').val(word);
+    }
+    $("#sort_sentence_word1").val($("#sort_sentence_word1").val());
+  });
 
 </script>
