@@ -12,8 +12,7 @@ class SortSentence < ApplicationRecord
   def hash_format
     return {question: self.shuffle, answer: self.sentence, unit: self.unit}
   end
-
-  private
+  
   def get_words
     words = []
     (1..20).each do |i|
@@ -22,6 +21,8 @@ class SortSentence < ApplicationRecord
     end
     return words
   end
+
+  private
 
   def shuffle
     words = get_words
