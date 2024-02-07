@@ -1,10 +1,11 @@
 <div id="<%= dom_id sort_sentence %>">
 
-  <p>
+  <p class=<%= sort_sentence.sentence.gsub(" ", "-") %>>
   
   <% if action_name == "index" %>
     <%= link_to sort_sentence_path(sort_sentence) do %>
       <strong>Sentence:</strong><br>
+      <%= sort_sentence.unit %><br>
       <%= sort_sentence.sentence %><br>
       <%= sort_sentence.get_words %>
     <% end %>

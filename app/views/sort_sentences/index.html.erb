@@ -2,6 +2,10 @@
 
 <h1>Sort sentences</h1>
 
+<%= link_to "New sort sentence", new_sort_sentence_path %><br>
+
+<input type="text" style="width: 90vw;" oninput="search()" id="search-sentence">
+
 <div id="sort_sentences">
   <% @sort_sentences.each do |sort_sentence| %>
     <%= render sort_sentence %>
@@ -9,3 +13,29 @@
 </div>
 
 <%= link_to "New sort sentence", new_sort_sentence_path %>
+
+<script>
+  function search(){
+    let keyword = $("#search-sentence").val().toLowerCase();
+    var modifiedString = "";
+
+    for (var i = 0; i < keyword.length; i++) {
+      if (keyword[i] === " ") {
+        modifiedString += "-";
+      } else {
+        modifiedString += keyword[i];
+      }
+    }
+    keyword = modifiedString;
+    
+    $('p').each(function() {
+      if($(this).attr("class")){
+        if($(this).attr("class").toLowerCase().includes(keyword)){
+          $(this).attr("style", "");
+        } else{
+          $(this).attr("style", "display: none");
+        }
+      }
+  });
+  }
+</script>
