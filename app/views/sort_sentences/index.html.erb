@@ -5,6 +5,31 @@
 <%= link_to "New sort sentence", new_sort_sentence_path %><br>
 
 <input type="text" style="width: 90vw;" oninput="search()" id="search-sentence">
+<%= form_with url: "/sort_sentences/search.json", method: :post, id: "units-form", class: "no-print" do |form| %>
+  <div style="display: flex;">
+    <div style="width: 33%; box-sizing: border-box;">
+      <h3><input type="checkbox" name="grades[]" id="grade-1">1年生</h3>
+      <%= form.collection_check_boxes :unit_ids, @units1, :id, :title do |category| %>
+        <%= category.check_box class: "grade-1" %>
+        <%= category.label %><br>
+      <% end %>
+    </div>
+    <div style="width: 33%; box-sizing: border-box;">
+      <h3><input type="checkbox" name="grades[]" id="grade-2">2年生</h3>
+      <%= form.collection_check_boxes :unit_ids, @units2, :id, :title do |category| %>
+        <%= category.check_box class: "grade-2" %>
+        <%= category.label %><br>
+      <% end %>
+    </div>
+    <div style="width: 33%; box-sizing: border-box;">
+      <h3><input type="checkbox" name="grades[]" id="grade-3">3年生</h3>
+      <%= form.collection_check_boxes :unit_ids, @units3, :id, :title do |category| %>
+        <%= category.check_box class: "grade-3" %>
+        <%= category.label %><br>
+      <% end %>
+    </div>
+  </div>
+<% end %>
 
 <div id="sort_sentences">
   <% @sort_sentences.each do |sort_sentence| %>
@@ -15,6 +40,15 @@
 <%= link_to "New sort sentence", new_sort_sentence_path %>
 
 <script>
+
+  for(let i=1; i<4; i++){
+    $(".grade-" + i).on("change", searchUnit);
+    $("#grade-" + i).on("change", function(){
+      changedGrade(i);
+      searchUnit();
+    });
+  }
+
   function search(){
     let keyword = $("#search-sentence").val().toLowerCase();
     var modifiedString = "";
@@ -30,12 +64,43 @@
     
     $('p').each(function() {
       if($(this).attr("class")){
-        if($(this).attr("class").toLowerCase().includes(keyword)){
+        if($(this).attr("class").split(" ")[0].toLowerCase().includes(keyword)){
           $(this).attr("style", "");
         } else{
           $(this).attr("style", "display: none");
         }
       }
-  });
+    });
   }
+  
+  function searchUnit() {
+    const unitIds = $('input[name="unit_ids[]"]:checked').map(function() {
+      return this.value;
+    }).get();
+    
+    $('p').each(function() {
+      if($(this).attr("class")){
+        if(unitIds.length == 0){
+          $(this).attr("style", "");
+        } else{
+          if(unitIds.includes($(this).attr("class").split(" ")[1])){
+            $(this).attr("style", "");
+          } else{
+            $(this).attr("style", "display: none");
+          }
+        }
+      }
+    });
+  }
+
+  function changedGrade(grade){
+    if ($('#grade-'+grade).prop('checked')) {
+      // チェックボックスが選択されている場合の処理
+      $(".grade-"+grade).prop('checked', true);
+    } else {
+      // チェックボックスが選択されていない場合の処理
+      $(".grade-"+grade).prop('checked', false);
+    }
+  }
+
 </script>

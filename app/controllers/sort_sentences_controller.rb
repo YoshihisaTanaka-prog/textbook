@@ -5,6 +5,9 @@ class SortSentencesController < ApplicationController
   # GET /sort_sentences or /sort_sentences.json
   def index
     @sort_sentences = SortSentence.all
+    @units1 = SortUnit.where(grade: 1)
+    @units2 = SortUnit.where(grade: 2)
+    @units3 = SortUnit.where(grade: 3)
   end
 
   # GET /sort_sentences/1 or /sort_sentences/1.json
